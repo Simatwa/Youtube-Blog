@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+<!--
+ <title>Youtube-Blog</title>
+ -->
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"/>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-food.css') }}"/>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-camo.css') }}"/>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+ <script src="{{ url_for('static', filename='script/w3.js') }}"></script>
+ <script src="{{ url_for('static', filename='script/blog.js') }}"></script>
+ {% block head %} {% endblock %}
+ <style>
+   a{
+     text-decoration:none;
+   }
+   {% block style %} {% endblock %}
+   </style>
+</head>
+<body>
+ <!-- Navigator -->
+  <div class="w3-display-container w3-food-strawberry" style="height:7vh">
+    <!-- Bar -->
+   <div class="w3-display-left">
+    <div class="w3-dropdown-hover">
+    
+    <span class="w3-hide-small">
+     <i class="fa fa-bars w3-jumbo w3-red"></i>
+     </span>
+    <span class="w3-hide-large w3-hide-medium">
+      <i class="fa fa-bars w3-xxlarge w3-red"></i>
+     </span>
+      <!-- <button class="w3-btn w3-food-olive w3-ripple">Hello</button> -->
+      <div class="w3-dropdown-content w3-card-2 w3-border w3-pale-yellow" style="max-width:20vh">
+       <button class="w3-button w3-col w3-hover-text-red">
+        <i class="w3-large w3-text-red fa fa-home"></i>
+          <a href="{{ url_for('home') }}">Home</a>
+       </button>
+       {% if current_user.is_authenticated and current_user.is_admin %}
+       <button class="w3-button w3-col w3-hover-text-red">
+        <i class="w3-large w3-text-blue fa fa-admin"></i>
+          <a href="{{ url_for('admin.index') }}">Admin</a>
+       </button> 
+      {% endif %} 
+            
+       {% for category in menu_categories() %}
+       <button class="w3-button w3-col w3-hover-text-{{ category.color }}">
+           {% if category.color %}
+              <i class="w3-large w3-text-red fa fa-{{ category.icon }}"></i>
+           {% endif %}
+          <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}">{{ category.name }} 
+         </a>
+       </button>         
+       {% endfor %}
+     </div>
+    </div>    
+   </div>
+    
+    <!-- Logo -->
+    
+    <div class="w3-display-middle w3-text-white w3-hover-text-orange ">
+     <p class="w3-hide-large w3-hide-medium w3-xlarge">
+      <a href="{{ url_for('home') }}">Youtube-Blog</a>
+      </p>
+     <p class="w3-hide-small w3-xxlarge">
+      <a href="{{ url_for('home') }}">Youtube-Blog</a>
+     </p>
+    </div>
+    
+    <!-- Search bar -->
+    <!-- Popup modal -->
+      <div class="w3-modal w3-animate-zoom w3-round" id="searchModal">
+       <div class="w3-modal-content w3-display-container">
+       <button class="w3-display-left w3-red" onclick="w3.hide('#searchModal')">Cancel</button><br>
+       <form class="w3-form w3-container" action='{{ url_for("blogs.search") }}' method="POST" enctype="multipart/form-data" id="mobileSearch">
+       <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%" name="q" id="mobileSearchQuery" required placeholder="Search blog..." onkeyup="handleSubmit()"></input>
+       <button class="w3-btn w3-teal w3-round w3-display-right" type="submit">
+       <i class="fa fa-search w3-large"></i>
+      </button>
+     </form>
+       </div>
+        <div class="w3-container w3-display-bottom" id="mobileSearchDisplay">
+        </div>
+      </div>
+      
+    <div class="w3-display-right w3-hide-large w3-hide-medium">
+     <button class="w3-btn w3-white" onclick="w3.show('#searchModal')">
+      <i class="fa fa-search w3-large"></i>
+      </button>
+    </div>
+    
+    
+    <div class="w3-display-right w3-hide-small">
+     <form class="w3-form w3-container" action='{{ url_for("blogs.search") }}' method="POST" enctype="multipart/form-data" id="desktopSearch">
+      <input type="search" class="w3-input w3-round-large w3-left" name="q" id="search" placeholder="Search blog..."></input>
+      <button class="w3-btn w3-teal w3-round w3-right" type="submit">
+       <i class="fa fa-search w3-large"></i>
+      </button>
+     </form>
+    </div> 
+  </div>
+  <!--Body goes here -->
+  
+ <div class="w3-content">
+ <!-- alerts popup -->
+ <div style="margin-left:10%; margin-right:10%;">
+ {% with messages = get_flashed_messages(with_categories=True) %}
+   {% if messages %}
+    {% for count, entry in enumerate_this(messages) %}
+    {% set message=entry[1] %}
+    {% set category=entry[0].lower() %}
+    
+    {% if category=='info' %}
+    
+    <div class="w3-middle w3-panel w3-display-container w3-pale-green w3-leftbar w3-border w3-border-green w3-round w3-animate-zoom" id="alertNotch{{ count }}">
+     <h4 class="w3-strong w3-text-blue">Note!</h4>
+      <button class="w3-display-topright w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
+       &times
+      </button>
+      <p> {{ message }}</p>
+    </div>     
+    
+    {% elif category=="warn" %}
+    <div class="w3-panel w3-display-container w3-pale-yellow w3-leftbar w3-border w3-border-yellow w3-round w3-animate-left" id="alertNotch{{ count }}">
+     <h4 class="w3-strong w3-text-red">Warning!</h4>
+      <button class="w3-display-topright w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
+       &times
+      </button>
+      <p>{{ message }}</p>
+    </div>    
+    
+    {% else %}
+      <div class="w3-panel w3-display-container w3-leftbar w3-border w3-border-red w3-yellow w3-round w3-animate-right" id="alertNotch{{ count }}">
+       <button class="w3-btn w3-display-topright w3-transparent w3-large" onclick="w3.hide('#alertNotch{{ count }}')">
+        &times
+        </button>
+        <h4 class="w3-text-purple">Critical!</h4>
+        <p>{{ message }}</p>
+     </div>
+    {% endif %}
+    
+    {% endfor %}
+   {% endif %}
+ {% endwith %}
+ </div>
+   {% block body %} {% endblock %}
+</div>
+  
+
+<!-- Subscribe bar -->
+
+   <pre>
+      
+      
+  </pre>
+  
+  <!-- Footer -->
+  <div class="w3-container w3-food-egg w3-bottom  w3-center">
+   <div class="w3-row-cell w3-center justify">
+   {% for site in social_media_sites() %}
+  
+      {% if site.small_screen %}
+      <a href="{{ site.link }}" target="_blank">
+         <button class="w3-btn w3-row">
+         <i class="fa fa-{{ site.name.lower() }} w3-xxlarge" style="color:{{ site.color }}"></i>
+        </button> 
+       </a> 
+       
+        {% else %}
+        
+      <a href="{{ site.link }}" target="_blank" class="w3-hide-small">
+         <button class="w3-btn w3-row">
+         <i class="fa fa-{{ site.name.lower() }} w3-xxlarge" style="background-color:{{ site.color }}"></i>
+        </button> 
+       </a>         
+     {% endif %}  
+     
+    {% endfor %}
+    
+    </div>
+  </div>
+  
+ </body>
+</html>

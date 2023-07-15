@@ -1,0 +1,117 @@
+{% extends 'blog/base.html' %}
+
+{% block  head %}
+<title>{{ blog.title }} - Youtube-Blog </title>
+{% endblock %}
+
+{% block body %}
+<div class="w3-content">
+     <div class="w3-container w3-left w3-margin-bottom w3-cell-row">
+    <!-- <a href="{{ url_for('home') }}"><i class="fa fa-home w3-large w3-red w3-button w3-cell w3-mobile"></i></a> -->
+      {% for category in blog.categories %}
+     <!-- <button class=""> -->
+         <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-text-red w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile"><i class="w3-large fa fa-tag"></i>{{ category }}</a>
+      <!-- </button> -->
+      {% endfor %}
+     </div>   
+  <div class="raw-content">     
+      <h2>{{ blog.title }}</h2>
+     {{ blog.content|safe }}
+   </div>
+ <div class="w3-container">
+   <div class="w3-left">
+     <i class="w3-large w3-transparent w3-large fa fa-eye"></i>
+    <span> {{ blog.views }}</span>
+   </div>
+ 
+ <div class="w3-right">
+ <!-- To be handled by Js -->
+   <button class="w3-btn" id="likeBlog" onclick="document.getElementById('likeBlog').style.background_color='blue';">
+    <i class="fa fa-thumbs-up w3-large">{{ blog.likes }}</i>
+   </button>
+  </div>
+ </div>
+ 
+</div>
+<!--Blog from user defined ends here -->
+
+<!-- Blog Comments -->
+<p class="w3-large w3-bottombar w3-border-black">
+Comments
+</p>
+
+<div class="w3-container w3-cell-row">
+  {% for comment in blog.comments %}
+  <div class="w3-display-container w3-panel w3-card-4 w3-cell w3-mobile" style="max-width:320px">
+  
+   <div class="w3-left">
+    <i class="w3-text-black fa fa-user w3-xxlarge"></i>
+    <span class="w3-strong">{{ comment.username }}</span>
+   </div>
+ 
+   <p class="w3-right">{{ comment.content }}</p>
+    <div class="w3-container w3-display-bottom">
+     <button class="w3-btn w3-left">
+        <i class="w3-large w3-text-yellow w3-hover-text-red fa fa-heart">
+           {{ comment.likes }}
+        </i>
+     </button>
+    <p class="w3-text-teal w3-right"> 
+    <script>document.write(formatTimeAgoShort("{{ comment.created_on }}"));</script>
+    </p>
+  </div>
+   
+  </div>
+  {% endfor %}
+</div>
+  
+<!-- comment -->
+ <button class="w3-button w3-teal w3-center w3-round" onclick="w3.show('#commentModal')">
+ Leave a comment
+ </button>
+ 
+<div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
+ <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
+ <button class="w3-display-topright w3-large w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
+  <form class="w3-container" action="{{ url_for('blogs.comment') }}" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {% for entry in [form.username, form.email, form.content] %}
+      {{ entry.label }}
+      <ul class="w3-ul">
+      {% for error in entry.errors %}
+       <li class="w3-display-container w3-text-red w3-hover-yellow">{{ error }}
+         <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-right w3-text-black">&times;</span>
+        </li>
+      {% endfor %}
+      </ul>
+       {{ entry() }}<br>
+    {% endfor %}
+    <button type="submit" class="w3-button w3-black w3-block w3-round-large w3-margin-bottom">
+    Comment
+    </button>
+   </form>
+  <div>
+ </div>
+
+</div>
+</div>
+
+<!-- Footers -->
+
+  <!-- Top trending -->
+    <h4 class="w3-bottombar w3-border-teal">Related</h4>
+    <div class="w3-row-cell">
+    {% for blog in related_blogs %}
+     <div class="w3-row w3-display-container w3-panel w3-card-4 w3-white">
+     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}" target="self">
+      <h4 class="w3-text-grey w3-large">{{ blog.title }}</h4>
+      <p><i>{{ blog.intro }}</i></p>
+      <p class="w3-display-bottomright w3-badge w3-{{ blog.categories[0].color }}" style="margin-right:2px">
+       <script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script>
+      </p>
+      </a>
+     </div>
+     {% endfor %}
+    </div>
+    
+{% endblock %}

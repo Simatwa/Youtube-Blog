@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+
+{% block head %}
+ <title>Search {{ query }}  | Youtube-Blog</title>
+ {% endblock %}
+ 
+ {% block body %}
+  <h3 class="w3-strong w3-center w3-food-wheat w3-padding">{{ len_(blogs) }} matche(s) found.</h3>
+ <div class=" w3-container w3-cell-row">
+ </div>
+   {% for blog in blogs %}
+    <div class="w3-display-container w3-panel w3-card-4 w3-round-large w3-cell w3-mobile w3-padding" style="max-width:350px;">
+     <h4 class="w3-center">
+     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid)}}">
+        {{ blog.title }}
+        </a>
+     </h4>
+     <div class="w3-container w3-center w3-margin-bottom w3-cell-row">
+      {% for category in blog.categories %}
+     <!-- <button class=""> -->
+         <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}">{{ category }}</a>
+      <!-- </button> -->
+      {% endfor %}
+     </div>      
+     {% if blog.link %}
+        {{ youtube_iframe(blog.link)|safe }}
+     {% else %}
+       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='images/blog/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
+    {% endif %} 
+       
+     <div class="w3-container">
+     <p>{{ blog.intro }}</p>
+     <!-- </div> -->
+     
+      <div class="w3-display-bottomright w3-panel w3-pale-yellow w3-round">
+       <script>document.write(formatTimeAgo("{{ blog.created_on }}"))</script>
+      </div>
+      
+     </div>
+     
+    </div>
+   </div>
+  {% endfor %}
+  <!-- Load more -->
+  <div class="w3-container w3-large">
+    <button class="w3-margin-bottom w3-center w3-panel w3-teal w3-large w3-border w3-btn" style="max-width:40%;">Load more</button>
+  </div>
+{% include 'blog/trending.html' %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} User login {% endblock %}
+
+{% block body %}
+<h4>Smart-Log Panel</h4>
+
+<div class="w3-container">
+<form class="w3-panel w3-padding-large w3-card-4" method="POST" action="{{ url_for('accounts.login_user') }}" enctype='multipart/form-data'>
+{{ form.hidden_tag() }}
+{% for entry in [form.identifier, form.password, form.remember_me,] %}
+  {% if entry.errors %}
+     {% for error in entry.errors %}
+        <div class="form-errors">{{ error }}</div>   
+     {% endfor %}
+  {% endif %}
+ <div class="form-label"> {{ entry.label }} </div>
+ <div class="form-field">{{ entry() }} </div>
+ <br>
+{% endfor %}
+<input type="submit" class="w3-button w3-indigo" value="Login">{# form.submit() #}</input>
+<div class="w3-display-container">
+<p>Forgot password? <a href="{{ url_for('accounts.reset_password') }}">Reset</a></p>
+<p>Don't have account? <a href="{{ url_for('accounts.create_account') }}">Create One</a></p>
+</div>
+</form>
+</div>
+{% endblock %}

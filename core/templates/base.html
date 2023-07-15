@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8"></meta>
+<title> {% block title %} - Smartwa {% endblock %} </title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></link>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"></link>
+<script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='image/favicon.png') }}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+</head>
+
+   <body>
+{% if current_user.is_authenticated %}
+  <h4>Hello <strong>{{ current_user.fullname }}</strong></h4>
+{% endif %}
+ {% with messages = get_flashed_messages(with_categories=True) %}
+     {% if messages %}
+    {% set color_mapper={"warn":"yellow","error":"red","info":"green"} %}
+        <div class="flashed-messages">
+         {% for category, message in messages %}
+            <div class="w3-panel w3-pale-{{ color_mapper.get(category) }} w3-border-{{ color_mapper.get(category) }} w3-leftbar w3-animate-left w3-display-container"><span class="w3-button w3-display-topright w3-large" onclick="this.parentElement.style.display='none'">&times</span><p>{{ message }}</></div>
+          {% endfor %}
+        </div>
+     {% endif %}  
+ {% endwith %}
+ 
+   {% block body %} {% endblock %}
+
+<footer>
+{% block footer %}
+<p>Out of the love we came, 😍 out of the love we lived and out of the love we shall return 🙏📸😇</p>
+{% endblock %}
+</footer>
+   </body>
+</html>

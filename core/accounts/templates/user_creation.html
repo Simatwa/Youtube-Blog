@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+   Create account
+{% endblock %}
+
+{% block body %}
+
+<h1> Create Account</h1>
+
+<form class="w3-container" method="POST" action="" enctype="multipart/form-data">
+{{ form.hidden_tag() }}
+
+   {% for entry in [form.fname, form.sname,form.email,form.gender, form.password, form.confirm_password,form.is_over18,] %}
+      {% if entry.errors %}
+     <div class="w3-panel w3-border-red w3-leftbar w3-pale-yellow">
+          {% for error in entry.errors %}
+              <p class="w3-small">{{ error }}</p>
+           {% endfor %}
+      </div>
+        {% endif %}
+ <div class="form-label">{{ entry.label }}</div>
+ <div class="form-field">{{ entry() }}</div>
+ <br>
+    {% endfor %}
+    
+<input type="submit" class="w3-submit" value="Register">{# form.submit() #}</input>
+</form>
+
+<p class="w3-tag">Have an account? <a class="w3-bottombar w3-border-steal" href="{{ url_for('accounts.login') }}">Login</a></p>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="w3-container">
+  <form class="w3-form" action="{{ url_for('accounts.verify_user_address') }}" method="POST" class="w3-card-4 w3-padding-large">
+     {{ form.hidden_tag() }}
+     {% for entry in [form.token, form.Verify] %}
+     {{ entry.label }} 
+     {% if form.errors %}
+          {% for error in form.errors %}
+            <div class="w3-panel w3-border w3-leftbar w3-pale-red w3-border-red w3-text-red">
+            <p>{{ error }}</p>
+            </div>
+          {% endfor %}
+         {% endif %}
+       {{ entry() }}
+     {% endfor %}
+ </form>
+ </div>
+ {% endblock %}

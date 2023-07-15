@@ -1,0 +1,26 @@
+      <!-- Top trending -->
+    <h3 class="w3-bottombar w3-border-green">Trending</h4>
+    <div class="w3-row-cell">
+    {% for blog in trending_blogs() %}
+     <div class="w3-row w3-display-container w3-panel w3-card-4 w3-white">
+     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}" target="self">
+      <h4 class="w3-text-grey w3-large">{{ blog.title }}</h4>
+      <p><i>{{ blog.intro }}</i></p>
+      <p class="w3-display-bottomright w3-badge w3-{{ blog.categories[0].color }}" style="margin-right:2px">
+       <script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script>
+      </p>
+      </a>
+     </div>
+     {% endfor %}
+     <!--
+     <div class="w3-row w3-panel w3-display-container w3-card-4 w3-white">
+     <a href="#i-was-paid-to-kill" target="self">
+      <h4 class="w3-text-grey w3-large">“I was paid to kill" , Karanja's murderer claims</h4>
+      <p>Lawyer James Karanja who had go...</p>
+      <p class="w3-display-bottomright w3-badge w3-teal" style="margin-right:2px">
+       3 hrs ago
+       </p>
+      </a>
+     </div>
+     -->
+    </div>
