@@ -195,8 +195,8 @@ class LocalEventListener:
 		 <h4>{ appdetail.name }  &copy { datetime.now().year }</h4>
 		 <p style="color:blue">{ target.slogan }</p>
 		</div>
-		 
 		"""
+		send_mail("Confirm Subscription",html=message, recipients = [target.email])
 			
 	@staticmethod
 	def mail_blog(mapper, connections, target):
@@ -230,4 +230,6 @@ db.event.listen(Blog, "before_update", LocalEventListener.generate_uuid)
 db.event.listen(Blog, "before_insert", LocalEventListener.mail_blog)	
 db.event.listen(Blog, "before_update", LocalEventListener.mail_blog)
 
-db.event.listen(Blog, "before_delete", LocalEventListener.delete_images)			
+db.event.listen(Blog, "before_delete", LocalEventListener.delete_images)	
+
+db.event.listen(Subscriber, "before_insert", LocalEventListener.confirm_email)		
