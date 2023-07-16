@@ -7,6 +7,8 @@ from core.app import application, send_mail
 from core.accounts.models import AppDetail
 import logging
 from slugify import slugify
+from flask import url_for
+from core.app import generate_uuid as gen_uuid
 
 fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
 	
@@ -61,6 +63,8 @@ class Subscriber(db.Model):
 	__tablename__="subscribers"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	email = db.Column(db.String(30),nullable=False, unique=True)
+	token = db.Column(db.String(40), nullable=True)
+	is_verified = db.Column(db.Boolean(), default=False)	
 	created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 	
 	def __repr__(self):
@@ -173,6 +177,26 @@ class LocalEventListener:
 				target.uuid = title
 				not_unique = False
 			title = title+'-'+str(count)
+			
+	@staticmethod
+	def confirm_email(mapper, connections, target):
+		appdetail = AppDetail.query.filter_by(id=1).first()
+		gen_link = lambda abs_url: appdetail.url+abs_url
+		target.token = gen_uuid()
+		message = f"""
+		<h3>Confirm Subscription to {appdetail.name}</h3>
+		<p> Thank you for showing interest in our contents.</p>
+		<p>Click the button below to confirm subscription</p>
+		<button style="text-align:center;background-color:teal;border-radius:5px; max-width:40%">
+		 <a href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
+		</button>
+		<p> If the link doesn't work try out this { gen_link(url_for('blogs.confirm_email',token=target.token)) }</p>
+		<div style="text-align:center;font-weight:bold;color:red;">
+		 <h4>{ appdetail.name }  &copy { datetime.now().year }</h4>
+		 <p style="color:blue">{ target.slogan }</p>
+		</div>
+		 
+		"""
 			
 	@staticmethod
 	def mail_blog(mapper, connections, target):
