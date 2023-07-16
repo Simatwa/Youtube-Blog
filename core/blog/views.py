@@ -130,6 +130,12 @@ def app_details():
 	assert details, "Enter app details to render blogs"
 	return details
 	
+@app.app_template_global()
+def weekly_trending_blogs():
+	""""""
+	blogs = Blog.query.filter_by(is_published=True).order_by(desc(Blog.views)).limit(10)
+	return blogs
+	
 views = BlogView()
 
 app.add_url_rule("/",view_func=views.index, endpoint="index")
