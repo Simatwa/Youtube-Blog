@@ -1,7 +1,44 @@
 {% extends 'blog/base.html' %}
 
+{% set appdetail = app_details() %}
+
 {% block  head %}
-<title>{{ blog.title }} - Youtube-Blog </title>
+<title>{{ blog.title }} | {{ appdetail.name }}</title>
+<!-- SEO Meta Tags -->
+  <meta name="description" content="{{ blog.intro }}">
+  <meta name="keywords" content="{% for tag in blog.categories %} {{ tag }}, {% endfor %} {{ appdetail.keywords }}">
+  <meta name="author" content="{{ blog.author }}">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{{ blog.title }} | {{ appdetail.name }}">
+  <meta property="og:description" content="{{ blog.intro }}">
+  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+blog.cover_photo) }}'">
+  <meta property="og:url" content="{{ appdetail.url+url_for('blogs.blog_view',uuid=blog.uuid) }}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ blog.title }} | {{ appdetail.name }}">
+  <meta name="twitter:description" content="{{ blog.intro }}">
+  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+blog.cover_photo) }}">
+
+  <!-- Schema.org Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ appdetail.name }}",
+      "url": "{{ appdetail.url }}",
+      "logo": "{{ appdetail.url+url_for('static', filename='images/blog/'+appdetail.logo) }}",
+      "description": "{{ appdetail.description }}",
+      "sameAs": [
+      {% for site in social_media_sites() %} 
+      "{{ site.link }}",
+      {% endfor %}
+      ]
+    }
+  </script>
+ 
 {% endblock %}
 
 {% block body %}
@@ -57,6 +94,7 @@ Comments
         </i>
      </button>
     <p class="w3-text-teal w3-right"> 
+    <i class="w3-text-yellow fa fa-{{ comment.mood }}"></i>
     <script>document.write(formatTimeAgoShort("{{ comment.created_on }}"));</script>
     </p>
   </div>
@@ -75,7 +113,7 @@ Comments
  <button class="w3-display-topright w3-large w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
   <form class="w3-container" action="{{ url_for('blogs.comment') }}" method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
-    {% for entry in [form.username, form.email, form.content] %}
+    {% for entry in [form.username, form.email, form.content, form.mood] %}
       {{ entry.label }}
       <ul class="w3-ul">
       {% for error in entry.errors %}

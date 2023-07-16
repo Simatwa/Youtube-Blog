@@ -13,6 +13,7 @@
  <script src="{{ url_for('static', filename='script/w3.js') }}"></script>
  <script src="{{ url_for('static', filename='script/blog.js') }}"></script>
  {% block head %} {% endblock %}
+   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/blog/'+app_details().logo) }}">
  <style>
    a{
      text-decoration:none;
@@ -41,7 +42,7 @@
        </button>
        {% if current_user.is_authenticated and current_user.is_admin %}
        <button class="w3-button w3-col w3-hover-text-red">
-        <i class="w3-large w3-text-blue fa fa-admin"></i>
+        <i class="w3-large w3-text-blue fa fa-user"></i>
           <a href="{{ url_for('admin.index') }}">Admin</a>
        </button> 
       {% endif %} 

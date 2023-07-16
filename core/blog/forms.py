@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField, HiddenField
+from wtforms import StringField, TextAreaField, SubmitField, HiddenField, SelectField
 from wtforms.validators import DataRequired, Email, Length
 
 class SearchForm(FlaskForm):
@@ -14,4 +14,5 @@ class CommentForm(FlaskForm):
 	     render_kw = {"class": "w3-input w3-round", "placeholder": "example@gmail.com"})
 	content = TextAreaField(label="Your message",validators=[DataRequired(message="Feedback can't be null!",),Length(min=2, max=500,message="Message must contain %(min)d-%(max)d characters.")],
 	     render_kw = {"class":"w3-input", "placeholder" : "Reaction in detail...", "rows":5})
+	mood = SelectField(label="Select Mood", choices=([("grin","Happy"),("frown","Sad")]), validators=[DataRequired("Select your mood")], render_kw={"class":"w3-input"})
 	send = SubmitField(label="Send")

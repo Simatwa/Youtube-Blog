@@ -1,4 +1,5 @@
 from core.models import db
+from core.accounts.models import Admin1
 from datetime import datetime
 from uuid import uuid4
 from os import path, rename, remove
@@ -10,6 +11,7 @@ fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
 class Blog(db.Model):
 	__tablename__="blogs"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	author = db.relationship("Admin1",uselist=False, lazy=True)
 	title = db.Column(db.String(200), nullable=False)
 	content = db.Column(db.Text,)
 	categories = db.relationship("Category", secondary="blog_category", backref="blogs", lazy=True)
@@ -41,6 +43,7 @@ class Comment(db.Model):
 	username = db.Column(db.String(20,), nullable=False,)
 	user_email = db.Column(db.String(30),nullable=False)
 	content = db.Column(db.Text, nullable=False,)
+	mood = db.Column(db.String(10), default='grin')
 	created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 	lastly_modified = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 	blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id",onupdate="CASCADE",ondelete="SET NULL"),autoincrement=True)

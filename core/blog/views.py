@@ -5,6 +5,7 @@ from core.blog.forms import CommentForm
 from sqlalchemy import or_, desc, not_
 from core.models import db
 from flask_login import login_required
+from core.accounts.models import AppDetail
 
 class BlogView:
 	"""Enpoints here"""
@@ -73,7 +74,7 @@ class BlogView:
 		if form.validate_on_submit():
 			blog = Blog.query.filter_by(uuid=form.blog_uuid.data).first()
 			if blog:
-				comment = Comment(username=form.username.data, user_email=form.email.data, content=form.content.data)
+				comment = Comment(username=form.username.data, user_email=form.email.data, content=form.content.data, mood=form.mood.data)
 				blog.comments.append(comment)
 				db.session.commit()
 				flash("Comment submitted successfully!","info")
@@ -105,6 +106,12 @@ def trending_blogs():
 def social_media_sites():
 	"""Displays all social media sites linked"""
 	return SocialMedia.query.all()
+	
+@app.app_template_global()
+def app_details():
+	details = AppDetail.query.filter_by(id=1).first()
+	assert details, "Enter app details to render blogs"
+	return details
 	
 views = BlogView()
 

@@ -32,5 +32,5 @@ def home():
 @application.template_global()
 def enumerate_this(elements):
 	return enumerate(elements)
-	
-application.add_url_rule("/",view_func=home, endpoint="home")
+
+application.add_url_rule("/home",view_func=home, endpoint="home")
