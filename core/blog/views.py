@@ -6,6 +6,7 @@ from sqlalchemy import or_, desc, not_
 from core.models import db
 from flask_login import login_required
 from core.accounts.models import AppDetail
+from core.app import application
 
 class BlogView:
 	"""Enpoints here"""
@@ -109,6 +110,7 @@ def social_media_sites():
 	
 @app.app_template_global()
 def app_details():
+	"""Displays appdetails"""
 	details = AppDetail.query.filter_by(id=1).first()
 	assert details, "Enter app details to render blogs"
 	return details

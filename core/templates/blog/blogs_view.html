@@ -1,7 +1,44 @@
 {% extends 'blog/base.html' %}
 
+{% set appdetail = app_details() %}
 {% block head %}
- <title>Search {{ query }}  | Youtube-Blog</title>
+ <title>Search {{ query }}  | {{ appdetail.name }}</title>
+ 
+<!-- SEO Meta Tags -->
+  <meta name="description" content="{{ appdetail.description }}">
+  <meta name="keywords" content="{{ appdetail.keywords }}">
+  <meta name="author" content="{% for owner in appdetail.owners %} {{ owner }}, {% endfor %}">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
+  <meta property="og:description" content="{{ appdetail.description }}">
+  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+appdetail.logo) }}'">
+  <meta property="og:url" content="{{ appdetail.url }}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
+  <meta name="twitter:description" content="{{ appdetail.description }}">
+  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+appdetail.logo) }}">
+
+  <!-- Schema.org Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{{ appdetail.name }}",
+      "url": "{{ appdetail.url }}",
+      "logo": "{{ appdetail.url+url_for('static', filename='images/blog/'+appdetail.logo) }}",
+      "description": "{{ appdetail.description }}",
+      "sameAs": [
+      {% for site in social_media_sites() %} 
+      "{{ site.link }}",
+      {% endfor %}
+      ]
+    }
+  </script>
+  
  {% endblock %}
  
  {% block body %}

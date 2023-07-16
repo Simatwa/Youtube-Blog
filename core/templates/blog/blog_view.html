@@ -43,12 +43,9 @@
 
 {% block body %}
 <div class="w3-content">
-     <div class="w3-container w3-left w3-margin-bottom w3-cell-row">
-    <!-- <a href="{{ url_for('home') }}"><i class="fa fa-home w3-large w3-red w3-button w3-cell w3-mobile"></i></a> -->
+     <div class="w3-container w3-left w3-margin-bottom w3-cell-row">    
       {% for category in blog.categories %}
-     <!-- <button class=""> -->
          <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-text-red w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile"><i class="w3-large fa fa-tag"></i>{{ category }}</a>
-      <!-- </button> -->
       {% endfor %}
      </div>   
   <div class="raw-content">     
