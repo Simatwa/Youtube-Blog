@@ -3,6 +3,7 @@ from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from flask_login import login_required
 from uuid import uuid4
+import logging
 
 application = Flask(
     __name__,

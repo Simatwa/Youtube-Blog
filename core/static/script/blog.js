@@ -53,6 +53,8 @@ function formatTimeAgoShort(datetimeStr) {
 }
 
 function AddSubscription() {
+  var submitButton = document.getElementById("subscriptionButton");
+  submitButton.disabled = true; // Disable the submit button
   const formElement = document.getElementById('subscriptionForm');
   const dataInput = document.getElementById('email');
   const url = formElement.getAttribute('action');
@@ -83,6 +85,7 @@ function AddSubscription() {
           <p>${message}</p>
         </div>`;
     }
+    submitButton.disabled = false;
   };
   xhr.onerror = function() {
     console.error('Request failed');

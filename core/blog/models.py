@@ -1,7 +1,6 @@
 from core.models import db
 from core.accounts.models import Admin1
 from datetime import datetime
-from uuid import uuid4
 from os import path, rename, remove
 from core.app import application, send_mail
 from core.accounts.models import AppDetail
@@ -122,7 +121,7 @@ class LocalEventListener:
 			try:
 				if len(current_path)==40 or current_path=="default.jpg":
 					return 
-				new_path = str(uuid4())+current_path[-4:]
+				new_path = gen_uuid()+current_path[-4:]
 				rename(fullpath(current_path),fullpath(new_path))
 				return new_path
 			except Exception as e:
@@ -184,16 +183,22 @@ class LocalEventListener:
 		gen_link = lambda abs_url: appdetail.url+abs_url
 		target.token = gen_uuid()
 		message = f"""
+		<head>
+		  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		  </meta
+		</head>
 		<h3>Confirm Subscription to {appdetail.name}</h3>
 		<p> Thank you for showing interest in our contents.</p>
 		<p>Click the button below to confirm subscription</p>
-		<button style="text-align:center;background-color:teal;border-radius:5px; max-width:40%">
-		 <a href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
-		</button>
+		<center>
+		<div style="background-color:teal; max-width:80%;min-height:5vh;border-radius:10px;">
+		 <a style="color:white;text-decoration:none;font-weght:bold;font-size:120%;text-align:center" href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
+		</div>
+		</center>
 		<p> If the link doesn't work try out this { gen_link(url_for('blogs.confirm_email',token=target.token)) }</p>
 		<div style="text-align:center;font-weight:bold;color:red;">
 		 <h4>{ appdetail.name }  &copy { datetime.now().year }</h4>
-		 <p style="color:blue">{ target.slogan }</p>
+		 <p style="color:blue">{ appdetail.slogan }</p>
 		</div>
 		"""
 		send_mail("Confirm Subscription",html=message, recipients = [target.email])
@@ -208,16 +213,26 @@ class LocalEventListener:
 			return 
 		appdetail = AppDetail.query.filter_by(id=1).first()
 		gen_link = lambda abs_url: appdetail.url+abs_url
+		img ="""<iframe width="60%" height="auto" src="https://www.youtube.com/embed/{target.link}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+		encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		""" if target.link else f"""<img src="{gen_link(url_for('static', filename='images/blog/'+target.cover_photo))}" max-width="40%" height="auto" alt="{target.cover_photo}">
+		</img>""" if target.cover_photo else ''
+		
 		message = f'''
 		<h3>{target.title}</h3>
-		<img src="{gen_link(url_for('static', filename='images/blog/'+blog.cover_photo))}" max-width="70vh" height="auto" alt="{target.cover_photo}">
-		</img>
+		<center>
+		{img}
+		</center>
 		<p>{target.intro}</p>
-		<p style="text-align:center">To view more of this <a href="{get_link(url_for('blogs.blog_view', uuid=target.uuid))}">click here.</a></p>'''
-		subscribers = Subscriber.query.filter_by(is_verified=True).with_entries(Subscriber.email).all()
+		<p style="text-align:center">To read this in detail <a href="{gen_link(url_for('blogs.blog_view', uuid=target.uuid))}">click here.</a></p>'''
+		
+		subscribers_entry = Subscriber.query.filter_by(is_verified=True).with_entities(Subscriber.email).all()
+		subscribers = [subscriber[0] for subscriber in subscribers_entry if subscriber]
 		if subscribers:
 			logging.info(f'Mailing "{target.title}" to {len(subscribers)} subscriber(s)')
 			send_mail(subject=target.title, recipients=subscribers, html=message)
+			target.is_notified = True
+			flash("Article has been mailed to %d subscriber(s)."%len(subscribers),"success")
 		else:
 			pass
 		

@@ -178,6 +178,7 @@ class SubscriberModelView(ModelView):
 	form_excluded_columns = ["created_on"]
 	column_filters = ["created_on"]
 	column_searchable_list = ["email"]
+	column_editable_list = ['is_verified']
 	
 	form_args = {
 	  "email" : {

@@ -64,7 +64,7 @@ class BlogView:
 			new_subscriber = Subscriber(email=email_address)
 			db.session.add(new_subscriber)
 			db.session.commit()
-			return jsonify(dict(message="Thank you for subscribing!"))
+			return jsonify(dict(message="Check your mail address for confirmation link"))
 		else:
 			return make_response(jsonify(dict(message="You've already subscribed!")),409)
 			
