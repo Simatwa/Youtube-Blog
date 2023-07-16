@@ -5,7 +5,7 @@ from core.blog.forms import CommentForm
 from sqlalchemy import or_, desc, not_
 from core.models import db
 from flask_login import login_required
-from core.accounts.models import AppDetail
+from core.accounts.models import AppDetail, Admin1
 from core.app import application
 
 class BlogView:
@@ -91,6 +91,21 @@ class BlogView:
 			else:
 				flash("Malformed form sent!","error")
 				return redirect(url_for('home'))
+	
+	@classmethod
+	def author(cls, name:str):
+		"""Filter blogs by author"""
+		blogs = Blog.query.filter(Blog.author.has(Admin1.name==name)).all()
+		return render_template("blog/blogs_view.html",blogs=blogs, query=name)
+		
+	@classmethod
+	def confirm_email(cls,token):
+		"""Verifies susbscriber's email address """
+		subscriber = Subscriber.query.filter_by(token=token).first_or_404()
+		subscriber.is_verified = True
+		db.session.commit()
+		flash("Your subscription is verified successfully","info")
+		return redirect(url_for('home'))
 		
 @app.app_template_global()
 def menu_categories():
@@ -123,4 +138,7 @@ app.add_url_rule("/category/<category>",view_func=views.category_view, endpoint=
 app.add_url_rule("/search",view_func=views.search, endpoint="search",methods=["GET","POST"])
 app.add_url_rule("/subscribe",view_func=views.subscribe, endpoint="subscribe",methods=["POST"])
 app.add_url_rule("/comment",view_func=views.comment, endpoint ="comment",methods=["POST"])
+app.add_url_rule("/author/<name>",view_func = views.author, endpoint="author",)
+app.add_url_rule("/confirm/<token>", view_func=views.confirm_email, endpoint="confirm_email")
+
 from core.blog.admin import admin

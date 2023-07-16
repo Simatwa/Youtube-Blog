@@ -52,6 +52,10 @@ class BlogModelView(ModelView):
 	    },
   	},
   	
+  	"author" : {
+  	  "validators" : [DataRequired(message="Select your name",),],
+  	},
+  	
     "intro" : {
       "label" : "Synopsis",
       "render_kw" : {

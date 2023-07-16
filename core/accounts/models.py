@@ -1,16 +1,20 @@
 from core.models import db
 from datetime import datetime
 from core.app import bcrypt
+from os import path, rename
+
+fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
+default_cover_photo = "default_cover.png"
 
 class Admin1(db.Model):
 	__tablename__="admins"
 	id = db.Column(db.Integer, primary_key=True)
-	fname = db.Column(db.String(20),nullable=False)
+	name = db.Column(db.String(60),nullable=False)
 	email = db.Column(db.String(30), nullable=False, unique=True)
 	created_on = db.Column(db.DateTime, default=datetime.utcnow)
 	password = db.Column(db.String(100),nullable=False)
 	password_hashed = db.Column(db.Boolean(),default=True)
-	token = db.Column(db.String(10),nullable=True)
+	token = db.Column(db.String(40),nullable=True)
 	is_admin = db.Column(db.Boolean(), default=False)
 	is_authenticated = db.Column(db.Boolean(),default=False)
 	is_active = db.Column(db.Boolean(), default=False)
@@ -22,7 +26,7 @@ class Admin1(db.Model):
 		return "<Admin %r>"%self.id
 	
 	def __str__(self):
-		return self.fname
+		return self.name
 		
 	def get_id(self):
 		return self.id
@@ -41,6 +45,7 @@ class AppDetail(db.Model):
 	owners = db.relationship("Admin1",uselist=True, lazy=True)
 	url = db.Column(db.String(50),nullable=False)
 	logo = db.Column(db.String(50), default='favicon.png')
+	cover_photo = db.Column(db.String(50), default=default_cover_photo)
 	lastly_modified = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 	created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 	
@@ -59,6 +64,15 @@ class LocalEventListener:
 		if not target.password_hashed:
 			target.password = bcrypt.generate_password_hash(target.password).decode("utf-8")
 			target.password_hasshed=True
+			
+	@staticmethod
+	def rename_default_cover_photo(mapper, connections, target):
+		if target.cover_photo and target.cover_photo!=default_cover_photo:
+			rename(fullpath(target.cover_photo),fullpath(default_cover_photo))
+			
 
 db.event.listen(Admin1, "before_insert",LocalEventListener.hash_password)
-db.event.listen(Admin1, "before_update", LocalEventListener.hash_password)			
+db.event.listen(Admin1, "before_update", LocalEventListener.hash_password)
+
+db.event.listen(AppDetail, "before_insert",LocalEventListener.rename_default_cover_photo)
+db.event.listen(AppDetail, "before_update", LocalEventListener.rename_default_cover_photo)						

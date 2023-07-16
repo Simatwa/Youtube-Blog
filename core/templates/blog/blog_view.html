@@ -42,16 +42,33 @@
 {% endblock %}
 
 {% block body %}
+
+   <div class="w3-display-container w3-text-white w3-margin-bottom">
+     {% if blog.cover_photo %} 
+      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='images/blog/'+blog.cover_photo) }}" width="100%" height="auto" alt="{{ blog.cover_photo }}">
+     {% endif %}
+      <div class="w3-display-middle w3-container">
+         <h3 class="w3-text-red w3-xlarge">{{ blog.title }}</h3>
+       </div>
+      <div class="w3-display-bottomleft w3-container">
+        <p class="w3-text-orange"><i class="w3-text-large w3-text-teal fa fa-edit"></i>Author : <a href="{{ url_for('blogs.author', name=blog.author) }}">{{ blog.author }}</a></p>
+      </div>
+      <div class="w3-display-bottomright w3-container">
+         <p class="w3-text-orange"><i class="w3-text-large w3-text-teal fa fa-calendar"></i> <script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script></p>
+       </div>
+   </div>
+   
 <div class="w3-content">
      <div class="w3-container w3-left w3-margin-bottom w3-cell-row">    
       {% for category in blog.categories %}
          <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-text-red w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile"><i class="w3-large fa fa-tag"></i>{{ category }}</a>
       {% endfor %}
      </div>   
-  <div class="raw-content">     
-      <h2>{{ blog.title }}</h2>
+  <div class="raw-content">
+ 
      {{ blog.content|safe }}
-   </div>
+  </div>
+
  <div class="w3-container">
    <div class="w3-left">
      <i class="w3-large w3-transparent w3-large fa fa-eye"></i>

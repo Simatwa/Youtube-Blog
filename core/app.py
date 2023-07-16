@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for
 from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from flask_login import login_required
+from uuid import uuid4
 
 application = Flask(
     __name__,
@@ -20,10 +21,16 @@ bcrypt.init_app(application)
 mail = Mail()
 mail.init_app(application)
 
+def generate_uuid():
+	return str(uuid4())
+	
 def send_mail(subject, *args, **kwargs):
 	"""Sends mail"""
-	message = Message(subject,*args,**kwargs)
-	mail.send(message)
+	try:
+		message = Message(subject,*args,**kwargs)
+		mail.send(message)
+	except Exception as e:
+		logging.exception(e)
 	
 #@login_required
 def home():

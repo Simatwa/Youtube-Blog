@@ -12,11 +12,20 @@ from flask_login import login_required, current_user
 from flask_admin.form import FileUploadField
 from flask_wtf.file import FileAllowed
 from core.app import application
+from flask_admin.contrib.fileadmin import FileAdmin
 # from core.app import bcrypt
 
 # from core.app import application
 from core.accounts.views import Utils
 
+class FileManagerAdmin(FileAdmin):
+    """Manages static files"""
+    def __init__(self,*args,**kwargs):
+    	super(FileManagerAdmin,self).__init__(*args,**kwargs)
+    	can_mkdir = True
+    	can_upload = True
+    	can_delete = True
+    
 class AdminModelView(ModelView):
 	"""Admin model view"""
 	form_base_class = SecureForm
@@ -28,14 +37,14 @@ class AdminModelView(ModelView):
 	column_display_pk = True
 	can_view_details = True
 	form_excluded_columns = ["token","created_on", "lastly_modified"]
-	column_searchable_list = ["fname","email","created_on"]
+	column_searchable_list = ["name","email","created_on"]
 	column_filters = ["created_on"]
 	
 	form_args = {
-	 "fname" : {
-	   "label" : "First name",
+	 "name" : {
+	   "label" : "Username",
 	     "render_kw" : {
-	   "placeholder" : "Fname",
+	   "placeholder" : "First, second or both",
 	    },
  	 },
  	 
@@ -110,7 +119,17 @@ class AppDetailModelView(ModelView):
 	       FileAllowed(["jpg","png","jpeg"],message="Images only!"),
 	     ],
 	   ),
+	   
+	  "cover_photo" : 
+	    FileUploadField(
+	      "Default blog's cover photo",
+	     base_path = application.config["BLOG_IMAGES_DIR"],
+	     validators = [
+	       FileAllowed(["jpg","png","jpeg"],message="Images only!"),
+	     ],
+	   ),	   
 	}
+	
 	   		
 	@login_required
 	def is_accessible(self):
@@ -124,18 +143,19 @@ class Cmd:
 	
 	@staticmethod
 	@app.cli.command("create-admin")
-	@click.option("--fname",help="First name",prompt="First name")
+	@click.option("--name",help="User name",prompt="User name")
 	@click.option("--email",help="User email address", prompt="Email address")
 	@click.password_option(prompt="Password")
-	def create_admin(fname, email, password):
+	def create_admin(name, email, password):
 		"""Adds new admin"""
 		if Admin1.query.filter_by(email=email).first():
 			email = click.prompt(click.style("Email exist, enter new",fg="yellow"))
-		new_admin = Admin1(fname=fname, email=email, password=password, is_admin=True, is_authenticated=True, is_active=True, is_anonymous=False)
+		new_admin = Admin1(name=name, email=email, password=password, is_admin=True, is_authenticated=True, is_active=True, is_anonymous=False)
 		db.session.add(new_admin)
 		db.session.commit()
-		click.secho("'%s' added as admin successfully"%fname, fg="cyan")
+		click.secho("'%s' added as admin successfully"%name, fg="cyan")
 
+admin.add_view(FileManagerAdmin(base_path=application.config["BLOG_IMAGES_DIR"],name="Files"))
 admin.add_view(AdminModelView(Admin1, db.session, name="Admins"))
 admin.add_view(AppDetailModelView(AppDetail, db.session, name="Website"))
 

@@ -3,8 +3,10 @@ from core.accounts.models import Admin1
 from datetime import datetime
 from uuid import uuid4
 from os import path, rename, remove
-from core.app import application
+from core.app import application, send_mail
+from core.accounts.models import AppDetail
 import logging
+from slugify import slugify
 
 fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
 	
@@ -20,7 +22,7 @@ class Blog(db.Model):
 	likes = db.Column(db.Integer, default=0)
 	comments = db.relationship("Comment",backref="blogs", lazy=True)
 	uuid = db.Column(db.String(60),nullable=False)
-	cover_photo = db.Column(db.String(40),nullable=True,default="default_cover.jpg")
+	cover_photo = db.Column(db.String(40),nullable=True,default="default_cover.png")
 	image_1 = db.Column(db.String(40), nullable=True)
 	image_2 = db.Column(db.String(40), nullable=True)
 	image_3 = db.Column(db.String(40), nullable=True)
@@ -28,6 +30,7 @@ class Blog(db.Model):
 	link = db.Column(db.String(20), nullable=True)
 	trending = db.Column(db.Boolean(), default=False)
 	is_published = db.Column(db.Boolean(),default=False)
+	is_notified = db.Column(db.Boolean(), default=False)
 	created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 	lastly_modified = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
 	
@@ -162,7 +165,7 @@ class LocalEventListener:
 		"""Generates uuid for each blog"""
 		if not ' ' in target.title:
 			return
-		title = target.title.lower().strip().replace(' ','-')
+		title = slugify(target.title)
 		not_unique = True
 		count = 1
 		while not_unique:
@@ -170,6 +173,29 @@ class LocalEventListener:
 				target.uuid = title
 				not_unique = False
 			title = title+'-'+str(count)
+			
+	@staticmethod
+	def mail_blog(mapper, connections, target):
+		"""Mails the update to subscribers"""
+		if target.is_published:
+			if target.is_notified:
+				return
+		else:
+			return 
+		appdetail = AppDetail.query.filter_by(id=1).first()
+		gen_link = lambda abs_url: appdetail.url+abs_url
+		message = f'''
+		<h3>{target.title}</h3>
+		<img src="{gen_link(url_for('static', filename='images/blog/'+blog.cover_photo))}" max-width="70vh" height="auto" alt="{target.cover_photo}">
+		</img>
+		<p>{target.intro}</p>
+		<p style="text-align:center">To view more of this <a href="{get_link(url_for('blogs.blog_view', uuid=target.uuid))}">click here.</a></p>'''
+		subscribers = Subscriber.query.filter_by(is_verified=True).with_entries(Subscriber.email).all()
+		if subscribers:
+			logging.info(f'Mailing "{target.title}" to {len(subscribers)} subscriber(s)')
+			send_mail(subject=target.title, recipients=subscribers, html=message)
+		else:
+			pass
 		
 db.event.listen(Blog, "before_insert", LocalEventListener.handle_images)	
 db.event.listen(Blog, "before_update", LocalEventListener.handle_images)
