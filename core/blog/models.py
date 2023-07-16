@@ -203,4 +203,7 @@ db.event.listen(Blog, "before_update", LocalEventListener.handle_images)
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)	
 db.event.listen(Blog, "before_update", LocalEventListener.generate_uuid)
 
+db.event.listen(Blog, "before_insert", LocalEventListener.mail_blog)	
+db.event.listen(Blog, "before_update", LocalEventListener.mail_blog)
+
 db.event.listen(Blog, "before_delete", LocalEventListener.delete_images)			
