@@ -18,14 +18,10 @@ SECRET_KEY = get(
 )
 
 RECAPTCHA_PUBLIC_KEY = get(
-    "RECAPTCHA_PUBLIC_KEY",
-    "ahqbuqv1181571v2is7wv1jwnjayaqvat",
-)
+    "RECAPTCHA_PUBLIC_KEY",)
 
 RECAPTCHA_PRIVATE_KEY = get(
-    "RECAPTCHA_PRIVATE_KEY",
-    "ay71v16bsjaj72bo9aav81nq9yag1v181qnqka8a",
-)
+    "RECAPTCHA_PRIVATE_KEY",)
 
 
 FLASK_ADMIN_SWATCH = get("FLASK_ADMIN_SWATCH", "paper")
@@ -35,9 +31,9 @@ MAIL_SERVER = get("MAIL_SERVER", "smtp.gmail.com")
 
 MAIL_PORT = get("MAIL_PORT", 465)
 
-MAIL_USERNAME = get("MAIL_USERNAME", "smartwacaleb@gmail.com")
+MAIL_USERNAME = get("MAIL_USERNAME")
 
-MAIL_PASSWORD = get("MAIL_PASSWORD", "raltybfjyapebbzd")
+MAIL_PASSWORD = get("MAIL_PASSWORD")
 
 MAIL_USE_TLS = get(
     "MAIL_USE_TLS",
@@ -51,11 +47,10 @@ MAIL_USE_SSL = get(
 
 MAIL_DEFAULT_SENDER = get("MAIL_DEFAULT_SENDER", "smartwacaleb@gmail.com")
 
+
 ## User database config
 
-BLOG_IMAGES_DIR = get(
-    "BLOG_IMAGES_DIR", os.path.join(basedir, "static/images/blog")
-)
+BLOG_IMAGES_DIR = os.path.join(basedir, "static/images/blog")
 
 if not os.path.isdir(BLOG_IMAGES_DIR):
     os.makedirs(BLOG_IMAGES_DIR)

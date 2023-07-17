@@ -2,3 +2,4 @@
 *instance
 *migrations
 *core/static/images/blog
+*.env

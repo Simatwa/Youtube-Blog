@@ -25,6 +25,7 @@ from core.app import application, send_mail, bcrypt
 from core.accounts.models import db, Admin1
 from sqlalchemy import or_
 from uuid import uuid4
+from urllib.parse import urlsplit, quote
 
 login_manager = LoginManager()
 login_manager.init_app(application)
@@ -122,9 +123,9 @@ class Accounts:
                     flash("Logged in successful", "info")
                     try_user.is_authenticated = True
                     db.session.commit()
-                    login_user(try_user)
-
-                    return redirect(url_for("home"))
+                    login_user(try_user)	
+                    return redirect(url_for('admin.index'))
+                    
                 else:
                     flash("Incorrect identifier or password!", "error")
                     return render_template("login.html", form=form)

@@ -35,7 +35,7 @@
   
    {% else %}
  <button class="w3-button w3-teal w3-bar-item w3-mobile">
-   <a href="{{ url_for('accounts.login_user',)+'?next='+url_for('admin.index') }}">
+   <a href="{{ url_for('accounts.login_user',)+'?next='+appdetail.url+url_for('admin.index') }}">
    <i class="fa fa-user-plus"></i>
    Login
      </a>
@@ -63,9 +63,7 @@
      </h4>
      <div class="w3-container w3-center w3-margin-bottom w3-cell-row">
       {% for category in blog.categories %}
-     <!-- <button class=""> -->
          <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}">{{ category }}</a>
-      <!-- </button> -->
       {% endfor %}
      </div>      
      {% if blog.link %}
@@ -76,7 +74,6 @@
        
      <div class="w3-container">
      <p>{{ blog.intro }}</p>
-     <!-- </div> -->
      <div class="w3-display-bottomleft w3-panel w3-blue w3-border w3-round">
           <i class="w3-large w3-transparent w3-large fa fa-eye"></i>
            <span> {{ blog.views }}</span>
@@ -105,7 +102,7 @@
   </div>
  
    <div>
-    <p class="w3-textred">
+    <p class="w3-text-red">
     <i class="fa fa-quote-left"></i>
     {{ appdetail.slogan }}
     <i class="fa fa-quote-right"></i>

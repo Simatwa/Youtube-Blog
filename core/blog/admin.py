@@ -6,7 +6,7 @@ from core.blog.models import Blog, Subscriber, Comment, Category, SocialMedia
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask import flash, redirect, url_for, abort
-from flask_admin.form import FileUploadField
+from flask_admin.form import FileUploadField, SecureForm
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileRequired, FileAllowed
 import click
@@ -23,9 +23,10 @@ class BlogModelView(ModelView):
 	can_view_details = True
 	form_excluded_columns = ["likes","views","comments","uuid","created_on","lastly_modified"]
 	column_searchable_list = ["title","content","created_on","comments.content"]
-	column_filters = ["title","content","categories.name","created_on"]
+	column_filters = ["title","content","categories.name","authors.name","created_on"]
 	column_exclude_list = ["content","uuid","intro","image_1","image_2","image_3","image_4","cover_photo",]
 	column_editable_list = ["trending","is_published"]
+	form_base_class = SecureForm
 	
 	form_args = {
 	  "title" : {
@@ -44,6 +45,7 @@ class BlogModelView(ModelView):
 	    "render_kw" : {
 	      "placeholder" : "Select categories",
 	    },
+	    "validators" : [DataRequired(message="Select categories")],
 	  },
 	
 	"link": {
@@ -52,7 +54,7 @@ class BlogModelView(ModelView):
 	    },
   	},
   	
-  	"author" : {
+  	"authors" : {
   	  "validators" : [DataRequired(message="Select your name",),],
   	},
   	
@@ -117,13 +119,12 @@ class BlogModelView(ModelView):
 	   ),	     	  	  	   	  	    	  	  	   	  	  
 	}
 	
-	@login_required
 	def is_accessible(self):
-		return all([current_user.is_authenticated, current_user.is_admin])
+		return current_user.is_authenticated
 		
-	def inaccessible_callback(self,**kwargs):
-		flash("You're not authorised to access that site", "danger")
-		abort(401)
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
+		return redirect(url_for("home"))
 		
 class CommentModelView(ModelView):
 	"""Comment Model View"""
@@ -137,6 +138,7 @@ class CommentModelView(ModelView):
 	column_filters = ["created_on"]
 	column_searchable_list = ["content","blogs.title"]
 	form_excluded_columns = ["created_on", "lastly_modified"]
+	form_base_class = SecureForm
 	
 	form_args = {
 	  "username" : {
@@ -159,12 +161,11 @@ class CommentModelView(ModelView):
 	  },
 	}
 	
-	@login_required
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inaccessible_callback(self):
-		flash("You're not authorised to access that site", "danger")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 	
 class SubscriberModelView(ModelView):
@@ -179,6 +180,7 @@ class SubscriberModelView(ModelView):
 	column_filters = ["created_on"]
 	column_searchable_list = ["email"]
 	column_editable_list = ['is_verified']
+	form_base_class = SecureForm
 	
 	form_args = {
 	  "email" : {
@@ -190,12 +192,11 @@ class SubscriberModelView(ModelView):
 	  },
 	}
 	
-	@login_required
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inaccessible_callback(self):
-		flash("You're not authorised to access that site", "danger")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 		
 class CategoryModelView(ModelView):
@@ -210,6 +211,7 @@ class CategoryModelView(ModelView):
 	column_searchable_list = ["name"]
 	column_filters = ["created_on"]
 	column_editable_list = ["display_on_menu",]
+	form_base_class = SecureForm
 	
 	form_args = {
 	  "name": {
@@ -239,12 +241,11 @@ class CategoryModelView(ModelView):
 	  
 	}
 	
-	@login_required
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inaccessible_callback(self,**kwargs):
-		flash("You're not authorised to acess that site")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 		
 class SocialMediaModelView(ModelView):
@@ -257,6 +258,7 @@ class SocialMediaModelView(ModelView):
 	column_searchable_list = ['name','link']
 	filter = ["color"]
 	column_editable_list = ["small_screen"]
+	form_base_class = SecureForm
 	
 	form_args ={
 	   "name": {
@@ -285,8 +287,8 @@ class SocialMediaModelView(ModelView):
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inacessible_callback(self):
-		flash("You're not authorised to acess that site")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 		
 admin.add_view(BlogModelView(Blog, db.session,name="Blogs"))

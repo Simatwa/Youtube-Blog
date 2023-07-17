@@ -6,15 +6,16 @@ from core.app import application, send_mail
 from core.accounts.models import AppDetail
 import logging
 from slugify import slugify
-from flask import url_for
+from flask import url_for, flash
 from core.app import generate_uuid as gen_uuid
+from flask_login import current_user
 
 fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
 	
 class Blog(db.Model):
 	__tablename__="blogs"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	author = db.relationship("Admin1",uselist=False, lazy=True)
+	authors = db.relationship("Admin1",secondary="blog_admin1", lazy=True)
 	title = db.Column(db.String(200), nullable=False)
 	content = db.Column(db.Text,)
 	categories = db.relationship("Category", secondary="blog_category", backref="blogs", lazy=True)
@@ -111,6 +112,12 @@ class SocialMedia(db.Model):
 		
 	def __init__(self):
 		return self.name
+		
+class BlogAdmin1(db.Model):
+	"""Links Blogs & Admin1 M:M"""
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	blog_id = db.Column(db.ForeignKey('blogs.id'))
+	admin_id = db.Column(db.ForeignKey('admins.id'))
 
 class LocalEventListener:
 	
@@ -219,7 +226,7 @@ class LocalEventListener:
 		</img>""" if target.cover_photo else ''
 		
 		message = f'''
-		<h3>{target.title}</h3>
+		<h3>{ ' | '.join([str(category) for category in target.categories]) } - New Post </h3>
 		<center>
 		{img}
 		</center>

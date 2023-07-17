@@ -1,6 +1,6 @@
 from core.models import db
 from datetime import datetime
-from core.app import bcrypt
+from core.app import bcrypt, application
 from os import path, rename
 
 fullpath = lambda r_path:path.join(application.config["BLOG_IMAGES_DIR"],r_path)
@@ -19,7 +19,7 @@ class Admin1(db.Model):
 	is_authenticated = db.Column(db.Boolean(),default=False)
 	is_active = db.Column(db.Boolean(), default=False)
 	is_anonymous = db.Column(db.Boolean(), default=True)
-	blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id",ondelete="SET NULL", onupdate="CASCADE",name='blog_id'),autoincrement=True)
+	#blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id",ondelete="SET NULL", onupdate="CASCADE",name='blog_id'),autoincrement=True)
 	appdetail_id =  db.Column(db.Integer, db.ForeignKey("appdetails.id",ondelete="SET NULL", onupdate="CASCADE",name='appdetail_id'),autoincrement=True)
 	
 	def __repr__(self):

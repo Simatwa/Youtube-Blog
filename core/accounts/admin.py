@@ -25,7 +25,14 @@ class FileManagerAdmin(FileAdmin):
     	can_mkdir = True
     	can_upload = True
     	can_delete = True
+    	
+    def is_accessible(self):
+    	return current_user.is_authenticated
     
+    def inaccessible_callback(self,*args,**kwargs):
+    	flash("You're not authorised to access that endpoint!", "danger")
+    	return redirect(url_for("home"))
+		 
 class AdminModelView(ModelView):
 	"""Admin model view"""
 	form_base_class = SecureForm
@@ -57,16 +64,16 @@ class AdminModelView(ModelView):
  	 },
 	}
 	
-	@login_required
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inaccessible_callback(self, **kwargs):
-		flash("You're not authorised to access that site", "danger")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 		
 class AppDetailModelView(ModelView):
 	"""Categorya Model view"""
+	form_base_class = SecureForm
 	can_create = True
 	can_edit = True
 	can_delete = True
@@ -131,12 +138,11 @@ class AppDetailModelView(ModelView):
 	}
 	
 	   		
-	@login_required
 	def is_accessible(self):
 		return current_user.is_authenticated
 		
-	def inaccessible_callback(self,**kwargs):
-		flash("You're not authorised to acess that site")
+	def inaccessible_callback(self,*args,**kwargs):
+		flash("You're not authorised to access that endpoint!", "danger")
 		return redirect(url_for("home"))
 
 class Cmd:

@@ -95,7 +95,7 @@ class BlogView:
 	@classmethod
 	def author(cls, name:str):
 		"""Filter blogs by author"""
-		blogs = Blog.query.filter(Blog.author.has(Admin1.name==name)).all()
+		blogs = Blog.query.filter(Blog.authors.any(Admin1.name==name)).all()
 		return render_template("blog/blogs_view.html",blogs=blogs, query=name)
 		
 	@classmethod
