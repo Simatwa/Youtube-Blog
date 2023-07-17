@@ -38,8 +38,8 @@ class Admin1(db.Model):
 class AppDetail(db.Model):
 	__tablename__="appdetails"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	name = db.Column(db.String(40), nullable=False)
-	description = db.Column(db.Text, nullable=False)
+	name = db.Column(db.String(40), nullable=False, default=application.config["APP_NAME"])
+	description = db.Column(db.Text, nullable=False, default=application.config["APP_DESCRIPTION"])
 	keywords = db.Column(db.String(500),nullable=False)
 	slogan = db.Column(db.String(30), nullable=True)
 	owners = db.relationship("Admin1",uselist=True, lazy=True)

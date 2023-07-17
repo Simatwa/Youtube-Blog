@@ -13,7 +13,7 @@ class CreateUserForm(FlaskForm):
 class UserLoginForm(FlaskForm):
     identifier = StringField(
         validators=[DataRequired()],
-        render_kw={"class": "w3-input", "placeholder": "E-mail, Phone or Index number"},
+        render_kw={"class": "w3-input", "placeholder": "E-mail address"},
     )
     password = PasswordField(
         validators=[

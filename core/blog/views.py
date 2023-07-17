@@ -7,9 +7,10 @@ from core.models import db
 from flask_login import login_required
 from core.accounts.models import AppDetail, Admin1
 from core.app import application
+from datetime import datetime, timedelta
 
 class BlogView:
-	"""Enpoints here"""
+	"""Endpoints here"""
 	
 	@classmethod
 	def index(cls):
@@ -23,11 +24,7 @@ class BlogView:
 		blog = Blog.query.filter_by(uuid=uuid).first_or_404()
 		blog.views = blog.views+1
 		db.session.commit()
-		#related_blogs = Blog.query.filter(Blog.categories.any(Category.name.in_(blog.categories))).filter(_not(Blog.id.any([blog.id]))).limit(10).all()
 		related_blogs = Blog.query.filter(Blog.categories.any(Category.name.in_([category.name for category in blog.categories]))).filter(Blog.id != blog.id).limit(10).all()
-		#for category in blog.categories:
-			#related_blogs.extend(Category.query.filter_by(name=category).first().blogs)
-		#related_blogs = Blog.query.filter(or_(**filter_list), not_(Blog.id==blog.id)).all()
 		return render_template("blog/blog_view.html",blog=blog, related_blogs=related_blogs, form=CommentForm(blog_uuid=uuid))
 		
 	@classmethod
@@ -51,7 +48,6 @@ class BlogView:
 		else :
 			"""Responds to post method searches"""
 			query = request.form.get("q",'')
-			#blogs = Blog.query.filter(or_(Blog.title.like(query),Blog.content.like(query),Blog.intro.like(query),)).order_by(desc(Blog.id)).all()
 			blogs = Blog.query.filter(or_(Blog.title.like(f'%{query}%'),Blog.content.like(f"%{query}%"), Blog.intro.like(f"%{query}%"), Blog.categories.any(or_(Category.name.like('%query%'),Category.detail.like(f"%{query}%")),),)).order_by(desc(Blog.id)).limit(14).all()
 			return render_template("blog/blogs_view.html",blogs=blogs, query=query)
 	
@@ -79,7 +75,7 @@ class BlogView:
 				blog.comments.append(comment)
 				db.session.commit()
 				flash("Comment submitted successfully!","info")
-				#return redirect(url_for('blogs.view',uuid=uuid))
+			
 			else:
 				flash("Blog to be commented on isn't available!","error")
 			return redirect(url_for('blogs.blog_view',uuid=uuid))
@@ -133,6 +129,12 @@ def app_details():
 @app.app_template_global()
 def weekly_trending_blogs():
 	""""""
+	seven_days_back= datetime.utcnow() - timedelta(days=7)
+	blogs = Blog.query.filter_by(is_published=True).filter(Blog.created_on >= seven_days_back).order_by(desc(Blog.views)).limit(10)
+	return blogs
+	
+@app.app_template_global()
+def all_time_trending_blogs():
 	blogs = Blog.query.filter_by(is_published=True).order_by(desc(Blog.views)).limit(10)
 	return blogs
 	

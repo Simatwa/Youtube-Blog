@@ -27,7 +27,7 @@ class FileManagerAdmin(FileAdmin):
     	can_delete = True
     	
     def is_accessible(self):
-    	return current_user.is_authenticated
+    	return current_user.is_authenticated and current_user.is_admin
     
     def inaccessible_callback(self,*args,**kwargs):
     	flash("You're not authorised to access that endpoint!", "danger")
@@ -65,7 +65,7 @@ class AdminModelView(ModelView):
 	}
 	
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")
@@ -139,7 +139,7 @@ class AppDetailModelView(ModelView):
 	
 	   		
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")

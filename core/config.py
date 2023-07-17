@@ -6,7 +6,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def get(key, default=None):
     return os.environ.get(key, default)
 
-
+APP_NAME = get(
+    "APP_NAME",
+    "Youtube-Blog",
+    )
+    
+APP_DESCRIPTION = get(
+   "APP_DESCRIPTION",
+   "Yotube based blogging app",
+   )
+   
 SQLALCHEMY_DATABASE_URI = get(
     "SQLALCHEMY_DATABASE_URI",
     "sqlite:///sqlite3.db",

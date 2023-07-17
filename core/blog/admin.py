@@ -119,8 +119,9 @@ class BlogModelView(ModelView):
 	   ),	     	  	  	   	  	    	  	  	   	  	  
 	}
 	
+	@login_required
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")
@@ -162,7 +163,7 @@ class CommentModelView(ModelView):
 	}
 	
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")
@@ -193,7 +194,7 @@ class SubscriberModelView(ModelView):
 	}
 	
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")
@@ -242,7 +243,7 @@ class CategoryModelView(ModelView):
 	}
 	
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")
@@ -285,7 +286,7 @@ class SocialMediaModelView(ModelView):
 	}
 	
 	def is_accessible(self):
-		return current_user.is_authenticated
+		return current_user.is_authenticated and current_user.is_admin
 		
 	def inaccessible_callback(self,*args,**kwargs):
 		flash("You're not authorised to access that endpoint!", "danger")

@@ -1,19 +1,30 @@
 <!DOCTYPE html>
+{% set appdetails = app_details() %}
+<html lang="en">
+<meta charset="UTF-8">
 <head>
-<meta charset="UTF-8"></meta>
-<title> {% block title %} - Smartwa {% endblock %} </title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></link>
-<script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
-<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='image/favicon.png') }}"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<title>{% block title %}Admin Login {% endblock %} | {{ appdetails.name }}</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"/>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-food.css') }}"/>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-camo.css') }}"/>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+ <script src="{{ url_for('static', filename='script/w3.js') }}"></script>
+ <script src="{{ url_for('static', filename='script/blog.js') }}"></script>
+ {% block head %} {% endblock %}
+   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/blog/'+appdetails.logo) }}">
 </head>
 
    <body>
  {% with messages = get_flashed_messages(with_categories=True) %}
      {% if messages %}
+    {% set color_mapper={"warn":"yellow","error":"red","info":"green"} %}
         <div class="flashed-messages">
          {% for category, message in messages %}
-            <span class="flashed-message-{{ category }}">{{ message }}</span>
+            <div class="w3-panel w3-pale-{{ color_mapper.get(category) }} w3-border-{{ color_mapper.get(category) }} w3-leftbar w3-animate-left w3-display-container">
+            <span class="w3-button w3-display-topright w3-large" onclick="this.parentElement.style.display='none'">&times</span>
+            <p>{{ message }}</p>
+            </div>
           {% endfor %}
         </div>
      {% endif %}  
