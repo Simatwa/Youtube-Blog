@@ -24,6 +24,7 @@
    </style>
 </head>
 <body>
+<div class="w3-hide-large w3-hide-medium">
  <!-- Navigator -->
   <div class="w3-display-container w3-food-strawberry top-element" style="height:7vh">
     <!-- Bar -->
@@ -150,7 +151,11 @@
    {% endif %}
  {% endwith %}
  </div>
-   {% block body %} {% endblock %}
+  <div class="w3-hide-medium w3-hide-large">
+    {% block body %} 
+    
+    {% endblock %}
+   </div>
 </div>
   
 
@@ -186,6 +191,11 @@
     
     </div>
   </div>
+  
+ </div>
+  
+{% include 'blog/restrict_access.html' %}
+
   
  </body>
 </html>

@@ -28,7 +28,7 @@
 {% if current_user.is_authenticated %}
   <button class="w3-button w3-red w3-bar-item w3-mobile">
     <a href="{{ url_for('accounts.logout_user',) }}">
-    <i class="fa fa-user-minus"></i>
+    <i class="fa fa-power-off"></i>
     Logout
     </a>
   </button>
@@ -49,11 +49,14 @@
 <div class="w3-display-container">
 <h2> Welcome admin <strong>{{ current_user.name }}</h2>
 <p>This panel will allow you to manage all models. Any changes that will be made here, will affect the entire database.</p>
+</div>
+
+<div class="w3-hide-large w3-hide-medium">
 
 <h3 class="w3-bottombar w3-border-teal">Trending blogs this week</h3>
 
  <div class=" w3-container w3-cell-row">
- </div>
+ 
    {% for blog in weekly_trending_blogs() %}
     <div class="w3-display-container w3-panel w3-card-4 w3-round-large w3-cell w3-mobile w3-padding" style="max-width:350px;">
      <h4 class="w3-center">
@@ -85,15 +88,17 @@
      </div>
      
     </div>
-   </div>
   {% endfor %}
-<div class="w3-container w3-center">
-<p class="w3-camo-grey w3-button w3-padding"><a href='{{ url_for("home") }}'>Visit site</a></p>
+ <div class="w3-container w3-center">
+  <p class="w3-camo-grey w3-button w3-padding"><a href='{{ url_for("home") }}'>Visit site</a></p>
+ </div>
+</div>
+
 </div>
 {% endblock %}
 
 {% block tail %}
-<div class="w3-container w3-camo-forest w3-panel">
+<div class="w3-container w3-camo-forest w3-panel w3-hide-large w3-hide-medium">
 
   <div class="w3-center w3-margin">
  
@@ -115,8 +120,16 @@
      var date = new Date();
       document.write(date.getFullYear());
     </script>
-   </div>  
+   </div> 
+    
  </div>
- 
+</div>
+
+ <!-- Alerts non-mobile users -->
+<div class="w3-hide-small w3-tex-red w3-center">
+ <h3 class="w3-jumbo"><span class="w3-bottombar w3-border-teal w3-text-red w3-hover-border-blue">Mobile </span>Users Only!</h3>
+ <p class="w3-text-teal">
+ Hello admin, to experience the best; access the panel on mobile!
+ </p>
 </div>
 {% endblock %}

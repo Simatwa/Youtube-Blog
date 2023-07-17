@@ -73,6 +73,12 @@
  
      {{ blog.content|safe }}
   </div>
+  
+ <div class="w3-container w3-center w3-margin">
+ {% if blog.link %}
+     {{ youtube_iframe(blog.link)|safe }}
+ {% endif %}
+ </div>
 
  <div class="w3-container">
    <div class="w3-left">
@@ -93,7 +99,7 @@
 
 <!-- Blog Comments -->
 <p class="w3-large w3-bottombar w3-border-black">
-Comments
+Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 </p>
 
 <div class="w3-container w3-cell-row">
@@ -129,7 +135,10 @@ Comments
  
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
  <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
- <button class="w3-display-topright w3-large w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
+ <button class="w3-display-topright w3-xxlarge w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
+  <div class="w3-text-teal">
+   <h4 class="w3-center w3-border-teal">Comment Section <i class="w3-xlarge fa fa-comment"></i> </h4>
+  </div>
   <form class="w3-container" action="{{ url_for('blogs.comment') }}" method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {% for entry in [form.username, form.email, form.content, form.mood] %}
@@ -144,7 +153,7 @@ Comments
        {{ entry() }}<br>
     {% endfor %}
     <button type="submit" class="w3-button w3-black w3-block w3-round-large w3-margin-bottom">
-    Comment
+    Comment <i class="fa fa-paper-send w3-xxlarge"></i>
     </button>
    </form>
   <div>
@@ -155,7 +164,7 @@ Comments
 
 <!-- Footers -->
 
-  <!-- Top trending -->
+  <!-- Related blogs-->
     <h4 class="w3-bottombar w3-border-teal">Related</h4>
     <div class="w3-row-cell">
     {% for blog in related_blogs %}
