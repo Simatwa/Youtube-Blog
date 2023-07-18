@@ -7,17 +7,17 @@
  <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"/>
  <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-food.css') }}"/>
  <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-camo.css') }}"/>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+ <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
  <script src="{{ url_for('static', filename='script/w3.js') }}"></script>
  <script src="{{ url_for('static', filename='script/blog.js') }}"></script>
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/blog/'+app_details().logo) }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+app_details().logo) }}">
 
 {% endblock %}
 
 {% block brand %}
 
 <!-- <div class="w3-container"> -->
- <img class="w3-round-xxlarge w3-hover-sepia" src="{{ url_for('static',filename='images/blog/'+appdetail.logo) }}" max-width="40px" height="50px" alt="Site logo">
+ <img class="w3-round-xxlarge w3-hover-sepia" src="{{ url_for('static',filename='files/'+appdetail.logo) }}" max-width="40px" height="50px" alt="Site logo">
 </img> 
 <!-- </div> -->
 
@@ -72,7 +72,7 @@
      {% if blog.link %}
         {{ youtube_iframe(blog.link)|safe }}
      {% else %}
-       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='images/blog/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
+       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='files/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
     {% endif %} 
        
      <div class="w3-container">
@@ -90,9 +90,6 @@
     </div>
   {% endfor %}
   <!-- All time trending blogs -->
- <div class="w3-container w3-center">
-  <p class="w3-camo-grey w3-button w3-padding"><a href='{{ url_for("home") }}'>Visit site</a></p>
- </div>
 </div>
 
 <h3 class="w3-bottombar w3-border-teal">Most viewed articles</h3>
@@ -114,7 +111,7 @@
      {% if blog.link %}
         {{ youtube_iframe(blog.link)|safe }}
      {% else %}
-       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='images/blog/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
+       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='files/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
     {% endif %} 
        
      <div class="w3-container">

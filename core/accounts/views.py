@@ -42,7 +42,7 @@ class Utils:
     @staticmethod
     def hash_password(paswd):
         """Hashes password"""
-        return bcrypt.generate_password_hash(paswd).decode('utf-8')
+        return bcrypt.generate_password_hash(paswd).decode("utf-8")
 
     @staticmethod
     def login_not_required(
@@ -107,9 +107,7 @@ class Accounts:
                     ),
                 ).first()
                 """
-                try_user = Admin1.query.filter_by(
-                    email=identifier
-                ).first()
+                try_user = Admin1.query.filter_by(email=identifier).first()
 
                 if try_user and bcrypt.check_password_hash(try_user.password, password):
                     try_user.is_active = True
@@ -123,9 +121,9 @@ class Accounts:
                     flash("Logged in successful", "info")
                     try_user.is_authenticated = True
                     db.session.commit()
-                    login_user(try_user)	
-                    return redirect(url_for('admin.index'))
-                    
+                    login_user(try_user)
+                    return redirect(url_for("admin.index"))
+
                 else:
                     flash("Incorrect identifier or password!", "error")
                     return render_template("login.html", form=form)
@@ -136,9 +134,7 @@ class Accounts:
     @Utils.login_not_required(message="Your account is already verified!")
     def verify_user(cls):
         form = VerifyUserForm()
-        target_user = Admin1.query.filter_by(
-            id=current_user.get_id()
-        ).first_or_404()
+        target_user = Admin1.query.filter_by(id=current_user.get_id()).first_or_404()
         assert target_user.is_authenticated == False, abort(401)
 
         if request.method == "GET":

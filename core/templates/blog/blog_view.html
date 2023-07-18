@@ -12,7 +12,7 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="{{ blog.title }} | {{ appdetail.name }}">
   <meta property="og:description" content="{{ blog.intro }}">
-  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+blog.cover_photo) }}'">
+  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='files/'+blog.cover_photo) }}'">
   <meta property="og:url" content="{{ appdetail.url+url_for('blogs.blog_view',uuid=blog.uuid) }}">
   <meta property="og:type" content="website">
 
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ blog.title }} | {{ appdetail.name }}">
   <meta name="twitter:description" content="{{ blog.intro }}">
-  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+blog.cover_photo) }}">
+  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='files/'+blog.cover_photo) }}">
 
   <!-- Schema.org Markup -->
   <script type="application/ld+json">
@@ -29,7 +29,7 @@
       "@type": "Organization",
       "name": "{{ appdetail.name }}",
       "url": "{{ appdetail.url }}",
-      "logo": "{{ appdetail.url+url_for('static', filename='images/blog/'+appdetail.logo) }}",
+      "logo": "{{ appdetail.url+url_for('static', filename='files/'+appdetail.logo) }}",
       "description": "{{ appdetail.description }}",
       "sameAs": [
       {% for site in social_media_sites() %} 
@@ -45,8 +45,11 @@
 
    <div class="w3-display-container w3-text-white w3-margin-bottom">
      {% if blog.cover_photo %} 
-      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='images/blog/'+blog.cover_photo) }}" width="100%" height="auto" alt="{{ blog.cover_photo }}">
+      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+blog.cover_photo) }}" width="100%" height="auto" alt="{{ blog.cover_photo }}">
+     {% elif appdetail.cover_photo %}
+      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+appdetail.cover_photo) }}" width="100%" height="auto" alt="{{ appdetail.cover_photo }}">
      {% endif %}
+     
       <div class="w3-display-middle w3-container">
          <h3 class="w3-text-red w3-xlarge">{{ blog.title }}</h3>
        </div>

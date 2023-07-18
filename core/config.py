@@ -6,16 +6,17 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def get(key, default=None):
     return os.environ.get(key, default)
 
+
 APP_NAME = get(
     "APP_NAME",
     "Youtube-Blog",
-    )
-    
+)
+
 APP_DESCRIPTION = get(
-   "APP_DESCRIPTION",
-   "Yotube based blogging app",
-   )
-   
+    "APP_DESCRIPTION",
+    "Yotube based blogging app",
+)
+
 SQLALCHEMY_DATABASE_URI = get(
     "SQLALCHEMY_DATABASE_URI",
     "sqlite:///sqlite3.db",
@@ -27,10 +28,12 @@ SECRET_KEY = get(
 )
 
 RECAPTCHA_PUBLIC_KEY = get(
-    "RECAPTCHA_PUBLIC_KEY",)
+    "RECAPTCHA_PUBLIC_KEY",
+)
 
 RECAPTCHA_PRIVATE_KEY = get(
-    "RECAPTCHA_PRIVATE_KEY",)
+    "RECAPTCHA_PRIVATE_KEY",
+)
 
 
 FLASK_ADMIN_SWATCH = get("FLASK_ADMIN_SWATCH", "paper")
@@ -59,8 +62,8 @@ MAIL_DEFAULT_SENDER = get("MAIL_DEFAULT_SENDER", "smartwacaleb@gmail.com")
 
 ## User database config
 
-BLOG_IMAGES_DIR = os.path.join(basedir, "static/images/blog")
+BLOG_FILES_DIR = os.path.join(basedir, "static/files/")
 
-if not os.path.isdir(BLOG_IMAGES_DIR):
-    os.makedirs(BLOG_IMAGES_DIR)
+if not os.path.isdir(BLOG_FILES_DIR):
+    os.makedirs(BLOG_FILES_DIR)
     ## Creates blog images directory

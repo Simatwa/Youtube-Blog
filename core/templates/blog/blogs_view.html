@@ -12,7 +12,7 @@
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
   <meta property="og:description" content="{{ appdetail.description }}">
-  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+appdetail.logo) }}'">
+  <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='files/'+appdetail.logo) }}'">
   <meta property="og:url" content="{{ appdetail.url }}">
   <meta property="og:type" content="website">
 
@@ -20,7 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
   <meta name="twitter:description" content="{{ appdetail.description }}">
-  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='images/blog/'+appdetail.logo) }}">
+  <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='files/'+appdetail.logo) }}">
 
   <!-- Schema.org Markup -->
   <script type="application/ld+json">
@@ -29,7 +29,7 @@
       "@type": "Organization",
       "name": "{{ appdetail.name }}",
       "url": "{{ appdetail.url }}",
-      "logo": "{{ appdetail.url+url_for('static', filename='images/blog/'+appdetail.logo) }}",
+      "logo": "{{ appdetail.url+url_for('static', filename='files/'+appdetail.logo) }}",
       "description": "{{ appdetail.description }}",
       "sameAs": [
       {% for site in social_media_sites() %} 
@@ -62,7 +62,7 @@
      {% if blog.link %}
         {{ youtube_iframe(blog.link)|safe }}
      {% else %}
-       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='images/blog/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
+       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='files/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
     {% endif %} 
        
      <div class="w3-container">
