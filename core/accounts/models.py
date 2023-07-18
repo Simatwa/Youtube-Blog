@@ -56,9 +56,9 @@ class AppDetail(db.Model):
     )
     keywords = db.Column(db.String(500), nullable=False)
     slogan = db.Column(db.String(30), nullable=True)
-    owners = db.relationship("Admin1", uselist=True, lazy=True)
+    owners = db.relationship("Admin1", uselist=True, lazy=True,backref="apps")
     url = db.Column(db.String(50), nullable=False)
-    logo = db.Column(db.String(50), default="favicon.png")
+    logo = db.Column(db.String(50), default="config/favicon.png")
     cover_photo = db.Column(db.String(50), default=default_cover_photo)
     lastly_modified = db.Column(
         db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow

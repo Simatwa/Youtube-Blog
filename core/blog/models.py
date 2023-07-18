@@ -3,7 +3,7 @@ from core.accounts.models import Admin1, AppDetail
 from datetime import datetime
 from os import path, rename, remove
 from core.app import FILES_DIR, send_mail
-from core.accounts.models import AppDetail, Advertisement, default_cover_photo
+from core.accounts.models import AppDetail, default_cover_photo
 import logging
 from slugify import slugify
 from flask import url_for, flash
@@ -30,7 +30,7 @@ class Blog(db.Model):
     views = db.Column(db.Integer, default=0)
     likes = db.Column(db.Integer, default=0)
     comments = db.relationship("Comment", backref="blogs", lazy=True)
-    uuid = db.Column(db.String(60), nullable=False)
+    uuid = db.Column(db.String(60), nullable=False,unique=True)
     cover_photo = db.Column(db.String(60), nullable=True, default=default_cover_photo)
     image_1 = db.Column(db.String(60), nullable=True)
     image_2 = db.Column(db.String(60), nullable=True)
@@ -220,17 +220,19 @@ class LocalEventListener:
     @staticmethod
     def generate_uuid(mapper, connections, target):
         """Generates uuid for each blog"""
-        if not " " in target.title:
-            target.uuid = target.title
-            return
-        title = slugify(target.title)
+        if target.uuid:
+        	return
+        uuid = slugify(target.title)
         not_unique = True
         count = 1
+        if not Blog.query.filter_by(uuid=uuid).first():
+        	target.uuid = uuid
+        	return
         while not_unique:
-            if not Blog.query.filter_by(title=title).first():
-                target.uuid = title
+            if not Blog.query.filter_by(uuid=uuid+'-'+str(count)).first():
+                target.uuid = uuid+'-'+str(count)
                 not_unique = False
-            title = title + "-" + str(count)
+            count+=1 
 
     @staticmethod
     def confirm_email(mapper, connections, target):
@@ -269,7 +271,7 @@ class LocalEventListener:
         appdetail = AppDetail.query.filter_by(id=1).first()
         gen_link = lambda abs_url: appdetail.url + abs_url
         img = (
-            """<iframe width="60%" height="auto" src="https://www.youtube.com/embed/{target.link}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+            """<iframe width="80%" height="auto" src="https://www.youtube.com/embed/{target.link}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
 		encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		"""
             if target.link
@@ -327,31 +329,9 @@ class LocalEventListener:
                 else:
                     kwargs[f"image_{count}"] = gen_file_link(name)
 
-            preprocessor_one = markdown.markdown(
+            target.content = markdown.markdown(
                 target.content % kwargs, extensions=markdown_extensions
             ).replace('<img','<img class="w3-center w3-padding"')
-            ads_space_count = preprocessor_one.count('{}')
-            ads_code_available = Advertisement.query.filter_by(is_active=True,is_script=False).with_entities(Advertisement.content).all()
-            # Ensures length of ads_space_count==ads_code_available
-            for x in range(ads_space_count):
-            	if len(ads_code_available) < ads_space_count:
-            		if x > len(ads_code_available)-1:
-            			ads_code_available.append('')
-            		else:
-            			# Ensures we don't duplicate alot
-            			if x != 0:
-            				#Duplicate the available ads_code
-            				ads_code_available.append( ads_code_available[x-1])
-            			else:
-            				# Append null
-            				ads_code_available.append('')
-            	elif len(ads_code_available) > ads_space_count:
-            		ads_code_available = ads_code_available[:ads_space_count]
-            	else:
-            		# length is equal
-            		break
-            	
-            target.content = preprocessor_one.format(*ads_code_available)
 
 
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)

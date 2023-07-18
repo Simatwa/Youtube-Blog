@@ -16,7 +16,45 @@ from flask_login import login_required
 from core.accounts.models import AppDetail, Admin1, Advertisement
 from core.app import application
 from datetime import datetime, timedelta
+from core.accounts.models import Advertisement
+import re
 
+class LocalUtils:
+	"""Module based utility defs"""
+	
+	@staticmethod
+	def add_latest_adverts(blog:object):
+	    """Append ads to blog content"""
+	    preprocessor_one = blog.content
+	    if not preprocessor_one:
+	    	return blog
+	    ads_space_count = preprocessor_one.count('{}')
+	    ads_code_available = [ads_code[0] for ads_code in Advertisement.query.filter_by(is_active=True,is_script=False).with_entities(Advertisement.content).all()]
+	    # Ensures length of ads_space_count==ads_code_available
+	    for x in range(ads_space_count):
+	           if len(ads_code_available) < ads_space_count:
+	           	if x > len(ads_code_available)-1:
+	           		ads_code_available.append('')
+	           	else:
+	           		# Ensures we don't duplicate alot
+	           		if x != 0:
+	           			#Duplicate the available ads_code
+	           			ads_code_available.append( ads_code_available[x-1])
+	           		else:
+	           			# Append null
+	           			ads_code_available.append('')
+	           elif len(ads_code_available) > ads_space_count:
+	           	ads_code_available = ads_code_available[:ads_space_count]
+	           else:
+	           	# length is equal
+	           	break
+	    #print(ads_code_available)
+	    for ads_code in ads_code_available:
+	        preprocessor_one = re.sub('{}',ads_code,preprocessor_one,1)
+	    blog.content = preprocessor_one
+	    print(preprocessor_one)
+	    return blog #target.content = preprocessor_one #.format(*ads_code_available)
+            
 
 class BlogView:
     """Endpoints here"""
@@ -50,7 +88,7 @@ class BlogView:
         )
         return render_template(
             "blog/blog_view.html",
-            blog=blog,
+            blog=LocalUtils.add_latest_adverts(blog),
             related_blogs=related_blogs,
             form=CommentForm(blog_uuid=uuid),
         )

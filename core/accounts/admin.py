@@ -204,6 +204,7 @@ class Cmd:
             is_active=True,
             is_anonymous=False,
         )
+        new_admin.apps=AppDetail.query.filter_by(id=1).first() or AppDetail(keywords='Blogging, Youtube, Trends',url=click.prompt("Enter site url e.g http://localhost:8000",), slogan=click.prompt("Enter apps slogan"))
         db.session.add(new_admin)
         db.session.commit()
         click.secho("'%s' added as admin successfully" % name, fg="cyan")	
