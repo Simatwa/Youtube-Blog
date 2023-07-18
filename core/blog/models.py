@@ -3,7 +3,7 @@ from core.accounts.models import Admin1, AppDetail
 from datetime import datetime
 from os import path, rename, remove
 from core.app import FILES_DIR, send_mail
-from core.accounts.models import AppDetail, default_cover_photo
+from core.accounts.models import AppDetail, Advertisement, default_cover_photo
 import logging
 from slugify import slugify
 from flask import url_for, flash
@@ -162,6 +162,34 @@ class BlogAdmin1(db.Model):
     blog_id = db.Column(db.ForeignKey("blogs.id"))
     admin_id = db.Column(db.ForeignKey("admins.id"))
 
+class LocalUtils:
+	"""Utilities class"""
+	
+	@staticmethod
+	def generate_html_tag(filename:str):
+	   extension = path.splitext(filename)[1].lower()
+	   #image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+	   video_extensions = [".mp4", ".avi", ".mov", ".mkv"]
+	   audio_extensions = [".mp3", ".wav", ".flac",'.ogg']  	
+	   #if extension in image_extensions:
+	   	#resp = f'<img class="w3-image" src="{filename}" alt="Image">'	
+	   if extension in video_extensions:
+	   	resp = f'''
+	   	<div class="w3-center w3-padding">	   	
+	   	    <video  controls>
+	   	   <source src="{filename}" type="video/{extension[1:]}">
+	   	</video>
+	   	</div>''' 
+	   elif extension in audio_extensions:
+	   	resp = f'''
+	   	<div class="w3-center w3-padding">
+	   	  <audio controls>
+	   	  <source src="{filename}" type="audio/{extension[1:]}">
+	   	</audio>
+	   	</div>'''
+	   else:
+	   	resp = filename
+	   return resp.strip()
 
 class LocalEventListener:
     @staticmethod
@@ -277,14 +305,15 @@ class LocalEventListener:
             )
         else:
             pass
-
+    	 
     @staticmethod
     def format_markdown_article(mapper, connections, target):
         if target.is_markdown and target.content:
-            gen_img_link = lambda name: url_for(
-                "static", filename="images/blog/" + str(name)
+            target.content = target.content.replace('%(','(}}}}').replace('%','%%').replace('(}}}}','%(')
+            gen_file_link = lambda name: url_for(
+                "static", filename='files/'+str(name)
             )
-            kwargs = {"file_1": target.file_1, "file_2": target.file_2}
+            kwargs = {"file_1": LocalUtils.generate_html_tag(gen_file_link(target.file_1)), "file_2": LocalUtils.generate_html_tag(gen_file_link(target.file_2))}
             image_names = [
                 target.cover_photo,
                 target.image_1,
@@ -294,13 +323,35 @@ class LocalEventListener:
             ]
             for count, name in enumerate(image_names):
                 if count == 0:
-                    kwargs["cover_photo"] = gen_img_link(name)
+                    kwargs["cover_photo"] = gen_file_link(name)
                 else:
-                    kwargs[f"image_{count}"] = gen_img_link(name)
+                    kwargs[f"image_{count}"] = gen_file_link(name)
 
-            target.content = markdown.markdown(
+            preprocessor_one = markdown.markdown(
                 target.content % kwargs, extensions=markdown_extensions
-            )
+            ).replace('<img','<img class="w3-center w3-padding"')
+            ads_space_count = preprocessor_one.count('{}')
+            ads_code_available = Advertisement.query.filter_by(is_active=True,is_script=False).with_entities(Advertisement.content).all()
+            # Ensures length of ads_space_count==ads_code_available
+            for x in range(ads_space_count):
+            	if len(ads_code_available) < ads_space_count:
+            		if x > len(ads_code_available)-1:
+            			ads_code_available.append('')
+            		else:
+            			# Ensures we don't duplicate alot
+            			if x != 0:
+            				#Duplicate the available ads_code
+            				ads_code_available.append( ads_code_available[x-1])
+            			else:
+            				# Append null
+            				ads_code_available.append('')
+            	elif len(ads_code_available) > ads_space_count:
+            		ads_code_available = ads_code_available[:ads_space_count]
+            	else:
+            		# length is equal
+            		break
+            	
+            target.content = preprocessor_one.format(*ads_code_available)
 
 
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)

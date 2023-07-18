@@ -85,8 +85,8 @@
       </div>
       
     <div class="w3-display-right w3-hide-large w3-hide-medium">
-     <button class="w3-btn w3-white" onclick="w3.show('#searchModal')">
-      <i class="fa fa-search w3-large"></i>
+     <button class="w3-btn w3-text-white" onclick="w3.show('#searchModal')">
+      <i class="fa fa-search w3-xlarge"></i>
       </button>
     </div>
     
@@ -188,7 +188,9 @@
  </div>
   
 {% include 'blog/restrict_access.html' %}
-
-  
+<!-- ads scripts -->
+ {% for script in advertisement_scripts() %}
+  {{ script.content|safe }}
+ {% endfor %} 
  </body>
 </html>

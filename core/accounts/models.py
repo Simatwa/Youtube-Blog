@@ -71,6 +71,21 @@ class AppDetail(db.Model):
     def __str__(self):
         return self.name
 
+class Advertisement(db.Model):
+	__tablename__="advertisements"
+	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+	identifier = db.Column(db.String(20), nullable=True, unique=True)
+	content = db.Column(db.Text(),nullable=False)
+	is_script = db.Column(db.Boolean(), default=False)
+	is_active = db.Column(db.Boolean(), default=True)
+	created_on = db.Column(db.DateTime(), default=datetime.utcnow)
+	lastly_modified = db.Column(db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
+	
+	def __repr__(self):
+		return "<Advertisement %r>"%self.id
+		
+	def __str__(self):
+		return self.identifier
 
 class LocalEventListener:
     """Listens on Admin1 events"""

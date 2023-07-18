@@ -13,7 +13,7 @@ from core.blog.forms import CommentForm
 from sqlalchemy import or_, desc, not_
 from core.models import db
 from flask_login import login_required
-from core.accounts.models import AppDetail, Admin1
+from core.accounts.models import AppDetail, Admin1, Advertisement
 from core.app import application
 from datetime import datetime, timedelta
 
@@ -240,6 +240,10 @@ def all_time_trending_blogs():
     blogs = Blog.query.filter_by(is_published=True).order_by(desc(Blog.views)).limit(10)
     return blogs
 
+@app.app_template_global()
+def advertisement_scripts():
+	scripts = Advertisement.query.filter_by(is_script=True, is_active=True).all()
+	return scripts
 
 views = BlogView()
 

@@ -77,7 +77,7 @@
      {{ blog.content|safe }}
   </div>
   
- <div class="w3-container w3-center w3-margin">
+ <div class="w3-container w3-center w3-padding w3-margin">
  {% if blog.link %}
      {{ youtube_iframe(blog.link)|safe }}
  {% endif %}
@@ -106,8 +106,13 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 </p>
 
 <div class="w3-container w3-cell-row">
-  {% for comment in blog.comments %}
-  <div class="w3-display-container w3-panel w3-card-4 w3-cell w3-mobile" style="max-width:320px">
+  {% for count, comment in enumerate_this(blog.comments) %}
+  {% if count%2==0 %}
+    {% set side='left' %}
+  {% else %}
+    {% set side='right' %}
+  {% endif %}
+  <div class="w3-display-container w3-panel w3-card-4 w3-cell w3-mobile w3-animate-{{ side }}" style="max-width:320px">
   
    <div class="w3-left">
     <i class="w3-text-black fa fa-user w3-xxlarge"></i>
@@ -132,9 +137,11 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 </div>
   
 <!-- comment -->
- <button class="w3-button w3-teal w3-center w3-round" onclick="w3.show('#commentModal')">
+<div class="w3-center w3-padding">
+ <button class="w3-button w3-teal w3-round" onclick="w3.show('#commentModal')">
  Leave a comment
  </button>
+</div>
  
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
  <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
