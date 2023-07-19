@@ -26,11 +26,20 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "BlogPosting",
       "name": "{{ appdetail.name }}",
-      "url": "{{ appdetail.url }}",
-      "logo": "{{ appdetail.url+url_for('static', filename='files/'+appdetail.logo) }}",
-      "description": "{{ appdetail.description }}",
+      "url": "{{ appdetail.url+url_for('blogs.blog_view', uuid=blog.uuid) }}",
+      "headline": "{{ blog.title }}",
+      "datePublished": "{{ blog.created_on }}",
+      "logo": "{{ appdetail.url+url_for('static', filename='files/'+blog.cover_photo) }}",
+      "description": "{{ blog.intro }}",
+      "articleBody" : "{{ blog.content[:60]+'...' if len_(blog.content)>60 else blog.content }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ blog.authors[0] }}",
+        "image": "{{ appdetail.url+url_for('static', filename='files/'+appdetail.logo) }}",
+        "description": "{{ blog.authors[0].bio }}"
+      }      
       "sameAs": [
       {% for site in social_media_sites() %} 
       "{{ site.link }}",
@@ -38,7 +47,7 @@
       ]
     }
   </script>
- 
+  
 {% endblock %}
 
 {% block body %}

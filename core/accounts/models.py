@@ -11,6 +11,7 @@ class Admin1(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(30), nullable=False, unique=True)
+    bio = db.Column(db.Text(), nullable=True)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     password = db.Column(db.String(100), nullable=False)
     password_hashed = db.Column(db.Boolean(), default=True)

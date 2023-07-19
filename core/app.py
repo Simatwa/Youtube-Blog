@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, flash, request
 from flask_mail import Mail, Message
 from flask_bcrypt import Bcrypt
 from flask_login import login_required
+from flask_minify import Minify
 from uuid import uuid4
 import logging
 
@@ -23,6 +24,8 @@ bcrypt.init_app(application)
 
 mail = Mail()
 mail.init_app(application)
+
+Minify(application)
 
 markdown_extensions = [
     "markdown.extensions.abbr",

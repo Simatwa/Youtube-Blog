@@ -58,6 +58,7 @@ class AdminModelView(ModelView):
     form_excluded_columns = ["token", "created_on", "lastly_modified"]
     column_searchable_list = ["name", "email", "created_on"]
     column_filters = ["created_on"]
+    column_editable_list = ["is_active"]
 
     form_args = {
         "name": {
@@ -72,6 +73,12 @@ class AdminModelView(ModelView):
                 "placeholder": "example@gmail.com",
             },
             "validators": [Email(message="Enter valid email address!")],
+        },
+        "bio": {
+            "label": "Personal info",
+            "render_kw": {
+                "placeholder": "All about...",
+            },
         },
     }
 
