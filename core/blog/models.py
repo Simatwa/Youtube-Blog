@@ -108,7 +108,7 @@ class Category(db.Model):
     name = db.Column(db.String(20), nullable=False)
     detail = db.Column(db.Text, nullable=True)
     icon = db.Column(db.String(15), nullable=True)
-    color = db.Column(db.String(15), default="white")
+    color = db.Column(db.String(15), default="green")
     display_on_menu = db.Column(db.Boolean(), default=True)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 
@@ -220,8 +220,9 @@ class LocalEventListener:
     @staticmethod
     def generate_uuid(mapper, connections, target):
         """Generates uuid for each blog"""
-        if target.uuid:
-        	return
+        if not " " in target.title:
+            target.uuid = target.title
+            return
         uuid = slugify(target.title)
         not_unique = True
         count = 1
