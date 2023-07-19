@@ -29,8 +29,14 @@ class Blog(db.Model):
     intro = db.Column(db.Text, nullable=False)
     views = db.Column(db.Integer, default=0)
     likes = db.Column(db.Integer, default=0)
-    comments = db.relationship("Comment", backref="blogs", lazy=True)
-    uuid = db.Column(db.String(60), nullable=False,unique=True)
+    comments = db.relationship(
+        "Comment",
+        backref="blogs",
+        lazy=True,
+        cascade="all, delete",
+        passive_deletes=True,
+    )
+    uuid = db.Column(db.String(60), nullable=False, unique=True)
     cover_photo = db.Column(db.String(60), nullable=True, default=default_cover_photo)
     image_1 = db.Column(db.String(60), nullable=True)
     image_2 = db.Column(db.String(60), nullable=True)
@@ -43,6 +49,7 @@ class Blog(db.Model):
     is_markdown = db.Column(db.Boolean(), default=True)
     is_published = db.Column(db.Boolean(), default=False)
     is_notified = db.Column(db.Boolean(), default=False)
+    display_ads = db.Column(db.Boolean(), default=True)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     lastly_modified = db.Column(
         db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow
@@ -69,6 +76,7 @@ class Comment(db.Model):
         db.Text,
         nullable=False,
     )
+    likes = db.Column(db.Integer, default=0)
     mood = db.Column(db.String(10), default="grin")
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     lastly_modified = db.Column(
@@ -162,34 +170,36 @@ class BlogAdmin1(db.Model):
     blog_id = db.Column(db.ForeignKey("blogs.id"))
     admin_id = db.Column(db.ForeignKey("admins.id"))
 
+
 class LocalUtils:
-	"""Utilities class"""
-	
-	@staticmethod
-	def generate_html_tag(filename:str):
-	   extension = path.splitext(filename)[1].lower()
-	   #image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
-	   video_extensions = [".mp4", ".avi", ".mov", ".mkv"]
-	   audio_extensions = [".mp3", ".wav", ".flac",'.ogg']  	
-	   #if extension in image_extensions:
-	   	#resp = f'<img class="w3-image" src="{filename}" alt="Image">'	
-	   if extension in video_extensions:
-	   	resp = f'''
+    """Utilities class"""
+
+    @staticmethod
+    def generate_html_tag(filename: str):
+        extension = path.splitext(filename)[1].lower()
+        # image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+        video_extensions = [".mp4", ".avi", ".mov", ".mkv"]
+        audio_extensions = [".mp3", ".wav", ".flac", ".ogg"]
+        # if extension in image_extensions:
+        # resp = f'<img class="w3-image" src="{filename}" alt="Image">'
+        if extension in video_extensions:
+            resp = f"""
 	   	<div class="w3-center w3-padding">	   	
 	   	    <video  controls>
 	   	   <source src="{filename}" type="video/{extension[1:]}">
 	   	</video>
-	   	</div>''' 
-	   elif extension in audio_extensions:
-	   	resp = f'''
+	   	</div>"""
+        elif extension in audio_extensions:
+            resp = f"""
 	   	<div class="w3-center w3-padding">
 	   	  <audio controls>
 	   	  <source src="{filename}" type="audio/{extension[1:]}">
 	   	</audio>
-	   	</div>'''
-	   else:
-	   	resp = filename
-	   return resp.strip()
+	   	</div>"""
+        else:
+            resp = filename
+        return resp.strip()
+
 
 class LocalEventListener:
     @staticmethod
@@ -220,20 +230,20 @@ class LocalEventListener:
     @staticmethod
     def generate_uuid(mapper, connections, target):
         """Generates uuid for each blog"""
-        if not " " in target.title:
-            target.uuid = target.title
+        if target.uuid and not " " in target.uuid:
+            # Effective to one-word-titled article
             return
         uuid = slugify(target.title)
         not_unique = True
         count = 1
         if not Blog.query.filter_by(uuid=uuid).first():
-        	target.uuid = uuid
-        	return
+            target.uuid = uuid
+            return
         while not_unique:
-            if not Blog.query.filter_by(uuid=uuid+'-'+str(count)).first():
-                target.uuid = uuid+'-'+str(count)
+            if not Blog.query.filter_by(uuid=uuid + "-" + str(count)).first():
+                target.uuid = uuid + "-" + str(count)
                 not_unique = False
-            count+=1 
+            count += 1
 
     @staticmethod
     def confirm_email(mapper, connections, target):
@@ -308,15 +318,22 @@ class LocalEventListener:
             )
         else:
             pass
-    	 
+
     @staticmethod
     def format_markdown_article(mapper, connections, target):
         if target.is_markdown and target.content:
-            target.content = target.content.replace('%(','(}}}}').replace('%','%%').replace('(}}}}','%(')
-            gen_file_link = lambda name: url_for(
-                "static", filename='files/'+str(name)
+            target.content = (
+                target.content.replace("%(", "(}}}}")
+                .replace("%", "%%")
+                .replace("(}}}}", "%(")
             )
-            kwargs = {"file_1": LocalUtils.generate_html_tag(gen_file_link(target.file_1)), "file_2": LocalUtils.generate_html_tag(gen_file_link(target.file_2))}
+            gen_file_link = lambda name: url_for(
+                "static", filename="files/" + str(name)
+            )
+            kwargs = {
+                "file_1": LocalUtils.generate_html_tag(gen_file_link(target.file_1)),
+                "file_2": LocalUtils.generate_html_tag(gen_file_link(target.file_2)),
+            }
             image_names = [
                 target.cover_photo,
                 target.image_1,
@@ -332,7 +349,7 @@ class LocalEventListener:
 
             target.content = markdown.markdown(
                 target.content % kwargs, extensions=markdown_extensions
-            ).replace('<img','<img class="w3-center w3-padding"')
+            ).replace("<img", '<img class="w3-center w3-padding"')
 
 
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)

@@ -10,3 +10,7 @@ a{
 img,video, audio {
     max-width:100%;
     }
+ 
+input:focus {
+   border-color : cyan;
+}

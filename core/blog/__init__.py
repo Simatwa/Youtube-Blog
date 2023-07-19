@@ -14,3 +14,8 @@ def youtube_iframe(video_id, width=100):
 @app.app_template_global()
 def len_(element):
     return len(element)
+
+
+@app.app_template_global()
+def str_(value):
+    return str(value)

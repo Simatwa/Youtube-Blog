@@ -150,41 +150,42 @@ class AppDetailModelView(ModelView):
     def inaccessible_callback(self, *args, **kwargs):
         flash("You're not authorised to access that endpoint!", "danger")
         return redirect(url_for("home"))
-        
+
+
 class AdvertisementModelView(ModelView):
-	can_create = True
-	can_edit = True
-	can_delete = True
-	page_size = 50
-	form_excluded_columns = ["created_on","lastly_modified"]
-	column_excluded_list = []
-	can_view_details = True
-	column_display_pk = True
-	column_editable_list =['is_active','identifier']
-	column_searchable_list = ["identifier"]
-	column_filters = ["created_on"]
-    	
-	form_args = {
-	  "identifier" : {
-	    "render_kw" : {
-	     "placeholder" :"Name for identity",
-	    },
-	   },
-	 
-	 "content" : {
-	   "render_kw": {
-	      "placeholder" : "HTML or Javascript code",
-	   },
-	 },
-	 	 
-	}
-	def is_accessible(self):
-		return current_user.is_authenticated and current_user.is_admin
-		
-	def inaccessible_callback(self, *args, **kwargs):
-	       flash("You're not authorised to access that endpoint!", "danger")
-	       return redirect(url_for("home"))
-        
+    can_create = True
+    can_edit = True
+    can_delete = True
+    page_size = 50
+    form_excluded_columns = ["created_on", "lastly_modified"]
+    column_excluded_list = []
+    can_view_details = True
+    column_display_pk = True
+    column_editable_list = ["is_active", "identifier"]
+    column_searchable_list = ["identifier"]
+    column_filters = ["created_on"]
+
+    form_args = {
+        "identifier": {
+            "render_kw": {
+                "placeholder": "Name for identity",
+            },
+        },
+        "content": {
+            "render_kw": {
+                "placeholder": "HTML or Javascript code",
+            },
+        },
+    }
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
+    def inaccessible_callback(self, *args, **kwargs):
+        flash("You're not authorised to access that endpoint!", "danger")
+        return redirect(url_for("home"))
+
+
 class Cmd:
     @staticmethod
     @app.cli.command("create-admin")
@@ -204,11 +205,18 @@ class Cmd:
             is_active=True,
             is_anonymous=False,
         )
-        new_admin.apps=AppDetail.query.filter_by(id=1).first() or AppDetail(keywords='Blogging, Youtube, Trends',url=click.prompt("Enter site url e.g http://localhost:8000",), slogan=click.prompt("Enter apps slogan"))
+        new_admin.apps = AppDetail.query.filter_by(id=1).first() or AppDetail(
+            keywords="Blogging, Youtube, Trends",
+            url=click.prompt(
+                "Enter site url e.g http://localhost:8000",
+            ),
+            slogan=click.prompt("Enter apps slogan"),
+        )
         db.session.add(new_admin)
         db.session.commit()
-        click.secho("'%s' added as admin successfully" % name, fg="cyan")	
-        
+        click.secho("'%s' added as admin successfully" % name, fg="cyan")
+
+
 admin.add_view(FileManagerAdmin(base_path=FILES_DIR, name="Files"))
 admin.add_view(AdminModelView(Admin1, db.session, name="Admins"))
 admin.add_view(AppDetailModelView(AppDetail, db.session, name="Website"))

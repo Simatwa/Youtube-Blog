@@ -12,49 +12,61 @@ from core.blog.models import Blog, Category, Subscriber, SocialMedia, Comment
 from core.blog.forms import CommentForm
 from sqlalchemy import or_, desc, not_
 from core.models import db
-from flask_login import login_required
+from flask_login import login_required, current_user
 from core.accounts.models import AppDetail, Admin1, Advertisement
 from core.app import application
 from datetime import datetime, timedelta
 from core.accounts.models import Advertisement
 import re
+from flask import session, abort
+
 
 class LocalUtils:
-	"""Module based utility defs"""
-	
-	@staticmethod
-	def add_latest_adverts(blog:object):
-	    """Append ads to blog content"""
-	    preprocessor_one = blog.content
-	    if not preprocessor_one:
-	    	return blog
-	    ads_space_count = preprocessor_one.count('{}')
-	    ads_code_available = [ads_code[0] for ads_code in Advertisement.query.filter_by(is_active=True,is_script=False).with_entities(Advertisement.content).all()]
-	    # Ensures length of ads_space_count==ads_code_available
-	    for x in range(ads_space_count):
-	           if len(ads_code_available) < ads_space_count:
-	           	if x > len(ads_code_available)-1:
-	           		ads_code_available.append('')
-	           	else:
-	           		# Ensures we don't duplicate alot
-	           		if x != 0:
-	           			#Duplicate the available ads_code
-	           			ads_code_available.append( ads_code_available[x-1])
-	           		else:
-	           			# Append null
-	           			ads_code_available.append('')
-	           elif len(ads_code_available) > ads_space_count:
-	           	ads_code_available = ads_code_available[:ads_space_count]
-	           else:
-	           	# length is equal
-	           	break
-	    #print(ads_code_available)
-	    for ads_code in ads_code_available:
-	        preprocessor_one = re.sub('{}',ads_code,preprocessor_one,1)
-	    blog.content = preprocessor_one
-	    print(preprocessor_one)
-	    return blog #target.content = preprocessor_one #.format(*ads_code_available)
-            
+    """Module based utility defs"""
+
+    @staticmethod
+    def add_latest_adverts(blog: object):
+        """Append ads to blog content"""
+        ads_tag = "{ads}"
+        preprocessor_one = blog.content
+        if not preprocessor_one:
+            return blog
+        if not blog.display_ads:
+            # Drop all tags
+            blog.content = re.sub(ads_tag, "", preprocessor_one)
+            return blog
+        ads_space_count = preprocessor_one.count(ads_tag)
+        ads_code_available = [
+            ads_code[0]
+            for ads_code in Advertisement.query.filter_by(
+                is_active=True, is_script=False
+            )
+            .with_entities(Advertisement.content)
+            .all()
+        ]
+        # Ensures length of ads_space_count==ads_code_available
+        for x in range(ads_space_count):
+            if len(ads_code_available) < ads_space_count:
+                if x > len(ads_code_available) - 1:
+                    ads_code_available.append("")
+                else:
+                    # Ensures we don't duplicate alot
+                    if x != 0:
+                        # Duplicate the available ads_code
+                        ads_code_available.append(ads_code_available[x - 1])
+                    else:
+                        # Append null
+                        ads_code_available.append("")
+            elif len(ads_code_available) > ads_space_count:
+                ads_code_available = ads_code_available[:ads_space_count]
+            else:
+                # length is equal
+                break
+        for ads_code in ads_code_available:
+            preprocessor_one = re.sub(ads_tag, ads_code, preprocessor_one, 1)
+        blog.content = preprocessor_one
+        return blog  # target.content = preprocessor_one #.format(*ads_code_available)
+
 
 class BlogView:
     """Endpoints here"""
@@ -62,7 +74,10 @@ class BlogView:
     @classmethod
     def index(cls):
         """home endpoint"""
-        flash("Welcome user", "info")
+        flash(
+            "Welcome {}".format("Admin" if current_user.is_authenticated else "user"),
+            "info",
+        )
         return render_template(
             "blog/index.html",
             blogs=Blog.query.filter_by(is_published=True)
@@ -146,6 +161,7 @@ class BlogView:
         else:
             """Responds to post method searches"""
             query = request.form.get("q", "")
+            session["search_query"] = query
             blogs = (
                 Blog.query.filter(
                     or_(
@@ -164,6 +180,9 @@ class BlogView:
                 .limit(14)
                 .all()
             )
+            total_blogs = len(blogs)
+            if total_blogs:
+                session["last_blog_id"] = blogs[total_blogs - 1].id
             return render_template("blog/blogs_view.html", blogs=blogs, query=query)
 
     @classmethod
@@ -227,6 +246,72 @@ class BlogView:
         flash("Your subscription is verified successfully", "info")
         return redirect(url_for("home"))
 
+    @classmethod
+    def add_like(
+        cls,
+    ):
+        """Adds like count to a blog"""
+        uuid = request.args.get("uuid", "")
+        if session.get(uuid):
+            abort(401)
+        blog = Blog.query.filter_by(uuid=uuid).first_or_404()
+        blog.likes += 1
+        db.session.commit()
+        session[uuid] = True
+        return jsonify(dict(count=blog.likes))
+
+    @classmethod
+    def add_comment_like(
+        cls,
+    ):
+        """Adds like to a comment"""
+        id = request.args.get("id", "")
+        session_id = "comment-" + id
+        if session.get(session_id) or not id.isdigit():
+            abort(401)
+        comment = Comment.query.filter_by(id=str(id)).first_or_404()
+        comment.likes += 1
+        db.session.commit()
+        session[session_id] = True
+        return jsonify(dict(count=comment.likes))
+
+    @classmethod
+    def load_more_search(
+        cls,
+    ):
+        query = session.get("search_query", "")
+        last_blog_id = session.get("last_blog_id", 0)
+        blogs = (
+            Blog.query.filter(
+                or_(
+                    Blog.title.like(f"%{query}%"),
+                    Blog.content.like(f"%{query}%"),
+                    Blog.intro.like(f"%{query}%"),
+                    Blog.categories.any(
+                        or_(
+                            Category.name.like("%query%"),
+                            Category.detail.like(f"%{query}%"),
+                        ),
+                    ),
+                )
+            )
+            .filter(Blog.id > last_blog_id)
+            .order_by(desc(Blog.id))
+            .limit(14)
+            .all()
+        )
+        total_blogs = len(blogs)
+        if total_blogs:
+            session["last_blog_id"] = blogs[total_blogs - 1].id
+        else:
+            return jsonify(dict(is_complete=True))
+        return jsonify(
+            dict(
+                content=render_template("blog/load_more.html", blogs=blogs),
+                is_complete=False,
+            )
+        )
+
 
 @app.app_template_global()
 def menu_categories():
@@ -256,7 +341,7 @@ def social_media_sites():
 def app_details():
     """Displays appdetails"""
     details = AppDetail.query.filter_by(id=1).first()
-    assert details, "Enter app details to render blogs"
+    assert details, "Run 'flask user create-admin' before starting server"
     return details
 
 
@@ -278,15 +363,21 @@ def all_time_trending_blogs():
     blogs = Blog.query.filter_by(is_published=True).order_by(desc(Blog.views)).limit(10)
     return blogs
 
+
 @app.app_template_global()
 def advertisement_scripts():
-	scripts = Advertisement.query.filter_by(is_script=True, is_active=True).all()
-	return scripts
+    scripts = Advertisement.query.filter_by(is_script=True, is_active=True).all()
+    return scripts
+
 
 views = BlogView()
 
 app.add_url_rule("/", view_func=views.index, endpoint="index")
-app.add_url_rule("/<uuid>", view_func=views.blog_view, endpoint="blog_view")
+app.add_url_rule(
+    "/<uuid>",
+    view_func=views.blog_view,
+    endpoint="blog_view",
+)
 app.add_url_rule(
     "/category/<category>", view_func=views.category_view, endpoint="category_view"
 )
@@ -307,5 +398,16 @@ app.add_url_rule(
 app.add_url_rule(
     "/confirm/<token>", view_func=views.confirm_email, endpoint="confirm_email"
 )
+app.add_url_rule("/likes", view_func=views.add_like, endpoint="add_like")
 
+app.add_url_rule(
+    "/comments-like", view_func=views.add_comment_like, endpoint="add_comment_like"
+)
+
+app.add_url_rule(
+    "/load-more-search",
+    view_func=views.load_more_search,
+    endpoint="load_more_search",
+    methods=["POST"],
+)
 from core.blog.admin import admin

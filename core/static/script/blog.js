@@ -161,3 +161,84 @@ function generateHTML(result) {
   });
   return html;
 }
+
+function requests(method, url, cFunction) {
+  // Makes requests                               
+  const xhttp = new XMLHttpRequest();             
+  xhttp.onload = function() {cFunction(this);}    
+  xhttp.open(method, url);                        
+  xhttp.send();
+}        
+                                       
+function displayLikeCount(resp){
+  //Displays new like count
+  const likes = JSON.parse(resp.responseText);
+  const likes_count_display_area = document.getElementById('likesCount');
+  likes_count_display_area.innerHTML = likes.count;
+}
+
+function addLike(url){
+  //Change color
+  const like_button = document.getElementById('likeBlog');
+  like_button.style.color = 'red';
+  like_button.disabled = true;
+  requests('GET', url, displayLikeCount);
+}
+
+
+
+function requests_with_arg(method, url, cFunction, commentId) {
+  // Makes requests and parse arg to function                               
+  const xhttp = new XMLHttpRequest();             
+  xhttp.onload = function() {cFunction(this, commentId);}    
+  xhttp.open(method, url);                        
+  xhttp.send();
+}
+
+function displayCommentLikes(resp, commentId){
+// Displays new comment likes
+  const like_display_space = document.getElementById(commentId);
+  const comment = JSON.parse(resp.responseText);
+  like_display_space.innerHTML = comment.count; 
+}
+
+function addCommentLike(url, commentId){
+// Initiates comment's + count
+  const like_button = document.getElementById('btn-' + commentId);
+  like_button.style.color = 'red';
+  like_button.disabled = true;
+  requests_with_arg('GET', url, displayCommentLikes, commentId);
+}
+
+// Load more
+
+function displayMoreContent(resp){
+  const response = JSON.parse(resp.responseText);
+  // Hide the load more button
+  const spinner = document.getElementById("loadMoreSpinner");
+  spinner.style.display = 'none';
+  
+  if (response.is_complete)
+  {
+  const load_more_button = document.getElementById('loadMoreButton');
+  load_more_button.disabled = true;
+  load_more_button.style.color = 'red';
+  load_more_button.innerHTML = 'No more';
+  
+  }
+  //Display content
+  else 
+  {
+   const load_more_display_area = document.getElementById('displayMoreSearch');
+   const previously_loaded_content = load_more_display_area.innerHTML;
+   load_more_display_area.innerHTML = previously_loaded_content + response.content;
+  }
+  
+}
+
+// triggers load more
+function loadMore(url){
+  const spinner = document.getElementById("loadMoreSpinner");
+  spinner.style.display = 'block';
+  requests('POST', url, displayMoreContent);
+}

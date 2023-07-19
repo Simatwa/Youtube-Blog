@@ -64,7 +64,7 @@ class BlogModelView(ModelView):
         "image_4",
         "cover_photo",
     ]
-    column_editable_list = ["trending", "is_published"]
+    column_editable_list = ["trending", "is_published", "display_ads"]
     form_base_class = SecureForm
 
     form_args = {
