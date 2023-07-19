@@ -18,24 +18,13 @@ fullpath = lambda r_path: path.join(FILES_DIR, r_path)
 class Blog(db.Model):
     __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    authors = db.relationship(
-        "Admin1",
-        secondary="blog_admin1",
-        lazy=True,
-        cascade="all, delete",
-        passive_deletes=True,
-    )
+    authors = db.relationship("Admin1", secondary="blog_admin1", lazy=True, cascade='all, delete', passive_deletes=True)
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(
         db.Text,
     )
     categories = db.relationship(
-        "Category",
-        secondary="blog_category",
-        backref="blogs",
-        lazy=True,
-        cascade="all, delete",
-        passive_deletes=True,
+        "Category", secondary="blog_category", backref="blogs", lazy=True, cascade='all, delete', passive_deletes = True,
     )
     intro = db.Column(db.Text, nullable=False)
     views = db.Column(db.Integer, default=0)
@@ -242,7 +231,7 @@ class LocalEventListener:
     def generate_uuid(mapper, connections, target):
         """Generates uuid for each blog"""
         if target.uuid and not " " in target.uuid:
-            # Effective to one-word-titled article
+            # Effective to one-word-titled article too
             return
         uuid = slugify(target.title)
         not_unique = True
