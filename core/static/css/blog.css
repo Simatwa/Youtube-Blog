@@ -12,5 +12,5 @@ img,video, audio {
     }
  
 input:focus {
-   border-color : cyan;
+   bordercolor : cyan;
 }

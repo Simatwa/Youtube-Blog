@@ -55,7 +55,7 @@
      <div class="w3-container w3-center w3-margin-bottom w3-cell-row">
       {% for category in blog.categories %}
      <!-- <button class=""> -->
-         <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}">{{ category }}</a>
+         <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}">{{ category }}</a>
       <!-- </button> -->
       {% endfor %}
      </div>      
@@ -88,7 +88,7 @@
     <div id="loadMoreSpinner" class="w3-padding w3-spin" style="display:none">
     <i class="w3-xxlarge w3-text-red fa fa-circle-notch"></i>
     </div>
-   <button id="loadMoreButton" class="w3-margin-bottom w3-padding w3-teal w3-border w3-btn w3-round-large" onclick="loadMore('{{ url_for('blogs.load_more_search') }}');" style="max-width:40%;">Load more</button>
+   <button id="loadMoreButton" class="w3-margin-bottom w3-padding w3-teal w3-border w3-btn w3-round-large" onclick="loadMore('{{ url_for('blogs.load_more_'+search_type) }}');" style="max-width:40%;">Load more</button>
   </div>
 {% include 'blog/trending.html' %}
 

@@ -111,12 +111,56 @@ class BlogView:
     @classmethod
     def category_view(cls, category):
         """Category based view"""
-        category = Category.query.filter(
-            Category.name.like(f"%{category}%")
-        ).first_or_404()
 
+        session["category_query"] = category
+        blogs = (
+            Blog.query.filter(
+                Blog.categories.any(
+                    Category.name.in_(
+                        [
+                            category,
+                        ]
+                    ),
+                ),
+            )
+            .order_by(desc(Blog.id))
+            .all()
+        )
+
+        total_blogs = len(blogs)
+        if total_blogs:
+            session["category_blog_last_id"] = blogs[total_blogs - 1].id
         return render_template(
-            "blog/blogs_view.html", blogs=category.blogs, query=category
+            "blog/blogs_view.html", blogs=blogs, query=category, search_type="category"
+        )
+
+    @classmethod
+    def load_more_category(cls):
+        category = session.get("category_query", "")
+        last_viewed_blog_id = session.get("category_blog_last_id", 0)
+        blogs = (
+            Blog.query.filter(
+                Blog.categories.any(
+                    Category.name.in_([category]),
+                ),
+            )
+            .filter(Blog.id < last_viewed_blog_id)
+            .order_by(desc(Blog.id))
+            .all()
+        )  # To be reviewed
+        total_blogs = len(blogs)
+        if total_blogs:
+            session["category_blog_last_id"] = blogs[total_blogs - 1].id
+        else:
+            return jsonify(is_complete=True)
+        return jsonify(
+            dict(
+                content=render_template(
+                    "blog/load_more.html",
+                    blogs=blogs,
+                ),
+                is_complete=False,
+            )
         )
 
     @classmethod
@@ -183,7 +227,9 @@ class BlogView:
             total_blogs = len(blogs)
             if total_blogs:
                 session["last_blog_id"] = blogs[total_blogs - 1].id
-            return render_template("blog/blogs_view.html", blogs=blogs, query=query)
+            return render_template(
+                "blog/blogs_view.html", blogs=blogs, query=query, search_type="search"
+            )
 
     @classmethod
     def subscribe(cls):
@@ -234,8 +280,40 @@ class BlogView:
     @classmethod
     def author(cls, name: str):
         """Filter blogs by author"""
-        blogs = Blog.query.filter(Blog.authors.any(Admin1.name == name)).all()
-        return render_template("blog/blogs_view.html", blogs=blogs, query=name)
+        session["author_query"] = name
+        blogs = (
+            Blog.query.filter(Blog.authors.any(Admin1.name == name))
+            .order_by(desc(Blog.id))
+            .all()
+        )
+        total_blogs = len(blogs)
+        if total_blogs:
+            session["author_blog_last_id"] = blogs[total_blogs - 1].id
+        return render_template(
+            "blog/blogs_view.html", blogs=blogs, query=name, search_type="author"
+        )
+
+    @classmethod
+    def load_more_author(cls):
+        name = session.get("author_query", "")
+        author_blog_last_id = session.get("author_blog_last_id", 0)
+        blogs = (
+            Blog.query.filter(Blog.authors.any(Admin1.name == name))
+            .filter(Blog.id < author_blog_last_id)
+            .order_by(desc(Blog.id))
+            .all()
+        )
+        total_blogs = len(blogs)
+        if blogs:
+            session["author_blog_last_id"] = blogs[total_blogs - 1].id
+        else:
+            return jsonify(is_complete=True)
+        return jsonify(
+            dict(
+                content=render_template("blog/load_more.html", blogs=blogs),
+                is_complete=False,
+            )
+        )
 
     @classmethod
     def confirm_email(cls, token):
@@ -295,7 +373,7 @@ class BlogView:
                     ),
                 )
             )
-            .filter(Blog.id > last_blog_id)
+            .filter(Blog.id < last_blog_id)
             .order_by(desc(Blog.id))
             .limit(14)
             .all()
@@ -408,6 +486,20 @@ app.add_url_rule(
     "/load-more-search",
     view_func=views.load_more_search,
     endpoint="load_more_search",
+    methods=["POST"],
+)
+
+app.add_url_rule(
+    "/load-more-category",
+    view_func=views.load_more_category,
+    endpoint="load_more_category",
+    methods=["POST"],
+)
+
+app.add_url_rule(
+    "/load-more-author",
+    view_func=views.load_more_author,
+    endpoint="load_more_author",
     methods=["POST"],
 )
 from core.blog.admin import admin

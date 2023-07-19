@@ -49,7 +49,7 @@
            {% if category.color %}
               <i class="w3-large w3-text-red fa fa-{{ category.icon }}"></i>
            {% endif %}
-          <a href="{{ url_for('blogs.category_view',category=category.name.lower()) }}">{{ category.name }} 
+          <a href="{{ url_for('blogs.category_view',category=category.name) }}">{{ category.name }} 
          </a>
        </button>         
        {% endfor %}
