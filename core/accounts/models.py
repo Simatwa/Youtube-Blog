@@ -56,7 +56,14 @@ class AppDetail(db.Model):
     )
     keywords = db.Column(db.String(500), nullable=False)
     slogan = db.Column(db.String(30), nullable=True)
-    owners = db.relationship("Admin1", uselist=True, lazy=True, backref="apps")
+    owners = db.relationship(
+        "Admin1",
+        uselist=True,
+        lazy=True,
+        backref="apps",
+        passive_deletes=True,
+        cascade="all, delete",
+    )
     url = db.Column(db.String(50), nullable=False)
     logo = db.Column(db.String(50), default="config/favicon.png")
     cover_photo = db.Column(db.String(50), default=default_cover_photo)

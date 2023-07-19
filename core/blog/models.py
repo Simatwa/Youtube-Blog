@@ -18,13 +18,24 @@ fullpath = lambda r_path: path.join(FILES_DIR, r_path)
 class Blog(db.Model):
     __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    authors = db.relationship("Admin1", secondary="blog_admin1", lazy=True)
+    authors = db.relationship(
+        "Admin1",
+        secondary="blog_admin1",
+        lazy=True,
+        cascade="all, delete",
+        passive_deletes=True,
+    )
     title = db.Column(db.String(200), nullable=False)
     content = db.Column(
         db.Text,
     )
     categories = db.relationship(
-        "Category", secondary="blog_category", backref="blogs", lazy=True
+        "Category",
+        secondary="blog_category",
+        backref="blogs",
+        lazy=True,
+        cascade="all, delete",
+        passive_deletes=True,
     )
     intro = db.Column(db.Text, nullable=False)
     views = db.Column(db.Integer, default=0)
@@ -178,7 +189,7 @@ class LocalUtils:
     def generate_html_tag(filename: str):
         extension = path.splitext(filename)[1].lower()
         # image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
-        video_extensions = [".mp4", ".avi", ".mov", ".mkv"]
+        video_extensions = [".mp4", ".avi", ".mov", ".mkv", ".3gp"]
         audio_extensions = [".mp3", ".wav", ".flac", ".ogg"]
         # if extension in image_extensions:
         # resp = f'<img class="w3-image" src="{filename}" alt="Image">'

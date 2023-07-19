@@ -124,6 +124,7 @@ class BlogView:
                 ),
             )
             .order_by(desc(Blog.id))
+            .limit(10)
             .all()
         )
 
@@ -146,6 +147,7 @@ class BlogView:
             )
             .filter(Blog.id < last_viewed_blog_id)
             .order_by(desc(Blog.id))
+            .limit(10)
             .all()
         )  # To be reviewed
         total_blogs = len(blogs)
@@ -221,7 +223,7 @@ class BlogView:
                     )
                 )
                 .order_by(desc(Blog.id))
-                .limit(14)
+                .limit(10)
                 .all()
             )
             total_blogs = len(blogs)
@@ -284,6 +286,7 @@ class BlogView:
         blogs = (
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .order_by(desc(Blog.id))
+            .limit(10)
             .all()
         )
         total_blogs = len(blogs)
@@ -301,6 +304,7 @@ class BlogView:
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.id < author_blog_last_id)
             .order_by(desc(Blog.id))
+            .limit(10)
             .all()
         )
         total_blogs = len(blogs)
@@ -375,7 +379,7 @@ class BlogView:
             )
             .filter(Blog.id < last_blog_id)
             .order_by(desc(Blog.id))
-            .limit(14)
+            .limit(10)
             .all()
         )
         total_blogs = len(blogs)
