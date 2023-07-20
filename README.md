@@ -16,12 +16,12 @@
 
 ## Features
 
-- Target audience - mobile user's exclusively
+- Design for Mobile user's exclusively
 - Admin endpoint for managing contents
-- Markdown formatted articles 
-- User's content subscription
+- Markdown to HTML conversion
+- Content's subscription
 - Ads intergration support
-- Comments per article
+- Comment Section
 - Views count per article
 - Likes count per article
 
