@@ -124,7 +124,7 @@ class Subscriber(db.Model):
 class Category(db.Model):
     __tablename__ = "categories"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
     detail = db.Column(db.Text, nullable=True)
     icon = db.Column(db.String(15), nullable=True)
     color = db.Column(db.String(15), default="green")
@@ -276,7 +276,7 @@ class LocalEventListener:
 		</center>
 		<p> If the link doesn't work try out this { gen_link(url_for('blogs.confirm_email',token=target.token)) }</p>
 		<div style="text-align:center;font-weight:bold;color:red;">
-		 <h4>{ appdetail.name }  &copy { datetime.now().year }</h4>
+		 <h4>{ appdetail.name } © { datetime.now().year }</h4>
 		 <p style="color:blue">{ appdetail.slogan }</p>
 		</div>
 		"""

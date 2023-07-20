@@ -46,7 +46,7 @@
  <div class=" w3-container w3-cell-row">
  </div>
    {% for blog in blogs %}
-    <div class="w3-display-container w3-panel w3-card-4 w3-round-large w3-cell w3-mobile w3-padding w3-animate-zoom" style="max-width:350px;">
+    <div class="w3-display-container w3-panel w3-card-4 w3-round-large w3-cell w3-mobile w3-padding w3-animate-zoom" style="max-width:100%;">
      <h4 class="w3-center">
      <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid)}}">
         {{ blog.title }}

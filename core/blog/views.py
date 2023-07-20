@@ -260,7 +260,9 @@ class BlogView:
         form = CommentForm()
         uuid = form.blog_uuid.data
         if form.validate_on_submit():
-            blog = Blog.query.filter_by(uuid=form.blog_uuid.data,is_published=True).first()
+            blog = Blog.query.filter_by(
+                uuid=form.blog_uuid.data, is_published=True
+            ).first()
             if blog:
                 comment = Comment(
                     username=form.username.data,
@@ -343,7 +345,7 @@ class BlogView:
         uuid = request.args.get("uuid", "")
         if session.get(uuid):
             abort(401)
-        blog = Blog.query.filter_by(uuid=uuid,is_published=True).first_or_404()
+        blog = Blog.query.filter_by(uuid=uuid, is_published=True).first_or_404()
         blog.likes += 1
         db.session.commit()
         session[uuid] = True
@@ -358,7 +360,9 @@ class BlogView:
         session_id = "comment-" + id
         if session.get(session_id) or not id.isdigit():
             abort(401)
-        comment = Comment.query.filter_by(id=str(id),).first_or_404()
+        comment = Comment.query.filter_by(
+            id=str(id),
+        ).first_or_404()
         comment.likes += 1
         db.session.commit()
         session[session_id] = True
@@ -413,7 +417,7 @@ def menu_categories():
 def trending_blogs():
     """Displays trending blogs"""
     blogs = (
-        Blog.query.filter_by(trending=True,is_published=True)
+        Blog.query.filter_by(trending=True, is_published=True)
         .order_by(desc(Blog.created_on))
         .limit(7)
         .all()
