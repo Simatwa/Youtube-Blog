@@ -64,7 +64,7 @@ class BlogModelView(ModelView):
         "image_4",
         "cover_photo",
     ]
-    column_editable_list = ["trending", "is_published", "display_ads"]
+    column_editable_list = ["trending", "is_published", "display_ads",]
     form_base_class = SecureForm
 
     form_args = {
@@ -263,6 +263,7 @@ class CategoryModelView(ModelView):
     column_filters = ["created_on"]
     column_editable_list = [
         "display_on_menu",
+        "color",
     ]
     form_base_class = SecureForm
 
@@ -308,6 +309,7 @@ class SocialMediaModelView(ModelView):
     filter = ["color"]
     column_editable_list = ["small_screen"]
     form_base_class = SecureForm
+    column_editable_list = ["color"]
 
     form_args = {
         "name": {
