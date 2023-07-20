@@ -2,6 +2,10 @@ a{
      text-decoration:none;
    }
    
+li > a {
+   color: blue !important;
+}
+
 .top-element {
        position:relative;
        z-index: 9999;

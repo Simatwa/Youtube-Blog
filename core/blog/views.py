@@ -88,7 +88,7 @@ class BlogView:
     @classmethod
     def blog_view(cls, uuid):
         """Specific article endpoint"""
-        blog = Blog.query.filter_by(uuid=uuid).first_or_404()
+        blog = Blog.query.filter_by(uuid=uuid, is_published=True).first_or_404()
         blog.views = blog.views + 1
         db.session.commit()
         related_blogs = (
@@ -98,6 +98,7 @@ class BlogView:
                 )
             )
             .filter(Blog.id != blog.id)
+            .filter(Blog.is_published == True)
             .limit(10)
             .all()
         )
@@ -123,6 +124,7 @@ class BlogView:
                     ),
                 ),
             )
+            .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -146,6 +148,7 @@ class BlogView:
                 ),
             )
             .filter(Blog.id < last_viewed_blog_id)
+            .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -186,6 +189,7 @@ class BlogView:
                         ),
                     )
                 )
+                .filter(Blog.is_published == True)
                 .order_by(desc(Blog.id))
                 .with_entities(Blog.uuid, Blog.title)
                 .limit(10)
@@ -222,6 +226,7 @@ class BlogView:
                         ),
                     )
                 )
+                .filter(Blog.is_published == True)
                 .order_by(desc(Blog.id))
                 .limit(10)
                 .all()
@@ -255,7 +260,7 @@ class BlogView:
         form = CommentForm()
         uuid = form.blog_uuid.data
         if form.validate_on_submit():
-            blog = Blog.query.filter_by(uuid=form.blog_uuid.data).first()
+            blog = Blog.query.filter_by(uuid=form.blog_uuid.data,is_published=True).first()
             if blog:
                 comment = Comment(
                     username=form.username.data,
@@ -285,6 +290,7 @@ class BlogView:
         session["author_query"] = name
         blogs = (
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
+            .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -303,6 +309,7 @@ class BlogView:
         blogs = (
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.id < author_blog_last_id)
+            .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -336,7 +343,7 @@ class BlogView:
         uuid = request.args.get("uuid", "")
         if session.get(uuid):
             abort(401)
-        blog = Blog.query.filter_by(uuid=uuid).first_or_404()
+        blog = Blog.query.filter_by(uuid=uuid,is_published=True).first_or_404()
         blog.likes += 1
         db.session.commit()
         session[uuid] = True
@@ -351,7 +358,7 @@ class BlogView:
         session_id = "comment-" + id
         if session.get(session_id) or not id.isdigit():
             abort(401)
-        comment = Comment.query.filter_by(id=str(id)).first_or_404()
+        comment = Comment.query.filter_by(id=str(id),).first_or_404()
         comment.likes += 1
         db.session.commit()
         session[session_id] = True
@@ -377,6 +384,7 @@ class BlogView:
                     ),
                 )
             )
+            .filter(Blog.is_published == True)
             .filter(Blog.id < last_blog_id)
             .order_by(desc(Blog.id))
             .limit(10)
@@ -405,7 +413,7 @@ def menu_categories():
 def trending_blogs():
     """Displays trending blogs"""
     blogs = (
-        Blog.query.filter_by(trending=True)
+        Blog.query.filter_by(trending=True,is_published=True)
         .order_by(desc(Blog.created_on))
         .limit(7)
         .all()
