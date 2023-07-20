@@ -64,7 +64,7 @@ class LocalUtils:
                 # length is equal
                 break
         for ads_code in ads_code_available:
-            ads_code = f'<div class="w3-container"><div class="w3-center w3-padding">{ads_code}</div></div>
+            ads_code = f'<div class="w3-container"><div class="w3-center w3-padding">{ads_code}</div></div>'
             preprocessor_one = re.sub(ads_tag, ads_code, preprocessor_one, 1)
         blog.content = preprocessor_one
         return blog  # target.content = preprocessor_one #.format(*ads_code_available)
