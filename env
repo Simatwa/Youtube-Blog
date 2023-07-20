@@ -1,0 +1,12 @@
+APP_NAME=Youtube-Blog
+APP_DESCRIPTION=Youtube-based blogging app
+#SECRET_KEY=Some-random-strings
+SQLALCHEMY_DATABASE_URI=sqlite:///sqlite3.db
+FLASK_ADMIN_SWATCH=paper
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=yourname@gmail.com
+MAIL_PASSWORD=my_app_password
+MAIL_USE_TLS=true
+MAIL_USE_SSL=true
+MAIL_DEFAULT_SENDER= yourname@gmail.com

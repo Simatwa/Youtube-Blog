@@ -57,7 +57,7 @@ MAIL_USE_SSL = get(
     True,
 )
 
-MAIL_DEFAULT_SENDER = get("MAIL_DEFAULT_SENDER", "smartwacaleb@gmail.com")
+MAIL_DEFAULT_SENDER = get("MAIL_DEFAULT_SENDER",)
 
 
 ## User database config
