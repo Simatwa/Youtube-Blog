@@ -60,7 +60,7 @@
      {% endif %}
      
       <div class="w3-display-middle w3-container">
-         <h3 class="w3-text-red w3-xlarge">{{ blog.title }}</h3>
+         <h2 class="w3-text-red w3-xlarge">{{ blog.title }}</h2>
        </div>
       <div class="w3-display-bottomleft w3-container">
         <p class="w3-text-orange"><i class="w3-text-large w3-text-teal fa fa-edit"></i>   
@@ -126,10 +126,10 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
   
    <div class="w3-left">
     <i class="w3-text-black fa fa-user w3-xxlarge"></i>
-    <span class="w3-strong">{{ comment.username }}</span>
+    <span class="w3-strong commenter">{{ comment.username }}</span>
    </div>
  
-   <p class="w3-right">{{ comment.content }}</p>
+   <p class="w3-right comment-detail">{{ comment.content }}</p>
     <div class="w3-container w3-display-bottom">
      <button class="w3-btn w3-left w3-text-yellow" onclick="addCommentLike('{{ url_for('blogs.add_comment_like')+'?id='+str_(comment.id) }}', '{{ commentId }}');" id='btn-{{ commentId }}'>
         <i class="w3-large fa fa-heart"></i>
@@ -172,7 +172,7 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
        {{ entry() }}<br>
     {% endfor %}
     <button type="submit" class="w3-button w3-black w3-block w3-round-large w3-margin-bottom">
-    Comment <i class="fa fa-paper-plane w3-xxlarge"></i>
+    Comment   <i class="fa fa-paper-plane w3-large"></i>
     </button>
    </form>
   <div>
