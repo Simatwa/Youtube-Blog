@@ -28,7 +28,7 @@ mail.init_app(application)
 
 Minify(application)
 
-babel = Babel(app)
+babel = Babel(application)
 
 markdown_extensions = [
     "markdown.extensions.abbr",
