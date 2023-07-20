@@ -8,3 +8,4 @@ Flask-Minify==0.42
 Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
 python-dotenv==1.0.0
+flask-babel==3.1.0

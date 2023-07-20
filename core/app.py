@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import login_required
 from flask_minify import Minify
 from uuid import uuid4
+from flask_babel import Babel
 import logging
 
 application = Flask(
@@ -26,6 +27,8 @@ mail = Mail()
 mail.init_app(application)
 
 Minify(application)
+
+babel = Babel(app)
 
 markdown_extensions = [
     "markdown.extensions.abbr",

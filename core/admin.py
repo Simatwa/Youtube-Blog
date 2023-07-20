@@ -1,5 +1,5 @@
 from flask_admin import Admin, AdminIndexView
-from core.app import application
+from core.app import application, babel
 from flask_login import current_user
 from flask import url_for, redirect
 from flask_login import login_required
@@ -19,3 +19,5 @@ admin = Admin(
     name=application.config["APP_NAME"],
     template_mode="bootstrap3",
 )
+
+admin.extensions['babel'] = babel
