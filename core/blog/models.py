@@ -297,7 +297,7 @@ class LocalEventListener:
 		encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		"""
             if target.link
-            else f"""<img src="{gen_link(url_for('static', filename='images/blog/'+target.cover_photo))}" max-width="40%" height="auto" alt="{target.cover_photo}">
+            else f"""<img src="{gen_link(url_for('static', filename='files/'+target.cover_photo))}" max-width="40%" height="auto" alt="{target.cover_photo}">
 		</img>"""
             if target.cover_photo
             else ""
