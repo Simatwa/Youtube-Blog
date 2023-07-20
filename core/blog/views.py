@@ -41,6 +41,7 @@ class LocalUtils:
             for ads_code in Advertisement.query.filter_by(
                 is_active=True, is_script=False
             )
+            .order_by(desc(Advertisement.id))
             .with_entities(Advertisement.content)
             .all()
         ]
