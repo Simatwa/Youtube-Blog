@@ -42,6 +42,7 @@
  {% endblock %}
  
  {% block body %}
+  <div class="w3-hide-large w3-hide-medium">
   <h3 class="w3-strong w3-center w3-food-wheat w3-padding">{{ len_(blogs) }} matche(s) found.</h3>
  <div class=" w3-container w3-cell-row">
  </div>
@@ -76,7 +77,7 @@
      </div>
      
     </div>
-   </div>
+   <!-- </div> -->
   {% endfor %}
   
   <div class="w3-container" id="displayMoreSearch">
@@ -91,5 +92,5 @@
    <button id="loadMoreButton" class="w3-margin-bottom w3-padding w3-teal w3-border w3-btn w3-round-large" onclick="loadMore('{{ url_for('blogs.load_more_'+search_type) }}');" style="max-width:40%;">Load more</button>
   </div>
 {% include 'blog/trending.html' %}
-
+</div>
 {% endblock %}
