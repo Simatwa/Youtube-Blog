@@ -21,7 +21,7 @@
   <meta name="twitter:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
   <meta name="twitter:description" content="{{ appdetail.description }}">
   <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='files/'+appdetail.logo) }}">
-
+ <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+appdetail.logo) }}">
   <!-- Schema.org Markup -->
   <script type="application/ld+json">
     {
