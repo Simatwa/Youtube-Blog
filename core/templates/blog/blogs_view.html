@@ -2,15 +2,15 @@
 
 {% set appdetail = app_details() %}
 {% block head %}
- <title>Search {{ query }}  | {{ appdetail.name }}</title>
- 
+ {% set title = search_type.capitalize()+' : '+query %}
+ <title>{{ title }}  | {{ appdetail.name }}</title> 
 <!-- SEO Meta Tags -->
   <meta name="description" content="{{ appdetail.description }}">
   <meta name="keywords" content="{{ appdetail.keywords }}">
   <meta name="author" content="{% for owner in appdetail.owners %} {{ owner }}, {% endfor %}">
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
+  <meta property="og:title" content="{{ title }} | {{ appdetail.name }} | {{ appdetail.slogan }}">
   <meta property="og:description" content="{{ appdetail.description }}">
   <meta property="og:image" content="{{ appdetail.url+url_for('static',filename='files/'+appdetail.logo) }}'">
   <meta property="og:url" content="{{ appdetail.url }}">
@@ -18,7 +18,7 @@
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ appdetail.name }} | {{ appdetail.slogan }}">
+  <meta name="twitter:title" content="{{ title }} | {{ appdetail.slogan }}">
   <meta name="twitter:description" content="{{ appdetail.description }}">
   <meta name="twitter:image" content="{{ appdetail.url+url_for('static',filename='files/'+appdetail.logo) }}">
  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+appdetail.logo) }}">
@@ -30,7 +30,7 @@
       "name": "{{ appdetail.name }}",
       "url": "{{ appdetail.url }}",
       "logo": "{{ appdetail.url+url_for('static', filename='files/'+appdetail.logo) }}",
-      "description": "{{ appdetail.description }}",
+      "description": "{{ title }}",
       "sameAs": [
       {% for site in social_media_sites() %} 
       "{{ site.link }}",
