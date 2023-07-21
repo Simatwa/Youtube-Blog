@@ -21,6 +21,7 @@
 - Markdown to HTML conversion
 - Content's subscription
 - Ads intergration support
+- Auto SEO
 - Comment Section
 - Views count per article
 - Likes count per article
