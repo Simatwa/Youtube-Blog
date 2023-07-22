@@ -29,6 +29,16 @@
 Other minor features include
 
 * Auto-generate Audio & Video html tags
+* Live Article Search
+* Social Media Intergration
+* M-M Category-Blog relation
+* Auto-rank trending blogs
+
+#Technologies used
+- W3CS
+- W3JS
+- HTML
+- FLASK
 
 # Installation and Usage
 ## Installation

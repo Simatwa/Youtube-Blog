@@ -241,6 +241,7 @@ class Accounts:
     def logout_user(cls):
         """Logs-out user"""
         logout_user()
+        flash("You've logout successfully!","warn")
         return redirect(url_for("home"))
 
 
