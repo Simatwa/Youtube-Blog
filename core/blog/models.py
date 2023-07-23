@@ -129,9 +129,10 @@ class Category(db.Model):
     detail = db.Column(db.Text, nullable=True)
     icon = db.Column(db.String(15), nullable=True)
     color = db.Column(db.String(15), default="green")
+    display_position = db.Column(db.Integer, default=0,)
     display_on_menu = db.Column(db.Boolean(), default=True)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
-
+    	
     def __repr__(self):
         return "<Category %r>" % self.id
 

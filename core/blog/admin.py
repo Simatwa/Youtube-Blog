@@ -278,6 +278,7 @@ class CategoryModelView(ModelView):
     column_editable_list = [
         "display_on_menu",
         "color",
+        "display_position",
     ]
     form_base_class = SecureForm
 
