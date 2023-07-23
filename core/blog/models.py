@@ -337,7 +337,7 @@ class LocalEventListener:
         tags_dict = {
             "<img": '<IMG class="w3-image w3-center w3-padding w3-hover-opacity"',
             "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
-            #"<thead" : '<THEAD class="w3-orange"',
+            # "<thead" : '<THEAD class="w3-orange"',
         }
         for tag in tags_dict:
             target.content = re.sub(tag, tags_dict[tag], target.content)

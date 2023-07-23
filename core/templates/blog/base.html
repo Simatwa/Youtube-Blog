@@ -2,6 +2,7 @@
 <html lang="en">
 <meta charset="UTF-8">
 <head>
+{% set appdetail = app_details() %}
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  <link rel="stylesheet" href="{{ url_for('static',filename='css/blog.css') }}"/>
  <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"/>
@@ -61,10 +62,10 @@
     
     <div class="w3-display-middle w3-text-white w3-hover-text-orange ">
      <p class="w3-hide-large w3-hide-medium w3-xlarge">
-      <a href="{{ url_for('home') }}">Youtube-Blog</a>
+      <a href="{{ url_for('home') }}">{{ appdetail.name }}</a>
       </p>
      <p class="w3-hide-small w3-xxlarge">
-      <a href="{{ url_for('home') }}">Youtube-Blog</a>
+      <a href="{{ url_for('home') }}">{{ appdetail.name }}</a>
      </p>
     </div>
     
