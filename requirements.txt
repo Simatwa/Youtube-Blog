@@ -9,3 +9,6 @@ Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
 python-dotenv==1.0.0
 flask-babel==3.1.0
+python-slugify==8.0.1
+fontawesome-markdown==0.2.6
+jinja2-markdown==0.0.3

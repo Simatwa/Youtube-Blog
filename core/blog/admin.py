@@ -46,7 +46,13 @@ class BlogModelView(ModelView):
         "created_on",
         "lastly_modified",
     ]
-    column_searchable_list = ["title", "content", "created_on", "comments.content"]
+    column_searchable_list = [
+        "title",
+        "intro",
+        "content",
+        "created_on",
+        "comments.content",
+    ]
     column_filters = [
         "title",
         "content",
@@ -63,11 +69,15 @@ class BlogModelView(ModelView):
         "image_3",
         "image_4",
         "cover_photo",
+        "file_1",
+        "file_2",
     ]
     column_editable_list = [
         "trending",
         "is_published",
         "display_ads",
+        "views",
+        "likes",
     ]
     form_base_class = SecureForm
 

@@ -11,17 +11,23 @@ function formatTimeAgo(datetimeStr) {
   var year = 365 * day;
 
   if (diff < minute) {
-    return Math.floor(diff / 1000) + ' second' + (diff < 2000 ? '' : 's') + ' ago';
+    var seconds = Math.floor(diff / 1000);
+    return seconds + ' Second' + (seconds === 1 ? '' : 's') + ' ago';
   } else if (diff < hour) {
-    return Math.floor(diff / minute) + ' minute' + (diff < 120000 ? '' : 's') + ' ago';
+    var minutes = Math.floor(diff / minute);
+    return minutes + ' Minute' + (minutes === 1 ? '' : 's') + ' ago';
   } else if (diff < day) {
-    return Math.floor(diff / hour) + ' hour' + (diff < 7200000 ? '' : 's') + ' ago';
+    var hours = Math.floor(diff / hour);
+    return hours + ' Hour' + (hours === 1 ? '' : 's') + ' ago';
   } else if (diff < month) {
-    return Math.floor(diff / day) + ' day' + (diff < 518400000 ? '' : 's') + ' ago';
+    var days = Math.floor(diff / day);
+    return days + ' Day' + (days === 1 ? '' : 's') + ' ago';
   } else if (diff < year) {
-    return Math.floor(diff / month) + ' month' + (diff < 31536000000 ? '' : 's') + ' ago';
+    var months = Math.floor(diff / month);
+    return months + ' Month' + (months === 1 ? '' : 's') + ' ago';
   } else {
-    return Math.floor(diff / year) + ' year' + (diff < 31536000000 ? '' : 's') + ' ago';
+    var years = Math.floor(diff / year);
+    return years + ' Year' + (years === 1 ? '' : 's') + ' ago';
   }
 }
 
@@ -38,17 +44,23 @@ function formatTimeAgoShort(datetimeStr) {
   var year = 365 * day;
 
   if (diff < minute) {
-    return Math.floor(diff / 1000) + ' Sec' + (diff < 2000 ? '' : 's') + ' ago';
+    var seconds = Math.floor(diff / 1000);
+    return seconds + ' Sec' + (seconds === 1 ? '' : 's') + ' ago';
   } else if (diff < hour) {
-    return Math.floor(diff / minute) + ' Min' + (diff < 120000 ? '' : 's') + ' ago';
+    var minutes = Math.floor(diff / minute);
+    return minutes + ' Min' + (minutes === 1 ? '' : 's') + ' ago';
   } else if (diff < day) {
-    return Math.floor(diff / hour) + ' Hr' + (diff < 7200000 ? '' : 's') + ' ago';
+    var hours = Math.floor(diff / hour);
+    return hours + ' Hr' + (hours === 1 ? '' : 's') + ' ago';
   } else if (diff < month) {
-    return Math.floor(diff / day) + ' Dy' + (diff < 518400000 ? '' : 's') + ' ago';
+    var days = Math.floor(diff / day);
+    return days + ' Dy' + (days === 1 ? '' : 's') + ' ago';
   } else if (diff < year) {
-    return Math.floor(diff / month) + ' Mon' + (diff < 31536000000 ? '' : 's') + ' ago';
+    var months = Math.floor(diff / month);
+    return months + ' Mon' + (months === 1 ? '' : 's') + ' ago';
   } else {
-    return Math.floor(diff / year) + ' Yr' + (diff < 31536000000 ? '' : 's') + ' ago';
+    var years = Math.floor(diff / year);
+    return years + ' Yr' + (years === 1 ? '' : 's') + ' ago';
   }
 }
 

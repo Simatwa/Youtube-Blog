@@ -11,6 +11,7 @@ from core.app import generate_uuid as gen_uuid
 from flask_login import current_user
 from core.app import markdown_extensions
 import markdown
+import re
 
 fullpath = lambda r_path: path.join(FILES_DIR, r_path)
 
@@ -331,6 +332,17 @@ class LocalEventListener:
             pass
 
     @staticmethod
+    def add_w3_styles(target):
+        """Adds w3-styles to htmls"""
+        tags_dict = {
+            "<img": '<IMG class="w3-image w3-center w3-padding w3-hover-opacity"',
+            "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
+            #"<thead" : '<THEAD class="w3-orange"',
+        }
+        for tag in tags_dict:
+            target.content = re.sub(tag, tags_dict[tag], target.content)
+
+    @staticmethod
     def format_markdown_article(mapper, connections, target):
         if target.is_markdown and target.content:
             target.content = (
@@ -360,7 +372,8 @@ class LocalEventListener:
 
             target.content = markdown.markdown(
                 target.content % kwargs, extensions=markdown_extensions
-            ).replace("<img", '<img class="w3-center w3-padding"')
+            )
+            LocalEventListener.add_w3_styles(target)
 
 
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)
