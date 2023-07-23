@@ -100,7 +100,7 @@ class BlogModelView(ModelView):
         },
         "link": {
             "render_kw": {
-                "placeholder": "Youtube video id e.g IM0Rs05yiSw",
+                "placeholder": "Youtube video link or video id",
             },
         },
         "authors": {
@@ -113,7 +113,7 @@ class BlogModelView(ModelView):
         "intro": {
             "label": "Synopsis",
             "render_kw": {
-                "placeholder": "Short but catchy...",
+                "placeholder": "Brief, informative & catchy...",
             },
         },
     }

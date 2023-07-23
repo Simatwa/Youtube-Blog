@@ -56,7 +56,7 @@ class Blog(db.Model):
     image_4 = db.Column(db.String(60), nullable=True)
     file_1 = db.Column(db.String(60), nullable=True)
     file_2 = db.Column(db.String(60), nullable=True)
-    link = db.Column(db.String(20), nullable=True)
+    link = db.Column(db.String(50), nullable=True)
     trending = db.Column(db.Boolean(), default=False)
     is_markdown = db.Column(db.Boolean(), default=True)
     is_published = db.Column(db.Boolean(), default=False)
@@ -129,10 +129,13 @@ class Category(db.Model):
     detail = db.Column(db.Text, nullable=True)
     icon = db.Column(db.String(15), nullable=True)
     color = db.Column(db.String(15), default="green")
-    display_position = db.Column(db.Integer, default=0,)
+    display_position = db.Column(
+        db.Integer,
+        default=0,
+    )
     display_on_menu = db.Column(db.Boolean(), default=True)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
-    	
+
     def __repr__(self):
         return "<Category %r>" % self.id
 

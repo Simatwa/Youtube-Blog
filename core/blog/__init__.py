@@ -8,6 +8,7 @@ app = Blueprint(
 
 @app.app_template_global()
 def youtube_iframe(video_id, width=100):
+    video_id = video_id.split("/")[-1]
     return f'<iframe width="{width}%" height="auto" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
 
 

@@ -412,7 +412,11 @@ class BlogView:
 @app.app_template_global()
 def menu_categories():
     """Query Categories from db"""
-    return Category.query.filter_by(display_on_menu=True).order_by(Category.display_position).all()
+    return (
+        Category.query.filter_by(display_on_menu=True)
+        .order_by(Category.display_position)
+        .all()
+    )
 
 
 @app.app_template_global()
