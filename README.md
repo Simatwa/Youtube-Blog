@@ -18,6 +18,7 @@
 
 - Design for Mobile user's exclusively
 - Admin endpoint for managing contents
+- File Management endpoint
 - Markdown to HTML conversion
 - Content's subscription
 - Ads intergration support
