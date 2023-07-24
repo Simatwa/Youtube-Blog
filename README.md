@@ -34,7 +34,7 @@ Other minor features include
 * M-M Category-Blog relation
 * Auto-rank trending blogs
 
-#Technologies used
+# Technologies used
 - W3CS
 - W3JS
 - HTML
