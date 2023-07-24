@@ -16,8 +16,8 @@
 
 ## Features
 
-- Design for Mobile user's exclusively
-- Admin endpoint for managing contents
+- Mobile friendly
+- Admin endpoint
 - File Management endpoint
 - Markdown to HTML conversion
 - Content's subscription
