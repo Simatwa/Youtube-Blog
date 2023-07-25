@@ -1,89 +1,86 @@
-<h1 align="center">Youtube-Blog</h1>
+# Youtube-Blog                                
+This is a blogging site optimized for YouTubers. This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
 
-<p align="center">
-<!--
-<a href="https://github.com/Simatwa/y2mate-api/actions/workflows/python-test.yml"><img src="https://github.com/Simatwa/y2mate-api/actions/workflows/python-test.yml/badge.svg" alt="Python Test"/></a>
--->
-<a href="LICENSE"><img alt="License" src="https://img.shields.io/static/v1?logo=GPL&color=Blue&message=MIT&label=License"/></a>
-<a href="https://github.com/psf/black"><img alt="Black" src="https://img.shields.io/static/v1?logo=Black&label=Code-style&message=Black"/></a>
-<a href="#"><img alt="Passing" src="https://img.shields.io/static/v1?logo=Docs&label=Docs&message=Passing&color=green"/></a>
-<a href="#"><img alt="coverage" src="https://img.shields.io/static/v1?logo=Coverage&label=Coverage&message=60%&color=yellowgreen"/></a>
-<a href="#" alt="progress"><img alt="Progress" src="https://img.shields.io/static/v1?logo=Progress&label=Progress&message=95%&color=green"/></a>
-<a href="#"><img src="https://visitor-badge.glitch.me/badge?page_id=Simatwa.youtube-blog&left_color=red&right_color=lime&left_text=Counts" alt="Visitors"/></a>
-</p>
+## Features                                                                                 - Mobile friendly: Enjoy a seamless browsing experience on any device.
+- Admin endpoint: Easily manage your content through the admin endpoint.
+- File Management endpoint: Efficiently handle file management tasks.
+- Markdown to HTML conversion: Convert your Markdown content to HTML for a visually appealing presentation.
+- Content's subscription: Allow users to subscribe to your content for regular updates.
+- Ads integration support: Monetize your blog by integrating ads into your articles.
+- Auto SEO: Optimize your blog for search engines automatically.
+- Comment Section: Engage with your audience through a comment section for each article.
+- Views count per article: Keep track of the number of views each article receives.
+- Likes count per article: Enable users to show their appreciation by liking your articles.
 
-> Blogging site optimized for YouTubers
+Other minor features include:
 
-## Features
-
-- Mobile friendly
-- Admin endpoint
-- File Management endpoint
-- Markdown to HTML conversion
-- Content's subscription
-- Ads intergration support
-- Auto SEO
-- Comment Section
-- Views count per article
-- Likes count per article
-
-Other minor features include
-
-* Auto-generate Audio & Video html tags
-* Live Article Search
-* Social Media Intergration
-* M-M Category-Blog relation
-* Auto-rank trending blogs
+- Auto-generate Audio & Video HTML tags: Easily embed audio and video content in your articles.
+- Live Article Search: Quickly find articles using the search functionality.
+- Social Media Integration: Share your articles on various social media platforms.
+- M-M Category-Blog relation: Categorize your articles for easy navigation.
+- Auto-rank trending blogs: Highlight trending blogs to attract more readers.
 
 # Technologies used
-- W3CS
-- W3JS
-- HTML
-- FLASK
+
+Youtube-Blog is built using the following technologies:
+
+- W3CS: Web standards for HTML and CSS.
+- W3JS: Web standards for JavaScript.
+- HTML: Markup language for creating web pages.
+- FLASK: Python-based web framework for building web applications.
 
 # Installation and Usage
+
 ## Installation
 
-Since the site is Flask-Based, [Python>=3.8](python.org) has to be in path.
+To install Youtube-Blog, make sure you have Python 3.8 or higher installed on your system. Then, follow these steps:
 
-Clone repo and install dependencies
+1. Clone the repository:
 
 ```
 git clone https://github.com/Simatwa/Youtube-Blog.git
+```
+
+2. Install the required dependencies:
+
+```
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-Before firing up the site, you have to setup environment variables, by editing the [env](env) file as per your preferences and finally rename the file to *.env*
+Before running the site, you need to set up the environment variables. Edit the [env](env) file according to your preferences and rename it to *.env*.
 
-Setup admin for content management
+To set up an admin account for content management, run the following command:
 
 ```
 flask user create-admin
 ```
-Fill the prompts and then fire up the server `flask run`
 
-The site will be accessed at `http://localhost:5000` 
+Follow the prompts to create the admin account. Once done, start the server by running:
 
-Admin endpoint will be available at `http://localhost:5000/admin`
+```
+flask run
+```
+
+You can access the site at `http://localhost:5000`, and the admin endpoint at `http://localhost:5000/admin`.
 
 # Further info
 
-To insert *audio* or *video* in an article, use the format `%(file_n)s`  where **n** is the file number at upload.
+To insert audio or video in an article, use the format `%(file_n)s`, where **n** is the file number at upload.
 
-To append path to an image or any other file other than video & audio, use the format `%(category_n)s` where **category** is either *file* or *image* and **n** is the media position at upload.
+To append a path to an image or any other file (excluding video and audio), use the format `%(category_n)s`, where **category** can be either *file* or *image*, and **n** is the media position at upload.
 
-To insert ads to an article use the tag `{ads}` anywhere within the article. The tag can be used unlimited times to display as many ads as you had published.
+To insert ads into an article, use the tag `{ads}` anywhere within the article. You can use the tag multiple times to display multiple ads.
 
-> **Note** Script based tags are rendered immediate before `</body>` tag and not in the `{ads}` like the non-script ads-code.
+> **Note:** Script-based tags are rendered immediately before the `</body>` tag and not within the `{ads}` tag like non-script ads code.
 
 # Disclaimer
 
-- This is just but a micro-blog site thus might be vulnerable to a number of attacks. The developer(s) of this site will not be liable to any lose or illegal concerns arising from the commercially or personally use of this site.
+- Youtube-Blog is a micro-blog site and may be vulnerable to certain attacks. The developer(s) of this site will not be liable for any loss or illegal concerns arising from the commercial or personal use of this site.
 
 # Conclusion
 
-- To any Blogger intending to monetise the site through ads, I'd recommend using [Adsterra](https://adsterra.com).
+- If you are a blogger looking to monetize your site through ads, we recommend using [Adsterra](https://adsterra.com).
 
-<p align="center">Made with ❤️</p>
+<p align="center">Made with ❤️ </p>
