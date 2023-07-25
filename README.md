@@ -1,7 +1,10 @@
 # Youtube-Blog                                
-This is a blogging site optimized for YouTubers. This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
+A blogging site optimized for YouTubers.
 
-## Features                                                                                 - Mobile friendly: Enjoy a seamless browsing experience on any device.
+This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
+
+## Features
+- Mobile friendly: Enjoy a seamless browsing experience on any device.
 - Admin endpoint: Easily manage your content through the admin endpoint.
 - File Management endpoint: Efficiently handle file management tasks.
 - Markdown to HTML conversion: Convert your Markdown content to HTML for a visually appealing presentation.
