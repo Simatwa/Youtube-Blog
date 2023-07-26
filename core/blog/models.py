@@ -194,7 +194,14 @@ class LocalUtils:
     def generate_html_tag(filename: str):
         extension = path.splitext(filename)[1].lower()
         # image_extensions = [".jpg", ".jpeg", ".png", ".gif"]
-        video_extensions = [".mp4", ".avi", ".mov", ".mkv", ".3gp", ".webm",]
+        video_extensions = [
+            ".mp4",
+            ".avi",
+            ".mov",
+            ".mkv",
+            ".3gp",
+            ".webm",
+        ]
         audio_extensions = [".mp3", ".wav", ".flac", ".ogg"]
         # if extension in image_extensions:
         # resp = f'<img class="w3-image" src="{filename}" alt="Image">'
@@ -341,8 +348,8 @@ class LocalEventListener:
         tags_dict = {
             "<img": '<IMG class="w3-image w3-center w3-padding w3-hover-opacity"',
             "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
-            #"<thead" : '<THEAD class="w3-orange"',
-            "<code>" : '<CODE class="w3-codespan">',
+            # "<thead" : '<THEAD class="w3-orange"',
+            "<code>": '<CODE class="w3-codespan">',
         }
         for tag in tags_dict:
             target.content = re.sub(tag, tags_dict[tag], target.content)
