@@ -129,7 +129,7 @@ class BlogModelView(ModelView):
             "Cover photo",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", "svg", "gif"], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
@@ -137,7 +137,7 @@ class BlogModelView(ModelView):
             "1st Image",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", "svg", "gif"], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
@@ -145,7 +145,7 @@ class BlogModelView(ModelView):
             "2nd Image",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", "svg", "gif"], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
@@ -153,7 +153,7 @@ class BlogModelView(ModelView):
             "3rd Image",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", "svg", "gif"], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
@@ -161,7 +161,7 @@ class BlogModelView(ModelView):
             "4th Image",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", "svg", "gif"], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
