@@ -2,6 +2,10 @@ a{
      text-decoration:none;
    }
    
+a:hover{
+  text-decoration:und3erline;
+}
+
 li > a {
    color: blue !important;
 }
@@ -44,6 +48,35 @@ input:focus {
 }
 
 .raw-content{
- font-size:110%;
 /* font-family:sans-serif; */
+}
+
+h1,h2{
+  font-weight:bold;
+  text-align:center;
+}
+
+h1 {
+  font-size:140% !important;
+}
+
+h2 {
+  font-size:130% !important;
+}
+
+h3{
+  font-size:120% !important;
+}
+
+.raw-content > p{
+  display:justify;
+  margin-left:5px;
+  margin-right:5px;
+  /*text-indent:1em; */
+}
+
+.title {
+ font-size:180% !important;
+ font-family:garamond;
+ font-weight:bold;
 }
