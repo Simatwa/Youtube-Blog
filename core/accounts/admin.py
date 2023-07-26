@@ -55,7 +55,7 @@ class AdminModelView(ModelView):
     can_export = False
     column_display_pk = True
     can_view_details = True
-    form_excluded_columns = ["token", "created_on", "lastly_modified"]
+    form_excluded_columns = ["token", "last_login", "created_on", "lastly_modified"]
     column_searchable_list = ["name", "email", "created_on"]
     column_filters = ["created_on"]
     column_editable_list = ["is_active"]

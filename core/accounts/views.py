@@ -26,6 +26,7 @@ from core.accounts.models import db, Admin1
 from sqlalchemy import or_
 from uuid import uuid4
 from urllib.parse import urlsplit, quote
+from datetime import datetime
 
 login_manager = LoginManager()
 login_manager.init_app(application)
@@ -120,6 +121,7 @@ class Accounts:
                         return redirect(url_for("accounts.verify_user_address"))
                     flash("Logged in successful", "info")
                     try_user.is_authenticated = True
+                    try_user.last_login = datetime.utcnow()
                     db.session.commit()
                     login_user(try_user)
                     return redirect(url_for("admin.index"))
