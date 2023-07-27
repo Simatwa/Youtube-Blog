@@ -69,3 +69,9 @@ h3 {
   font-family: garamond;
   font-weight: bold;
 }
+
+figcaption{
+ text-align:center;
+ font-family:courier;
+ font-style:italic;
+}
