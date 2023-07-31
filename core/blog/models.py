@@ -350,6 +350,7 @@ class LocalEventListener:
             "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
             # "<thead" : '<THEAD class="w3-orange"',
             "<code>": '<CODE class="w3-codespan">',
+            "<a": '<A class="link"',
         }
         for tag in tags_dict:
             target.content = re.sub(tag, tags_dict[tag], target.content)
