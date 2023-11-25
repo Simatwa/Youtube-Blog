@@ -1,12 +1,19 @@
-<center>
+<h1 align='center'>Youtube-Blog </h1>
 
-# Youtube-Blog    
+<p align='center'>   
 
 <img src='https://github.com/Simatwa/Youtube-Blog/raw/main/assets/logo.png' width='240px' height='120px'></img>
 
-</center>
+</p>
 
-A blogging site optimized for YouTubers.
+<p align="center"><a href="https://github.com/Simatwa/Youtube-Blog"><img src="https://img.shields.io/static/v1?label=Github&message=Passing&logo=github&color=green" alt="Github"/></a>
+<a href="#"><img src="https://img.shields.io/static/v1?label=Coverage&message=90%&color=lime&logo=Coverage" alt="Coverage"/></a>
+<a href="https://wakatime.com/badge/github/Simatwa/Youtube-Blog"><img src="https://wakatime.com/badge/github/Simatwa/Youtube-Blog.svg" alt="wakatime"/></a>
+<a href="#"><img src="https://visitor-badge.glitch.me/badge?page_id=Simatwa.Youtube-Blog&left_color=red&right_color=lime&left_text=Counts" alt="Visitors"/></a>
+<a href="#"><img src="https://img.shields.io/static/v1?label=Code Style&message=Black&color=black&logo=Black" alt="Code-style"/></a>
+</p>
+
+<p align='center'>A blogging site optimized for YouTubers.</p>
 
 This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
 
