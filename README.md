@@ -23,7 +23,7 @@ Other minor features include:
 - M-M Category-Blog relation: Categorize your articles for easy navigation.
 - Auto-rank trending blogs: Highlight trending blogs to attract more readers.
 
-# Technologies used
+## Technologies used
 
 Youtube-Blog is built using the following technologies:
 
@@ -32,9 +32,9 @@ Youtube-Blog is built using the following technologies:
 - HTML: Markup language for creating web pages.
 - FLASK: Python-based web framework for building web applications.
 
-# Installation and Usage
+## Installation and Usage
 
-## Installation
+### Installation
 
 To install Youtube-Blog, make sure you have Python 3.8 or higher installed on your system. Then, follow these steps:
 
@@ -50,7 +50,7 @@ git clone https://github.com/Simatwa/Youtube-Blog.git
 pip install -r requirements.txt
 ```
 
-## Usage
+### Usage
 
 Before running the site, you need to set up the environment variables. Edit the [env](env) file according to your preferences and rename it to *.env*.
 
@@ -68,7 +68,7 @@ flask run
 
 You can access the site at `http://localhost:5000`, and the admin endpoint at `http://localhost:5000/admin`.
 
-# Further info
+## Further info
 
 To insert audio or video in an article, use the format `%(file_n)s`, where **n** is the file number at upload.
 
@@ -78,17 +78,17 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 
 > **Note:** Script-based tags are rendered immediately before the `</body>` tag and not within the `{ads}` tag like non-script ads code.
 
-# Disclaimer
+## Disclaimer
 
 - Youtube-Blog is a micro-blog site and may be vulnerable to certain attacks. The developer(s) of this site will not be liable for any loss or illegal concerns arising from the commercial or personal use of this site.
 
-# Conclusion
+## Conclusion
 
-- For hosting I recommend using [pythonanywhere](https://pythonanywhere.com) since they feature a free plan with lots of goodies such as fre ssl certificates and zero lifetime hosting charges!
+- For hosting I recommend using [pythonanywhere](https://pythonanywhere.com) since they feature a free plan with lots of goodies such as free ssl certificates and zero lifetime hosting charges!
 - If you are a blogger looking to monetize your site through ads, I recommend using [Adsterra](https://adsterra.com).
 >**Note** By the way I have my site up and running using this codebase check it out [here](https://bx254.pythonanywhere.com).
 
-# AOB
+## AOB
 
 This is my first major Flask project and it was fun creating it using the tools I had access to in my **Android Phone** i.e [*Pydroid 3*](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_US) Ide to write this kind of stuff along with [*Termux*](https://f-droid.org/packages/com.termux/) to ensure it reaches you here on Github. 
 
