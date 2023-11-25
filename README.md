@@ -1,4 +1,11 @@
-# Youtube-Blog                                
+<center>
+
+# Youtube-Blog    
+
+<img src='https://github.com/Simatwa/Youtube-Blog/raw/main/assets/logo.png' width='240px' height='120px'></img>
+
+</center>
+
 A blogging site optimized for YouTubers.
 
 This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
@@ -86,11 +93,14 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 
 - For hosting I recommend using [pythonanywhere](https://pythonanywhere.com) since they feature a free plan with lots of goodies such as free ssl certificates and zero lifetime hosting charges!
 - If you are a blogger looking to monetize your site through ads, I recommend using [Adsterra](https://adsterra.com).
+
+- Contributions are always welcome. Help me fix my bad code by submitting a [pull request](https://github.com/Simatwa/Youtube-Blog/pulls) or you can as well submit an [issue](https://github.com/Simatwa/Youtube-Blog/issues).
+
 >**Note** By the way I have my site up and running using this codebase check it out [here](https://bx254.pythonanywhere.com).
 
 ## AOB
 
-This is my first major Flask project and it was fun creating it using the tools I had access to in my **Android Phone** i.e [*Pydroid 3*](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_US) Ide to write this kind of stuff along with [*Termux*](https://f-droid.org/packages/com.termux/) to ensure it reaches you here on Github. 
+This is my first `big` Flask project and it was fun creating it using the tools I had access to in my **Android Phone** i.e [*Pydroid 3*](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_US) IDE to write this kind of stuff along with [*Termux*](https://f-droid.org/packages/com.termux/) to ensure it reaches you here on Github. 
 
 <center>
 
@@ -98,7 +108,7 @@ This is my first major Flask project and it was fun creating it using the tools 
 
 </center>
 
-I'm delighted to dedicate this work to my loving **mom** Sarah, who ensured I have sufficient time during my long holiday and my understanding girlfriend **Eunice**, for entertaining my late replies and picking-up my late-night calls as well.
+I'm delighted to dedicate this work to my loving **mom** Sarah, who ensured I have sufficient time in creating this during my long holiday and my understanding girlfriend **Eunice**, for entertaining my late replies and picking-up my late-night calls as well.
 
 
 <p align="center">Made with ❤️ </p>
