@@ -1,9 +1,7 @@
-<h1 align='center'>Youtube-Blog </h1>
+<h1 align='center'>Youtube-Blog </h1> 
 
-<p align='center'>   
-
-<img src='https://github.com/Simatwa/Youtube-Blog/raw/main/assets/logo.png' width='240px' height='120px'></img>
-
+<p align="center">
+ <img src='https://github.com/Simatwa/Youtube-Blog/raw/main/assets/logo.png' width='240px' height='120px'></img>
 </p>
 
 <p align="center"><a href="https://github.com/Simatwa/Youtube-Blog"><img src="https://img.shields.io/static/v1?label=Github&message=Passing&logo=github&color=green" alt="Github"/></a>
