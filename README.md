@@ -84,6 +84,20 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 
 # Conclusion
 
-- If you are a blogger looking to monetize your site through ads, we recommend using [Adsterra](https://adsterra.com).
+- For hosting I recommend using [pythonanywhere](https://pythonanywhere.com) since they feature a free plan with lots of goodies such as fre ssl certificates and zero lifetime hosting charges!
+- If you are a blogger looking to monetize your site through ads, I recommend using [Adsterra](https://adsterra.com).
+
+# AOB
+
+This is my first major Flask project and it was fun creating it using the tools I had access to in my **Android Phone** i.e [*Pydroid 3*](https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en_US) Ide to write this kind of stuff along with [*Termux*](https://f-droid.org/packages/com.termux/) to ensure it reaches you here on Github.
+
+<center>
+
+**Dedication**
+
+</center>
+
+I'm delighted to dedicate this work to my loving **mom** Sarah, who ensured I have sufficient time during my long holiday and my understanding girlfriend **Eunice**, for entertaining my late replies and picking-up my late-night calls.
+
 
 <p align="center">Made with ❤️ </p>
