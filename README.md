@@ -98,7 +98,7 @@ This is my first major Flask project and it was fun creating it using the tools 
 
 </center>
 
-I'm delighted to dedicate this work to my loving **mom** Sarah, who ensured I have sufficient time during my long holiday and my understanding girlfriend **Eunice**, for entertaining my late replies and picking-up my late-night calls.
+I'm delighted to dedicate this work to my loving **mom** Sarah, who ensured I have sufficient time during my long holiday and my understanding girlfriend **Eunice**, for entertaining my late replies and picking-up my late-night calls as well.
 
 
 <p align="center">Made with ❤️ </p>
