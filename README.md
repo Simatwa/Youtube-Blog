@@ -90,6 +90,14 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 
 > **Note:** Script-based tags are rendered immediately before the `</body>` tag and not within the `{ads}` tag like non-script ads code.
 
+## Usage Tips
+
+1. An article without a cover photo, default one will be used.
+2. For long titled article, consider using a `large` cover photo as to avoid squeezing up
+3. Remember to include `<figcaption>{Figure Caption}</figcaption>` in your images. *Not mandatory though*
+4. Remember if a Youtube link video is available, the video will be displayed instead of cover photo on timeline.
+5. For 
+
 ## Disclaimer
 
 - Youtube-Blog is a micro-blog site and may be vulnerable to certain attacks. The developer(s) of this site will not be liable for any loss or illegal concerns arising from the commercial or personal use of this site.
