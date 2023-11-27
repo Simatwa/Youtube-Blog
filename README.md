@@ -99,6 +99,7 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 5. Sometimes the `%(image_n)s` may fail to be functional. So counter check before publishing articles. *To be fixed soon*
 7. You can customize admin theme using the [Bootswatch](https://bootswatch.com/) themes by modifying the `FLASK_ADMIN_SWATCH` at your [env](env) file. Popular themes include : cerulean, flatly, spacelab, cosmo, journal, united, sandstone, yeti and lumen.
 8. For non-mobile devices, just **scale** down the window size to acccess the site contents.
+9. Remember to set a **new screte key** for every web-app.
 
 ## Disclaimer
 
