@@ -93,10 +93,12 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 ## Usage Tips
 
 1. An article without a cover photo, default one will be used.
-2. For long titled article, consider using a `large` cover photo as to avoid squeezing up
+2. For long titled articles, consider using a `large` cover photo so as to avoid squeezing up
 3. Remember to include `<figcaption>{Figure Caption}</figcaption>` in your images. *Not mandatory though*
-4. Remember if a Youtube link video is available, the video will be displayed instead of cover photo on timeline.
-5. For 
+4. Remember if a Youtube link video is available, the video will be displayed instead of cover photo at timeline and as last entry on article page.
+5. Sometimes the `%(image_n)s` may fail to be functional. So counter check before publishing articles. *To be fixed soon*
+7. You can customize admin theme using the [Bootswatch](https://bootswatch.com/) themes by modifying the `FLASK_ADMIN_SWATCH` at your [env](env) file. Popular themes include : cerulean, flatly, spacelab, cosmo, journal, united, sandstone, yeti and lumen.
+8. For non-mobile devices, just **scale** down the window size to acccess the site contents.
 
 ## Disclaimer
 
