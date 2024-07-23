@@ -331,9 +331,11 @@ class LocalEventListener:
         subscribers = [subscriber[0] for subscriber in subscribers_entry if subscriber]
         if subscribers:
             logging.info(
-                f'Mailing "{target.title}" to {len(subscribers)} subscriber(s)'
+                f'Mailing new blog "{target.title}" to {len(subscribers)} subscriber(s)'
             )
-            send_mail(subject=target.title, recipients=subscribers, html=message)
+            for subscriber in subscribers:
+                # Mail to every user at a time
+                send_mail(subject=target.title, recipients=[subscriber], html=message)
             target.is_notified = True
             flash(
                 "Article has been mailed to %d subscriber(s)." % len(subscribers),
