@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="w3-container">
+<div class="w3-container" style="max-width:400px;margin:auto;">
 <div class="w3-center">
 <form class="w3-panel w3-form w3-padding-large w3-card-4" method="POST" action="{{ url_for('accounts.login_user') }}" enctype='multipart/form-data'>
 <h4 class="w3-center w3-bottombar w3-border-red">Admin Login</h4>
