@@ -3,3 +3,4 @@
 *migrations
 *core/static/files
 *.env
+venv
