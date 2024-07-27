@@ -39,8 +39,8 @@ Other minor features include:
 
 Youtube-Blog is built using the following technologies:
 
-- W3CS: Web standards for HTML and CSS.
-- W3JS: Web standards for JavaScript.
+- W3CS: CSS Framework by w3schools.
+- W3JS: Javascript framework by w3schools.
 - HTML: Markup language for creating web pages.
 - FLASK: Python-based web framework for building web applications.
 
