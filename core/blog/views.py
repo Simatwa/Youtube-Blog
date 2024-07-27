@@ -76,10 +76,10 @@ class BlogView:
     @classmethod
     def index(cls):
         """home endpoint"""
-        flash(
-            "Welcome {}".format("Admin" if current_user.is_authenticated else "user"),
-            "info",
-        )
+        #flash(
+        #    "Welcome {}".format("Admin" if current_user.is_authenticated else "user"),
+        #    "info",
+        #)
         return render_template(
             "blog/index.html",
             blogs=Blog.query.filter_by(is_published=True)

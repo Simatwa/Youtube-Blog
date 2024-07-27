@@ -193,8 +193,8 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
      <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}">
       <h4 class="w3-text-grey w3-large">{{ blog.title }}</h4>
       <p><i>{{ blog.intro }}</i></p>
-      <p class="w3-display-bottomright w3-round w3-center w3-{{ blog.categories[0].color }}" style="margin-right:2px">
-       <script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script>
+      <p class="w3-display-bottomright w3-round w3-center w3-small w3-{{ blog.categories[0].color }}" style="margin-right:2px">
+       <span class="w3-margin"><script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script></span>
       </p>
       </a>
      </div>
