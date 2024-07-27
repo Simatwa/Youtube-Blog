@@ -34,7 +34,7 @@ markdown_extensions = [
     "markdown.extensions.abbr",
     "markdown.extensions.admonition",
     "markdown.extensions.attr_list",
-    "markdown.extensions.codehilite",
+    #"markdown.extensions.codehilite",
     "markdown.extensions.def_list",
     "markdown.extensions.extra",
     "markdown.extensions.fenced_code",
@@ -63,6 +63,7 @@ def send_mail(subject, *args, **kwargs):
 
 
 # @login_required
+@application.route('/home')
 def home():
     return redirect(url_for("blogs.index"))  # To be configured
 

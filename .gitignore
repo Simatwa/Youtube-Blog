@@ -4,3 +4,6 @@
 *core/static/files
 *.env
 venv
+test.py
+markdown-test.md
+test-*

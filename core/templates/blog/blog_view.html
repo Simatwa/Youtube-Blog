@@ -3,6 +3,7 @@
 {% set appdetail = app_details() %}
 
 {% block  head %}
+<script src="{{ url_for('static', filename='script/w3codecolor.js') }}"></script>
 <title>{{ blog.title }} | {{ appdetail.name }}</title>
 <!-- SEO Meta Tags -->
   <meta name="description" content="{{ blog.intro }}">
@@ -75,13 +76,13 @@
        </div>
    </div>
    
-<div class="w3-content">
+<div class="w3-container">
      <div class="w3-container w3-left w3-margin-bottom w3-cell-row">    
       {% for category in blog.categories %}
          <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}"><i class="w3-large w3-text-red fa fa-tag"></i>{{ category }}</a>
       {% endfor %}
      </div>   
-  <div class="raw-content">
+  <div class="raw-content w3-container">
  
      {{ blog.content|safe }}
   </div>
@@ -199,5 +200,7 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
      </div>
      {% endfor %}
     </div>
-    
+    <!--For code syntax highlighting-->
+    <script>w3CodeColor();</script>
+
 {% endblock %}

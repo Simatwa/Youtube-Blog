@@ -347,15 +347,26 @@ class LocalEventListener:
     @staticmethod
     def add_w3_styles(target):
         """Adds w3-styles to htmls"""
+        highlighted_languages = ["html", "js", "java", "css", "sql", "python", "kotlin"]
         tags_dict = {
             "<img": '<IMG class="w3-image w3-center w3-padding w3-hover-opacity"',
             "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
             # "<thead" : '<THEAD class="w3-orange"',
-            "<code>": '<CODE class="w3-codespan">',
+            #"<code>": '<CODE class="w3-codespan">',
+            "<pre><code" : '<div class="w3-container w3-code w3-margin w3-responsive w3-pale-red"><pre><code',
+            "</code></pre>" : "</CODE></PRE></DIV>",
+            #'<pre><code' :'<PRE class="w3-code"><code',
+            '<code class="language-py">' : '<CODE class="language-python pythonHigh notranslate">',
+            '<code class="language-javascript">' : '<CODE class="language-js jsHigh  notranslate">',
+            '<code class="language-kt">' : '<CODE class="language-kotlin kotlinHigh  notranslate">',
             "<a": '<A class="link"',
         }
+        for language in highlighted_languages:
+            tags_dict[f'<code class="language-{language}"'] = f'<CODE class="language-{language} {language}High  notranslate"'
+
         for tag in tags_dict:
             target.content = re.sub(tag, tags_dict[tag], target.content)
+        target.content = re.sub("<pre><code", "<PRE><CODE", target.content)
 
     @staticmethod
     def format_markdown_article(mapper, connections, target):
