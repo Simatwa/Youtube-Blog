@@ -55,9 +55,9 @@
 
    <div class="w3-display-container w3-text-white w3-margin-bottom">
      {% if blog.cover_photo %} 
-      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+blog.cover_photo) }}" width="100%" height="auto" alt="{{ blog.cover_photo }}">
+      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+blog.cover_photo) }}" width="100%" height="auto" style="min-height:200px;" alt="{{ blog.cover_photo }}">
      {% elif appdetail.cover_photo %}
-      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+appdetail.cover_photo) }}" width="100%" height="auto" alt="{{ appdetail.cover_photo }}">
+      <img class="w3-opacity-max w3-hover-grayscale" src="{{ url_for('static',filename='files/'+appdetail.cover_photo) }}" width="100%" height="auto" style="min-height:200px;" alt="{{ appdetail.cover_photo }}">
      {% endif %}
      
       <div class="w3-display-middle w3-container">
@@ -82,7 +82,7 @@
          <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}"><i class="w3-large w3-text-red fa fa-tag"></i>{{ category }}</a>
       {% endfor %}
      </div>   
-  <div class="raw-content w3-container">
+  <div class="w3-container">
  
      {{ blog.content|safe }}
   </div>
@@ -187,13 +187,13 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 
   <!-- Related blogs-->
     <h4 class="w3-bottombar w3-border-teal">Related</h4>
-    <div class="w3-row-cell">
+    <div class="w3-container w3-section">
     {% for blog in related_blogs %}
-     <div class="w3-row w3-display-container w3-panel w3-card-4 w3-white">
-     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}" target="self">
+     <div class="w3-display-container w3-panel w3-card-4 w3-white">
+     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}">
       <h4 class="w3-text-grey w3-large">{{ blog.title }}</h4>
       <p><i>{{ blog.intro }}</i></p>
-      <p class="w3-display-bottomright w3-badge w3-{{ blog.categories[0].color }}" style="margin-right:2px">
+      <p class="w3-display-bottomright w3-round w3-center w3-{{ blog.categories[0].color }}" style="margin-right:2px">
        <script>document.write(formatTimeAgoShort("{{ blog.created_on }}"));</script>
       </p>
       </a>
