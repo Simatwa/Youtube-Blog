@@ -38,7 +38,7 @@ class BlogModelView(ModelView):
     page_size = 50
     can_export = True
     can_view_details = True
-    column_default_sort = ('created_on', True)
+    column_default_sort = ("created_on", True)
     form_excluded_columns = [
         "likes",
         "views",
@@ -209,7 +209,7 @@ class CommentModelView(ModelView):
     can_delete = True
     column_display_pk = True
     can_view_details = True
-    column_default_sort = ('id', True)
+    column_default_sort = ("id", True)
     column_filters = ["created_on"]
     column_searchable_list = ["content", "blogs.title"]
     form_excluded_columns = ["created_on", "lastly_modified"]
@@ -251,7 +251,7 @@ class SubscriberModelView(ModelView):
     column_display_pk = True
     page_size = 50
     can_view_details = True
-    column_default_sort = ('id', True)
+    column_default_sort = ("id", True)
     form_excluded_columns = ["created_on"]
     column_filters = ["created_on"]
     column_searchable_list = ["email"]
@@ -285,7 +285,7 @@ class CategoryModelView(ModelView):
     page_size = 50
     can_view_details = True
     column_display_pk = True
-    column_default_sort = ('id', True)
+    column_default_sort = ("id", True)
     form_excluded_columns = ["created_on"]
     column_searchable_list = ["name"]
     column_filters = ["created_on"]
@@ -333,7 +333,7 @@ class SocialMediaModelView(ModelView):
     can_delete = True
     can_view_details = True
     page_size = 50
-    column_default_sort = ('id', True)
+    column_default_sort = ("id", True)
     form_excluded_columns = ["created_on"]
     column_searchable_list = ["name", "link"]
     filter = ["color"]

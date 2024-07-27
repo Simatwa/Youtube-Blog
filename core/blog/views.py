@@ -76,10 +76,10 @@ class BlogView:
     @classmethod
     def index(cls):
         """home endpoint"""
-        #flash(
+        # flash(
         #    "Welcome {}".format("Admin" if current_user.is_authenticated else "user"),
         #    "info",
-        #)
+        # )
         return render_template(
             "blog/index.html",
             blogs=Blog.query.filter_by(is_published=True)
@@ -250,11 +250,9 @@ class BlogView:
             db.session.add(new_subscriber)
             db.session.commit()
             resp = make_response(
-                jsonify(
-                dict(message="Check your mail address for confirmation link")
-                )
+                jsonify(dict(message="Check your mail address for confirmation link"))
             )
-            resp.set_cookie('user_email',email_address,timedelta(days=180))
+            resp.set_cookie("user_email", email_address, timedelta(days=180))
             return resp
         else:
             return make_response(

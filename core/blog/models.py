@@ -309,10 +309,12 @@ class LocalEventListener:
 		encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		"""
             if target.link
-            else f"""<img src="{gen_link(url_for('static', filename='files/'+target.cover_photo))}" max-width="80%" height="auto" alt="{target.cover_photo}">
+            else (
+                f"""<img src="{gen_link(url_for('static', filename='files/'+target.cover_photo))}" max-width="80%" height="auto" alt="{target.cover_photo}">
 		</img>"""
-            if target.cover_photo
-            else ""
+                if target.cover_photo
+                else ""
+            )
         )
 
         message = f"""
@@ -352,17 +354,19 @@ class LocalEventListener:
             "<img": '<IMG class="w3-image w3-center w3-padding w3-hover-opacity"',
             "<table": '<TABLE class="w3-table-all w3-center w3-hoverable w3-responsive"',
             # "<thead" : '<THEAD class="w3-orange"',
-            #"<code>": '<CODE class="w3-codespan">',
-            "<pre><code" : '<div class="w3-container w3-code w3-margin w3-responsive w3-pale-red"><pre><code',
-            "</code></pre>" : "</CODE></PRE></DIV>",
+            # "<code>": '<CODE class="w3-codespan">',
+            "<pre><code": '<div class="w3-container w3-code w3-margin w3-responsive w3-pale-red"><pre><code',
+            "</code></pre>": "</CODE></PRE></DIV>",
             #'<pre><code' :'<PRE class="w3-code"><code',
-            '<code class="language-py">' : '<CODE class="language-python pythonHigh notranslate">',
-            '<code class="language-javascript">' : '<CODE class="language-js jsHigh  notranslate">',
-            '<code class="language-kt">' : '<CODE class="language-kotlin kotlinHigh  notranslate">',
+            '<code class="language-py">': '<CODE class="language-python pythonHigh notranslate">',
+            '<code class="language-javascript">': '<CODE class="language-js jsHigh  notranslate">',
+            '<code class="language-kt">': '<CODE class="language-kotlin kotlinHigh  notranslate">',
             "<a": '<A class="link"',
         }
         for language in highlighted_languages:
-            tags_dict[f'<code class="language-{language}"'] = f'<CODE class="language-{language} {language}High  notranslate"'
+            tags_dict[f'<code class="language-{language}"'] = (
+                f'<CODE class="language-{language} {language}High  notranslate"'
+            )
 
         for tag in tags_dict:
             target.content = re.sub(tag, tags_dict[tag], target.content)
