@@ -55,6 +55,7 @@ class AdminModelView(ModelView):
     can_export = False
     column_display_pk = True
     can_view_details = True
+    column_default_sort = ('created_on', True)
     form_excluded_columns = ["token", "last_login", "created_on", "lastly_modified"]
     column_searchable_list = ["name", "email", "created_on"]
     column_filters = ["created_on"]
@@ -100,6 +101,7 @@ class AppDetailModelView(ModelView):
     page_size = 50
     can_view_details = True
     column_display_pk = True
+    column_default_sort = ('id', True)
     form_excluded_columns = ["lastly_modified", "created_on"]
     column_searchable_list = ["name"]
     column_filters = ["created_on"]
@@ -137,7 +139,7 @@ class AppDetailModelView(ModelView):
             "Website logo",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", 'webp', 'ico'], message="Images only!"),
             ],
             namegen=LocalUtils.generate_filename,
         ),
@@ -145,7 +147,7 @@ class AppDetailModelView(ModelView):
             "Default blog's cover photo",
             base_path=FILES_DIR,
             validators=[
-                FileAllowed(["jpg", "png", "jpeg"], message="Images only!"),
+                FileAllowed(["jpg", "png", "jpeg", 'webp', 'ico'], message="Images only!"),
             ],
             namegen=lambda obj, file_data: default_cover_photo,
         ),
@@ -168,6 +170,7 @@ class AdvertisementModelView(ModelView):
     column_excluded_list = []
     can_view_details = True
     column_display_pk = True
+    column_default_sort = ('id', True)
     column_editable_list = ["is_active", "identifier"]
     column_searchable_list = ["identifier"]
     column_filters = ["created_on"]

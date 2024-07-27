@@ -249,9 +249,13 @@ class BlogView:
             new_subscriber = Subscriber(email=email_address)
             db.session.add(new_subscriber)
             db.session.commit()
-            return jsonify(
+            resp = make_response(
+                jsonify(
                 dict(message="Check your mail address for confirmation link")
+                )
             )
+            resp.set_cookie('user_email',email_address,timedelta(days=180))
+            return resp
         else:
             return make_response(
                 jsonify(dict(message="You've already subscribed!")), 409

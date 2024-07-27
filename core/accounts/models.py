@@ -73,6 +73,7 @@ class AppDetail(db.Model):
         db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow
     )
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
+    show_logo_in_menu = db.Column(db.Boolean(), default=False,)
 
     def __repr__(self):
         return "<AppDetail %r>" % self.id

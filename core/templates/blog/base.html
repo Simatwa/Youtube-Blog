@@ -24,23 +24,27 @@
     <!-- Bar -->
 <!--  <div class="w3-container top-element"> -->
    <div class="w3-display-left" >
-    <div class="w3-dropdown-hover">
+    <div class="w3-dropdown-hover w3-transparent">
     
     <span class="w3-hide-small">
      <i class="fa fa-bars w3-jumbo w3-red"></i>
      </span>
     <span class="w3-hide-large w3-hide-medium">
-      <i class="fa fa-bars w3-xxlarge w3-red"></i>
+      {% if appdetail.show_logo_in_menu %}
+        <img src="{{ url_for('static', filename='files/'+appdetail.logo) }}" alt="logo" width="50px" height="auto">
+      {% else %}
+        <i class="fa fa-bars w3-xxlarge w3-red"></i>
+      {% endif %}
      </span>
       <!-- <button class="w3-btn w3-food-olive w3-ripple">Hello</button> -->
       <div class="w3-dropdown-content w3-card-2 w3-border w3-pale-yellow" style="max-width:20vh;">
        <button class="w3-button w3-col w3-hover-text-red">
-        <i class="w3-large w3-text-red fa fa-home"></i>
+        <i class="w3-large w3-text-red fa fa-home" style="margin-right:3px;"></i>
           <a href="{{ url_for('home') }}">Home</a>
        </button>
        {% if current_user.is_authenticated and current_user.is_admin %}
        <button class="w3-button w3-col w3-hover-text-red">
-        <i class="w3-large w3-text-blue fa fa-user"></i>
+        <i class="w3-large w3-text-blue fa fa-user" style="margin-right:3px;"></i>
           <a href="{{ url_for('admin.index') }}">Admin</a>
        </button> 
       {% endif %} 
@@ -48,7 +52,7 @@
        {% for category in menu_categories() %}
        <button class="w3-button w3-col w3-hover-text-{{ category.color }}">
            {% if category.color %}
-              <i class="w3-large w3-text-red fa fa-{{ category.icon }}"></i>
+              <i class="w3-large w3-text-red fa fa-{{ category.icon }}" style="margin-right:3px;"></i>
            {% endif %}
           <a href="{{ url_for('blogs.category_view',category=category.name) }}">{{ category.name }} 
          </a>
@@ -75,7 +79,7 @@
        <div class="w3-modal-content w3-display-container">
        <button class="w3-display-left w3-red" onclick="w3.hide('#searchModal')">Cancel</button><br>
        <form class="w3-form w3-container" action='{{ url_for("blogs.search") }}' method="POST" enctype="multipart/form-data" id="mobileSearch">
-       <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%" name="q" id="mobileSearchQuery" required placeholder="Search blog..." onkeyup="handleSubmit()"></input>
+       <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%" name="q" id="mobileSearchQuery" required placeholder="Search article..." onkeyup="handleSubmit()"></input>
        <button class="w3-btn w3-teal w3-round w3-display-right" type="submit">
        <i class="fa fa-search w3-large"></i>
       </button>

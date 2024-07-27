@@ -12,4 +12,13 @@
   event.preventDefault();
   AddSubscription();
 });</script>
+
+<script>
+  function checkAndHideForm() {
+      if (document.cookie.split('; ').some(row => row.startsWith('user_email='))) {
+          document.getElementById('subscriptionForm').style.display = 'none';
+      }
+  }
+  window.onload = checkAndHideForm;
+  </script>
 </div>
