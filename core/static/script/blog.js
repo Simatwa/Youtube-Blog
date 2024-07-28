@@ -252,5 +252,5 @@ function displayMoreContent(resp){
 function loadMore(url){
   const spinner = document.getElementById("loadMoreSpinner");
   spinner.style.display = 'block';
-  requests('POST', url, displayMoreContent);
+  requests('GET', url, displayMoreContent);
 }

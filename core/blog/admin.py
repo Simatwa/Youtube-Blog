@@ -72,6 +72,8 @@ class BlogModelView(ModelView):
         "cover_photo",
         "file_1",
         "file_2",
+        "lastly_modified",
+        "is_markdown",
     ]
     column_editable_list = [
         "trending",
@@ -79,6 +81,7 @@ class BlogModelView(ModelView):
         "display_ads",
         "views",
         "likes",
+        "accept_comments",
     ]
     form_base_class = SecureForm
 
@@ -212,6 +215,7 @@ class CommentModelView(ModelView):
     column_default_sort = ("id", True)
     column_filters = ["created_on"]
     column_searchable_list = ["content", "blogs.title"]
+    column_exclude_list = ["lastly_modified"]
     form_excluded_columns = ["created_on", "lastly_modified"]
     form_base_class = SecureForm
 
@@ -293,6 +297,8 @@ class CategoryModelView(ModelView):
         "display_on_menu",
         "color",
         "display_position",
+        "detail",
+        "icon",
     ]
     form_base_class = SecureForm
 
@@ -337,9 +343,8 @@ class SocialMediaModelView(ModelView):
     form_excluded_columns = ["created_on"]
     column_searchable_list = ["name", "link"]
     filter = ["color"]
-    column_editable_list = ["small_screen"]
+    column_editable_list = ["small_screen", "link", "color"]
     form_base_class = SecureForm
-    column_editable_list = ["color"]
 
     form_args = {
         "name": {

@@ -128,15 +128,23 @@ class BlogView:
             )
             .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
-            .limit(10)
+            # .limit(10)
             .all()
         )
-
         total_blogs = len(blogs)
+        if total_blogs > 10:
+            blogs = blogs[:10]
         if total_blogs:
-            session["category_blog_last_id"] = blogs[total_blogs - 1].id
+            if total_blogs == 1:
+                session["category_blog_last_id"] = blogs[0].id
+            else:
+                session["category_blog_last_id"] = blogs[len(blogs) - 1].id
         return render_template(
-            "blog/blogs_view.html", blogs=blogs, query=category, search_type="category"
+            "blog/blogs_view.html",
+            blogs=blogs,
+            total_blogs=total_blogs,
+            query=category,
+            search_type="category",
         )
 
     @classmethod
@@ -230,14 +238,23 @@ class BlogView:
                 )
                 .filter(Blog.is_published == True)
                 .order_by(desc(Blog.id))
-                .limit(10)
+                # .limit(10)
                 .all()
             )
             total_blogs = len(blogs)
+            if total_blogs > 10:
+                blogs = blogs[:10]
             if total_blogs:
-                session["last_blog_id"] = blogs[total_blogs - 1].id
+                if total_blogs == 1:
+                    session["last_blog_id"] = blogs[0].id
+                else:
+                    session["last_blog_id"] = blogs[len(blogs) - 1].id
             return render_template(
-                "blog/blogs_view.html", blogs=blogs, query=query, search_type="search"
+                "blog/blogs_view.html",
+                total_blogs=total_blogs,
+                blogs=blogs,
+                query=query,
+                search_type="search",
             )
 
     @classmethod
@@ -255,9 +272,11 @@ class BlogView:
             resp.set_cookie("user_email", email_address, timedelta(days=180))
             return resp
         else:
-            return make_response(
+            resp = make_response(
                 jsonify(dict(message="You've already subscribed!")), 409
             )
+            resp.set_cookie("user_email", email_address, timedelta(days=180))
+            return resp
 
     @classmethod
     def comment(cls):
@@ -265,7 +284,9 @@ class BlogView:
         uuid = form.blog_uuid.data
         if form.validate_on_submit():
             blog = Blog.query.filter_by(
-                uuid=form.blog_uuid.data, is_published=True
+                uuid=form.blog_uuid.data,
+                is_published=True,
+                accept_comments=True,
             ).first()
             if blog:
                 comment = Comment(
@@ -275,11 +296,20 @@ class BlogView:
                     mood=form.mood.data,
                 )
                 blog.comments.append(comment)
+                if (
+                    len(blog.comments)
+                    >= AppDetail.query.filter_by(id=1).first().comments_limit
+                ):
+                    blog.accept_comments = False
+
                 db.session.commit()
                 flash("Comment submitted successfully!", "info")
 
             else:
-                flash("Blog to be commented on isn't available!", "error")
+                flash(
+                    "Blog to be commented on isn't available or doesn't accept comments!",
+                    "error",
+                )
             return redirect(url_for("blogs.blog_view", uuid=uuid))
         else:
             if uuid:
@@ -298,14 +328,23 @@ class BlogView:
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.is_published == True)
             .order_by(desc(Blog.id))
-            .limit(10)
+            # .limit(10)
             .all()
         )
         total_blogs = len(blogs)
+        if total_blogs > 10:
+            blogs = blogs[:10]
         if total_blogs:
-            session["author_blog_last_id"] = blogs[total_blogs - 1].id
+            if total_blogs == 1:
+                session["author_blog_last_id"] = blogs[0].id
+            else:
+                session["author_blog_last_id"] = blogs[len(blogs) - 1].id
         return render_template(
-            "blog/blogs_view.html", blogs=blogs, query=name, search_type="author"
+            "blog/blogs_view.html",
+            blogs=blogs,
+            total_blogs=total_blogs,
+            query=name,
+            search_type="author",
         )
 
     @classmethod
@@ -510,20 +549,20 @@ app.add_url_rule(
     "/load-more-search",
     view_func=views.load_more_search,
     endpoint="load_more_search",
-    methods=["POST"],
+    methods=["GET"],
 )
 
 app.add_url_rule(
     "/load-more-category",
     view_func=views.load_more_category,
     endpoint="load_more_category",
-    methods=["POST"],
+    methods=["GET"],
 )
 
 app.add_url_rule(
     "/load-more-author",
     view_func=views.load_more_author,
     endpoint="load_more_author",
-    methods=["POST"],
+    methods=["GET"],
 )
 from core.blog.admin import admin

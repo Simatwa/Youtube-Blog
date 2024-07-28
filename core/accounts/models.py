@@ -12,8 +12,6 @@ class Admin1(db.Model):
     name = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(30), nullable=False, unique=True)
     bio = db.Column(db.Text(), nullable=True)
-    last_login = db.Column(db.DateTime, default=datetime.utcnow)
-    created_on = db.Column(db.DateTime, default=datetime.utcnow)
     password = db.Column(db.String(100), nullable=False)
     password_hashed = db.Column(db.Boolean(), default=True)
     token = db.Column(db.String(40), nullable=True)
@@ -21,6 +19,8 @@ class Admin1(db.Model):
     is_authenticated = db.Column(db.Boolean(), default=False)
     is_active = db.Column(db.Boolean(), default=False)
     is_anonymous = db.Column(db.Boolean(), default=True)
+    last_login = db.Column(db.DateTime, default=datetime.utcnow)
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
     # blog_id = db.Column(db.Integer, db.ForeignKey("blogs.id",ondelete="SET NULL", onupdate="CASCADE",name='blog_id'),autoincrement=True)
     appdetail_id = db.Column(
         db.Integer,
@@ -69,14 +69,15 @@ class AppDetail(db.Model):
     url = db.Column(db.String(50), nullable=False)
     logo = db.Column(db.String(50), default="config/favicon.png")
     cover_photo = db.Column(db.String(50), default=default_cover_photo)
-    lastly_modified = db.Column(
-        db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow
-    )
-    created_on = db.Column(db.DateTime(), default=datetime.utcnow)
+    comments_limit = db.Column(db.Integer, default=20)
     show_logo_in_menu = db.Column(
         db.Boolean(),
         default=False,
     )
+    lastly_modified = db.Column(
+        db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow
+    )
+    created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __repr__(self):
         return "<AppDetail %r>" % self.id

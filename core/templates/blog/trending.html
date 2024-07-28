@@ -4,7 +4,7 @@
     <div class="w3-row-cell">
     {% for blog in trending_blogs() %}
      <div class="w3-row w3-display-container w3-panel w3-card-4 w3-white">
-     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}" target="self">
+     <a href="{{ url_for('blogs.blog_view',uuid=blog.uuid) }}">
       <h4 class="w3-text-grey w3-large">{{ blog.title }}</h4>
       <p><i>{{ blog.intro }}</i></p>
       <p class="w3-display-bottomright w3-badge w3-{{ blog.categories[0].color }}" style="margin-right:2px">

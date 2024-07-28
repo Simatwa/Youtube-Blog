@@ -137,7 +137,7 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
         <i class="w3-large fa fa-heart"></i>
            <span id="{{ commentId }}">{{ comment.likes }}</span>
      </button>
-    <p class="w3-text-teal w3-right"> 
+    <p class="w3-text-teal w3-right">
     <i class="w3-text-yellow fa fa-{{ comment.mood }}"></i>
     <script>document.write(formatTimeAgoShort("{{ comment.created_on }}"));</script>
     </p>
@@ -149,11 +149,14 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
   
 <!-- comment -->
 <div class="w3-center w3-padding">
+  {% if blog.accept_comments %}
  <button class="w3-button w3-teal w3-round" onclick="w3.show('#commentModal')">
  Leave a comment
  </button>
+ {% else %}
+ <p class="w3-text-red w3-hover-yellow">Not accepting comments.</p>
+ {% endif %}
 </div>
- 
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
  <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
  <button class="w3-display-topright w3-xxlarge w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>

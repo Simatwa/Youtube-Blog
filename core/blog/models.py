@@ -57,6 +57,10 @@ class Blog(db.Model):
     file_1 = db.Column(db.String(60), nullable=True)
     file_2 = db.Column(db.String(60), nullable=True)
     link = db.Column(db.String(50), nullable=True)
+    accept_comments = db.Column(
+        db.Boolean(),
+        default=True,
+    )
     trending = db.Column(db.Boolean(), default=False)
     is_markdown = db.Column(db.Boolean(), default=True)
     is_published = db.Column(db.Boolean(), default=False)
