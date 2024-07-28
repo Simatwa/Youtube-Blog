@@ -19,10 +19,6 @@ img, video, audio {
   max-width: 100%;
 }
 
-input:focus {
-  border-color: red !important;
-}
-
 @font-face {
   font-family: elizabeth;
   src: url(/static/fonts/Elizabeth.ttf);
@@ -74,4 +70,12 @@ figcaption{
  text-align:center;
  font-family:courier;
  font-style:italic;
+}
+
+input:focus{
+  border:0.5px solid teal;
+}
+
+.site-title:hover{
+  text-decoration:underline;
 }

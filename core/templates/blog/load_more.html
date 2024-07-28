@@ -15,14 +15,14 @@
      {% if blog.link %}
         {{ youtube_iframe(blog.link)|safe }}
      {% else %}
-       <img class="w3-image w3-hover-sepia" width="100%" max-height="350px" src="{{ url_for('static', filename='files/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
+       <img class="w3-image w3-hover-sepia" width="100%" max-height="auto" src="{{ url_for('static', filename='files/'+blog.cover_photo) }}" alt="{{ blog.title }}"></img>
     {% endif %} 
        
      <div class="w3-container">
      <p>{{ blog.intro }}</p>
-     <!-- </div> -->
+     </div>
      
-      <div class="w3-display-bottomright w3-panel w3-pale-yellow w3-round">
+      <div class="w3-display-bottomright w3-panel w3-pale-red w3-round">
        <script>document.write(formatTimeAgo("{{ blog.created_on }}"))</script>
       </div>
       

@@ -82,10 +82,8 @@
          <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}"><i class="w3-large w3-text-red fa fa-tag"></i>{{ category }}</a>
       {% endfor %}
      </div>   
-  <div class="w3-container">
- 
+
      {{ blog.content|safe }}
-  </div>
   
  <div class="w3-container w3-center w3-padding w3-margin">
  {% if blog.link %}
@@ -94,16 +92,18 @@
  </div>
 
  <div class="w3-container">
-   <div class="w3-left">
-     <i class="w3-large w3-transparent w3-large fa fa-eye"></i>
-    <span> {{ blog.views }}</span>
+   <div class="w3-left w3-tooltip">
+     <i class="w3-large w3-transparent w3-large fa fa-eye w3-hover-text-red"></i>
+    <span> {{ blog.views }}</span> <br>
+    <i class="w3-text w3-small"><em>Total Visitors</em></i>
    </div>
  
- <div class="w3-right">
+ <div class="w3-right w3-tooltip">
  <!-- To be handled by Js -->
    <button class="w3-btn" id="likeBlog" onClick="addLike('{{ url_for('blogs.add_like')+'?uuid='+blog.uuid }}');">
-    <i class="w3-large fa fa-thumbs-up"></i><span class="w3-large" id="likesCount">{{ blog.likes }}</span>
-   </button>
+    <i class="w3-large w3-hover-text-red fa fa-thumbs-up"></i><span class="w3-large" id="likesCount">{{ blog.likes }}</span>
+  </button><br>
+  <i class="w3-text w3-small"><em>Add Like</em></i>
   </div>
  </div>
  
@@ -127,15 +127,15 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
   <div class="w3-display-container w3-panel w3-card-4 w3-cell w3-mobile w3-animate-{{ side }}" style="max-width:320px">
   
    <div class="w3-left">
-    <i class="w3-text-black fa fa-user w3-xxlarge"></i>
+    <i class="w3-text-black fa fa-user w3-xxlarge" style="margin-right:3px;"></i>
     <span class="w3-strong commenter">{{ comment.username }}</span>
    </div>
  
    <p class="w3-right comment-detail">{{ comment.content }}</p>
     <div class="w3-container w3-display-bottom">
      <button class="w3-btn w3-left w3-text-yellow" onclick="addCommentLike('{{ url_for('blogs.add_comment_like')+'?id='+str_(comment.id) }}', '{{ commentId }}');" id='btn-{{ commentId }}'>
-        <i class="w3-large fa fa-heart"></i>
-           <span id="{{ commentId }}">{{ comment.likes }}</span>
+        <i class="w3-large fa fa-heart w3-hover-text-red" style="margin-right:3px;"></i>
+           <span id="{{ commentId }}">{{ comment.likes }}</span><br>
      </button>
     <p class="w3-text-teal w3-right">
     <i class="w3-text-yellow fa fa-{{ comment.mood }}"></i>
@@ -154,7 +154,7 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
  Leave a comment
  </button>
  {% else %}
- <p class="w3-text-red w3-hover-yellow">Not accepting comments.</p>
+ <p class="w3-text-black w3-hover-grey w3-yellow">Not accepting comments.</p>
  {% endif %}
 </div>
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
