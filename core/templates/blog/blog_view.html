@@ -91,14 +91,14 @@
  {% endif %}
  </div>
 
- <div class="w3-container">
-   <div class="w3-left w3-tooltip">
-     <i class="w3-large w3-transparent w3-large fa fa-eye w3-hover-text-red"></i>
+ <div class="w3-display-container">
+   <div class="w3-display-left w3-tooltip">
+     <i class="w3-large w3-transparent fa fa-eye w3-hover-text-red"></i>
     <span> {{ blog.views }}</span> <br>
     <i class="w3-text w3-small"><em>Total Visitors</em></i>
    </div>
  
- <div class="w3-right w3-tooltip">
+ <div class="w3-display-right w3-tooltip">
  <!-- To be handled by Js -->
    <button class="w3-btn" id="likeBlog" onClick="addLike('{{ url_for('blogs.add_like')+'?uuid='+blog.uuid }}');">
     <i class="w3-large w3-hover-text-red fa fa-thumbs-up"></i><span class="w3-large" id="likesCount">{{ blog.likes }}</span>
