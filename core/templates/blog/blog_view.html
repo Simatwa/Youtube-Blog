@@ -159,10 +159,8 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 </div>
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
  <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
- <button class="w3-display-topright w3-xxlarge w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
-  <div class="w3-text-teal">
-   <h4 class="w3-center w3-border-teal">Comment Section <i class="w3-xlarge fa fa-comment"></i> </h4>
-  </div>
+ <button class="w3-display-topright w3-xlarge w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
+   <h4 class="w3-center w3-text-teal w3-padding">Comment Section <i class="w3-xlarge fa fa-comment"></i> </h4>
   <form class="w3-container" action="{{ url_for('blogs.comment') }}" method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {% for entry in [form.username, form.email, form.content, form.mood] %}

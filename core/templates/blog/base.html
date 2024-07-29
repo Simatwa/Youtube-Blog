@@ -79,7 +79,7 @@
        <div class="w3-modal-content w3-display-container">
        <button class="w3-display-left w3-red" onclick="w3.hide('#searchModal')">Cancel</button><br>
        <form class="w3-form w3-container" action='{{ url_for("blogs.search") }}' method="POST" enctype="multipart/form-data" id="mobileSearch">
-       <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%" name="q" id="mobileSearchQuery" required placeholder="Search article..." onkeyup="handleSubmit()"></input>
+       <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%;" name="q" id="mobileSearchQuery" required placeholder="Search article..." onkeyup="handleSubmit()"></input>
        <button class="w3-btn w3-teal w3-round w3-display-right" type="submit">
        <i class="fa fa-search w3-large"></i>
       </button>

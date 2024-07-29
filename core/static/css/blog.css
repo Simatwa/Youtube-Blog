@@ -72,8 +72,14 @@ figcaption{
  font-style:italic;
 }
 
-input:focus{
-  border:0.5px solid teal;
+
+input:focus:not(#mobileSearchQuery),textarea{
+  outline:0px;
+  color:teal;
+}
+
+#mobileSearchQuery:focus{
+  outline:2px solid teal;
 }
 
 .site-title:hover{
