@@ -82,7 +82,7 @@ class BlogView:
         # )
         return render_template(
             "blog/index.html",
-            blogs=Blog.query.filter_by(is_published=True)
+            blogs=Blog.query.filter_by(is_published=True, link_only=False)
             .order_by(desc(Blog.id))
             .limit(10),
         )
@@ -101,6 +101,7 @@ class BlogView:
             )
             .filter(Blog.id != blog.id)
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .limit(10)
             .all()
         )
@@ -127,6 +128,7 @@ class BlogView:
                 ),
             )
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .order_by(desc(Blog.id))
             # .limit(10)
             .all()
@@ -159,6 +161,7 @@ class BlogView:
             )
             .filter(Blog.id < last_viewed_blog_id)
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -200,6 +203,7 @@ class BlogView:
                     )
                 )
                 .filter(Blog.is_published == True)
+                .filter(Blog.link_only == False)
                 .order_by(desc(Blog.id))
                 .with_entities(Blog.uuid, Blog.title)
                 .limit(10)
@@ -237,6 +241,7 @@ class BlogView:
                     )
                 )
                 .filter(Blog.is_published == True)
+                .filter(Blog.link_only == False)
                 .order_by(desc(Blog.id))
                 # .limit(10)
                 .all()
@@ -327,6 +332,7 @@ class BlogView:
         blogs = (
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .order_by(desc(Blog.id))
             # .limit(10)
             .all()
@@ -355,6 +361,7 @@ class BlogView:
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.id < author_blog_last_id)
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .order_by(desc(Blog.id))
             .limit(10)
             .all()
@@ -432,6 +439,7 @@ class BlogView:
                 )
             )
             .filter(Blog.is_published == True)
+            .filter(Blog.link_only == False)
             .filter(Blog.id < last_blog_id)
             .order_by(desc(Blog.id))
             .limit(10)
@@ -464,7 +472,7 @@ def menu_categories():
 def trending_blogs():
     """Displays trending blogs"""
     blogs = (
-        Blog.query.filter_by(trending=True, is_published=True)
+        Blog.query.filter_by(trending=True, is_published=True, link_only=False)
         .order_by(desc(Blog.created_on))
         .limit(7)
         .all()
@@ -491,7 +499,9 @@ def weekly_trending_blogs():
     """"""
     seven_days_back = datetime.utcnow() - timedelta(days=7)
     blogs = (
-        Blog.query.filter_by(is_published=True)
+        Blog.query.filter_by(
+            is_published=True,
+        )
         .filter(Blog.created_on >= seven_days_back)
         .order_by(desc(Blog.views))
         .limit(10)

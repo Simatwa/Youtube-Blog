@@ -51,7 +51,6 @@ class BlogModelView(ModelView):
         "title",
         "intro",
         "content",
-        "created_on",
         "comments.content",
     ]
     column_filters = [
@@ -59,6 +58,13 @@ class BlogModelView(ModelView):
         "content",
         "categories.name",
         "authors.name",
+        "link_only",
+        "views",
+        "likes",
+        "id",
+        "link",
+        "accept_comments",
+        "is_published",
         "created_on",
     ]
     column_exclude_list = [
@@ -119,6 +125,9 @@ class BlogModelView(ModelView):
             "render_kw": {
                 "placeholder": "Brief, informative & catchy...",
             },
+        },
+        "link_only": {
+            "label": "Don't index this article on website pages.",
         },
     }
 
@@ -213,7 +222,7 @@ class CommentModelView(ModelView):
     column_display_pk = True
     can_view_details = True
     column_default_sort = ("id", True)
-    column_filters = ["created_on"]
+    column_filters = ["created_on", "username", "email", "created_on"]
     column_searchable_list = ["content", "blogs.title"]
     column_exclude_list = ["lastly_modified"]
     form_excluded_columns = ["created_on", "lastly_modified"]

@@ -63,6 +63,7 @@ class Blog(db.Model):
     )
     trending = db.Column(db.Boolean(), default=False)
     is_markdown = db.Column(db.Boolean(), default=True)
+    link_only = db.Column(db.Boolean(), default=False)
     is_published = db.Column(db.Boolean(), default=False)
     is_notified = db.Column(db.Boolean(), default=False)
     display_ads = db.Column(db.Boolean(), default=True)
