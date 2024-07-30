@@ -77,7 +77,7 @@
     <!-- Popup modal -->
       <div class="w3-modal w3-animate-zoom w3-round" id="searchModal">
        <div class="w3-modal-content w3-display-container">
-       <button class="w3-display-left w3-red" onclick="w3.hide('#searchModal')">Cancel</button><br>
+       <button class="w3-display-left w3-red w3-btn w3-round w3-center w3-large" onclick="w3.hide('#searchModal')" style="margin-right:15px;width:50px;">&times</button><br>
        <form class="w3-form w3-container" action='{{ url_for("blogs.search") }}' method="POST" enctype="multipart/form-data" id="mobileSearch">
        <input type="search" class="w3-input w3-round-large w3-display-middle" style="max-width:60%;" name="q" id="mobileSearchQuery" required placeholder="Search article..." onkeyup="handleSubmit()"></input>
        <button class="w3-btn w3-teal w3-round w3-display-right" type="submit">
