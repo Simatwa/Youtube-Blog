@@ -222,7 +222,13 @@ class CommentModelView(ModelView):
     column_display_pk = True
     can_view_details = True
     column_default_sort = ("id", True)
-    column_filters = ["created_on", "username", "user_email", "created_on"]
+    column_filters = [
+        "created_on",
+        "username",
+        "user_email",
+        "created_on",
+        "blogs.title",
+    ]
     column_searchable_list = ["content", "blogs.title"]
     column_exclude_list = ["lastly_modified"]
     form_excluded_columns = ["created_on", "lastly_modified"]
