@@ -318,10 +318,10 @@ class LocalEventListener:
         send_mail("Confirm Subscription", html=message, recipients=[target.email])
 
     @staticmethod
-    def mail_blog(mapper, connections, target):
+    def mail_blog(mapper, connections, target:Blog):
         """Mails the update to subscribers"""
         if target.is_published:
-            if target.is_notified:
+            if target.is_notified or target.link_only:
                 return
         else:
             return

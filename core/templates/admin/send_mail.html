@@ -4,16 +4,22 @@
 <head>
 {% set appdetail = app_details() %}
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <link rel="stylesheet" href="{{ appdetail.url }}{{ url_for('static',filename='css/blog.css') }}"/>
- <link rel="stylesheet" href="{{ appdetail.url }}{{ url_for('static',filename='css/w3.css') }}"/>
+ <style>
+    p{
+        text-align: center;
+    }
+    body{
+        color:white;
+    }
+ </style>
  </head>
 <body>
     <div class="w3-container">
-        <h3 class="w3-center">{{ title }}</h3>
+        <h3 style="text-align:center;">{{ title }}</h3>
         {{ message|safe }}
     </div>
-    <footer class="w3-center w3-panel w3-red" style="height:100px;">
-        <h5>{{ appdetail.name }} &copy {{ year }}</h5>
+    <footer style="height:100px;text-align: center;background-color: rgb(228, 48, 48);">
+        <h5>{{ appdetail.name }} © {{ year }}</h5>
         <p class="w3-small">{{ appdetail.slogan }}</p>
     </footer>
 </body>
