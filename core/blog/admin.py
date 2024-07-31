@@ -207,7 +207,6 @@ class BlogModelView(ModelView):
         ),
     }
 
-    @login_required
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
 
