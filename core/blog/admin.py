@@ -73,6 +73,7 @@ class BlogModelView(ModelView):
     column_exclude_list = [
         "content",
         "hash",
+        "link",
         "intro",
         "image_1",
         "image_2",
