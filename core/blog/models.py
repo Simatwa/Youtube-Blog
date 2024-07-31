@@ -453,12 +453,11 @@ class LocalEventListener:
     @staticmethod
     def send_messages(mapper, connections, target: Messages):
         """Send messages to subscribers"""
-        if not target.send:
+        if target.send:
             target.title = target.title.title()
             processed_message = markdown.markdown(
                 target.content, extensions=markdown_extensions
             )
-            target.send = True
             message = render_template(
                 "admin/send_mail.html",
                 message=processed_message,
