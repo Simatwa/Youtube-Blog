@@ -12,6 +12,7 @@ from flask_login import current_user
 from core.app import markdown_extensions
 import markdown
 import re
+from flask import render_template, flash
 
 fullpath = lambda r_path: path.join(FILES_DIR, r_path)
 
@@ -184,6 +185,23 @@ class SocialMedia(db.Model):
         return self.name
 
 
+class Messages(db.Model):
+    """Messages send to subscribers"""
+
+    __tablename__ = "messages"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    notified = db.Column(db.Boolean, default=False)
+    created_on = db.Column(db.DateTime(), default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Message %r>" % self.id
+
+    def __str__(self):
+        return self.title
+
+
 class BlogAdmin1(db.Model):
     """Links Blogs & Admin1 M:M"""
 
@@ -207,7 +225,7 @@ class LocalUtils:
             ".3gp",
             ".webm",
         ]
-        audio_extensions = [".mp3", ".wav", ".flac", ".ogg"]
+        audio_extensions = [".mp3", ".wav", ".flac", ".ogg", ".m4a"]
         # if extension in image_extensions:
         # resp = f'<img class="w3-image" src="{filename}" alt="Image">'
         if extension in video_extensions:
@@ -285,7 +303,7 @@ class LocalEventListener:
 		</head>
 		<h3>Confirm Subscription to {appdetail.name}</h3>
 		<p> Thank you for showing interest in our contents.</p>
-		<p>Click the button below to confirm subscription</p>
+		<p>Click the button below to confirm subscription.</p>
 		<center>
 		<div style="background-color:teal; max-width:80%;min-height:5vh;border-radius:10px;">
 		 <a style="color:white;text-decoration:none;font-weght:bold;font-size:120%;text-align:center" href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
@@ -410,6 +428,28 @@ class LocalEventListener:
             )
             LocalEventListener.add_w3_styles(target)
 
+    @staticmethod
+    def send_messages(mapper, connections, target: Messages):
+        """Send messages to subscribers"""
+        if not target.notified:
+            target.title = target.title.title()
+            processed_message = markdown.markdown(
+                target.content, extensions=markdown_extensions
+            )
+            target.notified = True
+            message = render_template(
+                "admin/send_mail.html",
+                message=processed_message,
+                title=target.title,
+                year=datetime.now().year,
+            )
+            subscribers = Subscriber.query.filter_by(is_verified=True).all()
+            for subscriber in subscribers:
+                send_mail(
+                    subject=target.title, recipients=[subscriber.email], html=message
+                )
+            flash(f"Message sent to {len(subscribers)} subscribers", "success")
+
 
 db.event.listen(Blog, "before_insert", LocalEventListener.generate_uuid)
 db.event.listen(Blog, "before_update", LocalEventListener.generate_uuid)
@@ -423,3 +463,6 @@ db.event.listen(Blog, "before_update", LocalEventListener.format_markdown_articl
 db.event.listen(Blog, "before_delete", LocalEventListener.delete_images)
 
 db.event.listen(Subscriber, "before_insert", LocalEventListener.confirm_email)
+
+db.event.listen(Messages, "before_insert", LocalEventListener.send_messages)
+db.event.listen(Messages, "before_update", LocalEventListener.send_messages)

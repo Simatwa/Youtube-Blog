@@ -35,6 +35,7 @@ class FileManagerAdmin(FileAdmin):
         can_mkdir = True
         can_upload = True
         can_delete = True
+        default_sort_column = "date"
 
     def is_accessible(self):
         return current_user.is_authenticated and current_user.is_admin
@@ -235,9 +236,9 @@ class Cmd:
         new_admin.apps = AppDetail.query.filter_by(id=1).first() or AppDetail(
             keywords="Blogging, Youtube, Trends",
             url=click.prompt(
-                "Enter site url e.g http://localhost:8000",
+                "Enter website's public url e.g https://www.yourdomain.com",
             ),
-            slogan=click.prompt("Enter apps slogan"),
+            slogan=click.prompt("Enter website's slogan"),
         )
         db.session.add(new_admin)
         db.session.commit()

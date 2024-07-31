@@ -16,11 +16,12 @@
 This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
 
 ## Features
-- Mobile friendly: Enjoy a seamless browsing experience on any device.
+- Mobile friendly: Enjoy a seamless browsing experience on mobile devices.
 - Admin endpoint: Easily manage your content through the admin endpoint.
 - File Management endpoint: Efficiently handle file management tasks.
 - Markdown to HTML conversion: Convert your Markdown content to HTML for a visually appealing presentation.
 - Content's subscription: Allow users to subscribe to your content for regular updates.
+- Mail subscribers: Communicate with your subscribers at the convenience of your admin panel.
 - Ads integration support: Monetize your blog by integrating ads into your articles.
 - Auto SEO: Optimize your blog for search engines automatically.
 - Comment Section: Engage with your audience through a comment section for each article.

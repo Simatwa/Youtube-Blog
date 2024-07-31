@@ -106,7 +106,7 @@ class Advertisement(db.Model):
 
 
 class LocalEventListener:
-    """Listens on Admin1 events"""
+    """Listens on models events"""
 
     @staticmethod
     def hash_password(mapper, connections, target):

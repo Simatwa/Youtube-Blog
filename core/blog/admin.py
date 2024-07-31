@@ -2,7 +2,7 @@ from core.admin import admin
 from core.models import db
 from core.app import application, bcrypt, FILES_DIR
 from core.blog import app
-from core.blog.models import Blog, Subscriber, Comment, Category, SocialMedia
+from core.blog.models import Blog, Subscriber, Comment, Category, SocialMedia, Messages
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask import flash, redirect, url_for, abort
@@ -14,6 +14,7 @@ from flask_login import login_required, current_user
 from os import path
 from werkzeug.utils import secure_filename
 from datetime import datetime
+from sqlalchemy import text
 
 
 class LocalUtils:
@@ -390,8 +391,97 @@ class SocialMediaModelView(ModelView):
         return redirect(url_for("home"))
 
 
+class MesssagesModelView(ModelView):
+    can_create = True
+    can_edit = True
+    can_delete = True
+    page_size = 50
+    form_excluded_columns = ["created_on"]
+    # column_exclude_list = ["lastly_modified"]
+    can_view_details = True
+    column_display_pk = True
+    column_default_sort = ("id", True)
+    column_searchable_list = ["title", "content"]
+    column_filters = ["created_on", "notified", "id"]
+
+    form_args = {
+        "content": {
+            "render_kw": {
+                "placeholder": "Html or Markdown format",
+            },
+        },
+    }
+
+    form_widget_args = {
+        "content": {
+            "rows": 10,
+        },
+    }
+
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.is_admin
+
+    def inaccessible_callback(self, *args, **kwargs):
+        flash("You're not authorised to access that endpoint!", "danger")
+        return redirect(url_for("home"))
+
+
+@click.command("sql")
+@click.option("-q", "--query", help="SQL Query")
+@click.option("--once", is_flag=True, help="Run one query and exit.")
+@click.option("--index", is_flag=True, help="Add index to displayed rows")
+def run_sql_statements(query: str, once: bool, index: bool):
+    """Run SQL statements against database"""
+    init_run = False
+    while True:
+        try:
+            q = query if query and not init_run else input("sql: ")
+            results = db.session.execute(text(q))
+            if results:
+                for count, entry in enumerate(results):
+                    print(f"{count} - " if index else "", entry)
+            else:
+                print("-----ok-----")
+            db.session.commit()
+        except KeyboardInterrupt:
+            print("^ Quitting")
+            break
+        except Exception as e:
+            print(e.args[1] if e.args and len(e.args) > 1 else e)
+        finally:
+            if once:
+                break
+
+
+@click.command("clear-migrations")
+@click.confirmation_option(
+    "-y",
+    "--yes",
+    is_flag=True,
+    help="Okay to confirmation",
+    prompt="Are you sure to clear migrations to its entirity",
+)
+def clear_migrations():
+    """Clear migrations and its metadata"""
+    click.secho("Clearing alembic's matadata in database.", fg="yellow")
+    try:
+        db.session.execute(text("DROP TABLE alembic_version"))
+        db.session.commit()
+    except:
+        pass
+    target_dir = "migrations"
+    if path.isdir(target_dir):
+        click.secho("Clearing migrations directory.", fg="yellow")
+        import shutil
+
+        shutil.rmtree(target_dir)
+
+
 admin.add_view(BlogModelView(Blog, db.session, name="Blogs"))
 admin.add_view(CommentModelView(Comment, db.session, name="Comments"))
 admin.add_view(SubscriberModelView(Subscriber, db.session, name="Subscribers"))
 admin.add_view(CategoryModelView(Category, db.session, name="Categories"))
 admin.add_view(SocialMediaModelView(SocialMedia, db.session, name="Accounts"))
+admin.add_view(MesssagesModelView(Messages, db.session, name="Messages"))
+application.cli.add_command(run_sql_statements)
+application.cli.add_command(clear_migrations)
