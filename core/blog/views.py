@@ -25,10 +25,10 @@ class LocalUtils:
     """Module based utility defs"""
 
     @staticmethod
-    def add_latest_adverts(blog: object):
+    def add_latest_adverts(blog: Blog):
         """Append ads to blog content"""
-        ads_tag = "{ads}"
-        preprocessor_one = blog.content
+        ads_tag = r"{ads}"
+        preprocessor_one = blog.html_content
         if not preprocessor_one:
             return blog
         if not blog.display_ads:
@@ -66,7 +66,7 @@ class LocalUtils:
         for ads_code in ads_code_available:
             ads_code = f'<div class="w3-container"><div class="w3-center w3-padding">{ads_code}</div></div>'
             preprocessor_one = re.sub(ads_tag, ads_code, preprocessor_one, 1)
-        blog.content = preprocessor_one
+        blog.html_content = preprocessor_one
         return blog  # target.content = preprocessor_one #.format(*ads_code_available)
 
 
@@ -102,6 +102,7 @@ class BlogView:
             .filter(Blog.id != blog.id)
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
+            .order_by(desc(Blog.created_on))
             .limit(10)
             .all()
         )
@@ -109,7 +110,12 @@ class BlogView:
             "blog/blog_view.html",
             blog=LocalUtils.add_latest_adverts(blog),
             related_blogs=related_blogs,
-            form=CommentForm(blog_uuid=uuid),
+            form=CommentForm(
+                blog_uuid=uuid,
+                email=session.get("comment_user_email"),
+                username=session.get("comment_username"),
+            )
+            or request.cookies.get("user_email"),
         )
 
     @classmethod
@@ -129,7 +135,7 @@ class BlogView:
             )
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
-            .order_by(desc(Blog.id))
+            .order_by(desc(Blog.created_on))
             # .limit(10)
             .all()
         )
@@ -162,7 +168,7 @@ class BlogView:
             .filter(Blog.id < last_viewed_blog_id)
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
-            .order_by(desc(Blog.id))
+            .order_by(desc(Blog.created_on))
             .limit(10)
             .all()
         )  # To be reviewed
@@ -204,7 +210,7 @@ class BlogView:
                 )
                 .filter(Blog.is_published == True)
                 .filter(Blog.link_only == False)
-                .order_by(desc(Blog.id))
+                .order_by(desc(Blog.created_on))
                 .with_entities(Blog.uuid, Blog.title)
                 .limit(10)
                 .all()
@@ -242,7 +248,7 @@ class BlogView:
                 )
                 .filter(Blog.is_published == True)
                 .filter(Blog.link_only == False)
-                .order_by(desc(Blog.id))
+                .order_by(desc(Blog.created_on))
                 # .limit(10)
                 .all()
             )
@@ -300,6 +306,8 @@ class BlogView:
                     content=form.content.data,
                     mood=form.mood.data,
                 )
+                session["comment_username"] = comment.username
+                session["comment_user_email"] = comment.user_email
                 blog.comments.append(comment)
                 if (
                     len(blog.comments)
@@ -333,7 +341,7 @@ class BlogView:
             Blog.query.filter(Blog.authors.any(Admin1.name == name))
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
-            .order_by(desc(Blog.id))
+            .order_by(desc(Blog.created_on))
             # .limit(10)
             .all()
         )
@@ -362,7 +370,7 @@ class BlogView:
             .filter(Blog.id < author_blog_last_id)
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
-            .order_by(desc(Blog.id))
+            .order_by(desc(Blog.created_on))
             .limit(10)
             .all()
         )
@@ -441,7 +449,7 @@ class BlogView:
             .filter(Blog.is_published == True)
             .filter(Blog.link_only == False)
             .filter(Blog.id < last_blog_id)
-            .order_by(desc(Blog.id))
+            .order_by(desc(Blog.created_on))
             .limit(10)
             .all()
         )

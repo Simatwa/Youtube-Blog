@@ -47,6 +47,8 @@ class BlogModelView(ModelView):
         "uuid",
         "created_on",
         "lastly_modified",
+        "html_content",
+        "hash",
     ]
     column_searchable_list = [
         "title",
@@ -70,7 +72,7 @@ class BlogModelView(ModelView):
     ]
     column_exclude_list = [
         "content",
-        "uuid",
+        "hash",
         "intro",
         "image_1",
         "image_2",
@@ -81,6 +83,7 @@ class BlogModelView(ModelView):
         "file_2",
         "lastly_modified",
         "is_markdown",
+        "html_content",
     ]
     column_editable_list = [
         "trending",
@@ -402,7 +405,7 @@ class MesssagesModelView(ModelView):
     column_display_pk = True
     column_default_sort = ("id", True)
     column_searchable_list = ["title", "content"]
-    column_filters = ["created_on", "notified", "id"]
+    column_filters = ["created_on", "send", "id"]
 
     form_args = {
         "content": {

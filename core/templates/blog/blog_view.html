@@ -83,7 +83,7 @@
       {% endfor %}
      </div>   
 
-     {{ blog.content|safe }}
+     {{ blog.html_content|safe }}
   
  <div class="w3-container w3-center w3-padding w3-margin">
  {% if blog.link %}
@@ -103,7 +103,7 @@
    <button class="w3-btn" id="likeBlog" onClick="addLike('{{ url_for('blogs.add_like')+'?uuid='+blog.uuid }}');">
     <i class="w3-large w3-hover-text-red fa fa-thumbs-up"></i><span class="w3-large" id="likesCount">{{ blog.likes }}</span>
   </button><br>
-  <i class="w3-text w3-small"><em>Add Like</em></i>
+  <i class="w3-text w3-small"><em>Like this</em></i>
   </div>
  </div>
  
@@ -160,7 +160,7 @@ Comments <i class="w3-text-red w3-xlarge fa fa-comments"></i>
 <div class="w3-container w3-modal w3-animate-zoom" id="commentModal">
  <div class="w3-display-container w3-modal-content w3-card-4 w3-round">
  <button class="w3-display-topright w3-xlarge w3-transparent w3-text-red w3-btn" onclick="w3.hide('#commentModal')">&times</button>
-   <h4 class="w3-center w3-text-teal w3-padding">Comment Section <i class="w3-xlarge fa fa-comment"></i> </h4>
+   <h4 class="w3-center w3-text-teal w3-padding"><i class="w3-xxlarge fa fa-comment"></i> </h4>
   <form class="w3-container" action="{{ url_for('blogs.comment') }}" method="POST" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {% for entry in [form.username, form.email, form.content, form.mood] %}

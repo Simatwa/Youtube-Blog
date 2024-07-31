@@ -13,8 +13,13 @@ from core.app import markdown_extensions
 import markdown
 import re
 from flask import render_template, flash
+import hashlib
 
 fullpath = lambda r_path: path.join(FILES_DIR, r_path)
+"""Resolve a path to a file"""
+
+get_hash = lambda content: hashlib.md5(str(content).encode()).hexdigest()
+"""Generate hash value for a given value"""
 
 
 class Blog(db.Model):
@@ -28,9 +33,8 @@ class Blog(db.Model):
         passive_deletes=True,
     )
     title = db.Column(db.String(200), nullable=False)
-    content = db.Column(
-        db.Text,
-    )
+    content = db.Column(db.Text, default="")
+    html_content = db.Column(db.Text, default="")
     categories = db.relationship(
         "Category",
         secondary="blog_category",
@@ -68,6 +72,7 @@ class Blog(db.Model):
     is_published = db.Column(db.Boolean(), default=False)
     is_notified = db.Column(db.Boolean(), default=False)
     display_ads = db.Column(db.Boolean(), default=True)
+    hash = db.Column(db.String(32), default="")
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
     lastly_modified = db.Column(
         db.DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow
@@ -192,7 +197,7 @@ class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    notified = db.Column(db.Boolean, default=False)
+    send = db.Column(db.Boolean, default=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __repr__(self):
@@ -318,7 +323,7 @@ class LocalEventListener:
         send_mail("Confirm Subscription", html=message, recipients=[target.email])
 
     @staticmethod
-    def mail_blog(mapper, connections, target:Blog):
+    def mail_blog(mapper, connections, target: Blog):
         """Mails the update to subscribers"""
         if target.is_published:
             if target.is_notified or target.link_only:
@@ -370,7 +375,7 @@ class LocalEventListener:
             pass
 
     @staticmethod
-    def add_w3_styles(target):
+    def add_w3_styles(target: Blog):
         """Adds w3-styles to htmls"""
         highlighted_languages = ["html", "js", "java", "css", "sql", "python", "kotlin"]
         tags_dict = {
@@ -392,14 +397,29 @@ class LocalEventListener:
             )
 
         for tag in tags_dict:
-            target.content = re.sub(tag, tags_dict[tag], target.content)
-        target.content = re.sub("<pre><code", "<PRE><CODE", target.content)
+            target.html_content = re.sub(tag, tags_dict[tag], target.html_content)
+        target.html_content = re.sub("<pre><code", "<PRE><CODE", target.html_content)
 
     @staticmethod
-    def format_markdown_article(mapper, connections, target):
+    def format_markdown_article(mapper, connections, target: Blog):
+        """This event listener simply checks if changes have been
+        made to the target.content (markdown). If detected, it proceeds
+        to convert it to html format and save the output to target.html_content (html)
+        """
+
+        if not target.hash:
+            # First time this article makes entry into the db
+            target.hash = get_hash("")
+
+        if target.hash == get_hash(target.content):
+            # No changes made on the contents
+            # print("NO CHANGES")
+            return
+        # print('CHANGES')
         if target.is_markdown and target.content:
-            target.content = (
-                target.content.replace("%(", "(}}}}")
+            target.html_content = target.content
+            target.html_content = (
+                target.html_content.replace("%(", "(}}}}")
                 .replace("%", "%%")
                 .replace("(}}}}", "%(")
             )
@@ -423,10 +443,12 @@ class LocalEventListener:
                 else:
                     kwargs[f"image_{count}"] = gen_file_link(name)
 
-            target.content = markdown.markdown(
-                target.content % kwargs, extensions=markdown_extensions
+            target.html_content = markdown.markdown(
+                target.html_content % kwargs, extensions=markdown_extensions
             )
             LocalEventListener.add_w3_styles(target)
+            # update the hash of the contents
+            target.hash = get_hash(target.content)
 
     @staticmethod
     def send_messages(mapper, connections, target: Messages):
