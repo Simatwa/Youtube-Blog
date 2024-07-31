@@ -79,7 +79,7 @@
 <div class="w3-container">
      <div class="w3-container w3-left w3-margin-bottom w3-cell-row">    
       {% for category in blog.categories %}
-         <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }}"><i class="w3-large w3-text-red fa fa-tag"></i><span style="margin-left:10px;">{{ category }}</span></a>
+         <a href="{{ url_for('blogs.category_view',category=category.name) }}" class="w3-padding w3-small w3-border w3-border-green w3-food-grapes w3-round w3-cell w3-mobile" style="color:{{ category.color }};"><i class="w3-large w3-text-red fa fa-tag"></i><span style="margin-left:10px;">{{ category }}</span></a>
       {% endfor %}
      </div>   
 
