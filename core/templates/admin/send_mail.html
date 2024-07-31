@@ -5,9 +5,6 @@
 {% set appdetail = app_details() %}
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
  <style>
-    p{
-        text-align: center;
-    }
     body{
         color:white;
     }
@@ -18,9 +15,10 @@
         <h3 style="text-align:center;">{{ title }}</h3>
         {{ message|safe }}
     </div>
+    <hr>
     <footer style="height:100px;text-align: center;">
         <h5>{{ appdetail.name }} © {{ year }}</h5>
-        <p class="w3-small">{{ appdetail.slogan }}</p>
+        <p>{{ appdetail.slogan }}</p>
     </footer>
 </body>
  </html>
