@@ -7,7 +7,7 @@
 <p align="center"><a href="https://github.com/Simatwa/Youtube-Blog"><img src="https://img.shields.io/static/v1?label=Github&message=Passing&logo=github&color=green" alt="Github"/></a>
 <a href="#"><img src="https://img.shields.io/static/v1?label=Coverage&message=90%&color=lime&logo=Coverage" alt="Coverage"/></a>
 <a href="https://wakatime.com/badge/github/Simatwa/Youtube-Blog"><img src="https://wakatime.com/badge/github/Simatwa/Youtube-Blog.svg" alt="wakatime"/></a>
-<a href="#"><img src="https://visitor-badge.glitch.me/badge?page_id=Simatwa.Youtube-Blog&left_color=red&right_color=lime&left_text=Counts" alt="Visitors"/></a>
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com/Simatwa/Youtube-Blog"/></a>
 <a href="#"><img src="https://img.shields.io/static/v1?label=Code Style&message=Black&color=black&logo=Black" alt="Code-style"/></a>
 </p>
 
@@ -75,6 +75,7 @@ To install Youtube-Blog, make sure you have Python 3.8 or higher installed on yo
 
 ```
 git clone https://github.com/Simatwa/Youtube-Blog.git
+cd Youtube-Blog
 ```
 
 2. Install the required dependencies:
