@@ -13,6 +13,26 @@
 
 <p align='center'>A blogging site optimized for YouTubers.</p>
 
+<h2 align="center">1. Users End</h2>
+
+| Collection 1 | Collection 2 | Collection 3 | Collection 4 |
+|--------------|--------------|--------------|--------------|
+| ![demo](assets/demo/index.jpg)    | ![demo](assets/demo/index-sidebar.jpg)    | ![demo](assets/demo/blog-image.jpg)    | ![demo](assets/demo/blog-view.jpg)    |
+| ![demo](assets/demo/Warning-alert.jpg)    | ![demo](assets/demo/critical-alert.jpg)    | ![demo](assets/demo/live-search.jpg)    | ![demo](assets/demo/search.jpg)    |
+| ![demo](assets/demo/syntax-highlighting.jpg)    | ![demo](assets/demo/syntax-highlighting-1.jpg)    | ![demo](assets/demo/syntax-highlighting-2.jpg)    | ![demo](assets/demo/syntax-highlighting-2-3.jpg)    |
+|  ![demo]()   |
+| ![demo](assets/demo/blog-leave%20a%20comment.jpg)    | ![demo](assets/demo/blog-comment-section.jpg)    | ![demo](assets/demo/success-alert.jpg)    | ![demo](assets/demo/comments.jpg)    |
+
+
+<h2 align="center">2. Admin </h2>
+
+| Collection 1 | Collection 2 | Collection 3 | Collection 4 |
+|--------------|--------------|--------------|--------------|
+|   ![demo](assets/demo/admin-login.jpg)  |   ![demo](assets/demo/admin-welcome.jpg)  |   ![demo](assets/demo/admin-home.jpg)  |   ![demo](assets/demo/admin-models.jpg)  |
+|   ![demo](assets/demo/admin-most-viewed-article.jpg)  |   ![demo](assets/demo/admin-blogs-demo.jpg)  |   ![demo](assets/demo/admin-files.jpg)  |   ![demo](assets/demo/admin-edit-admins.jpg)  |
+|   ![demo](assets/demo/admin-edit-blog-1.jpg)  |   ![demo](assets/demo/admin-edit-blog-2.jpg)  |   ![demo](assets/demo/admin-edit-blog-booleans.jpg)  |   ![demo](assets/demo/admin-edit-blog-images.jpg)  |
+|   ![demo](assets/demo/admin-blog-publish.jpg)  |   ![demo](assets/demo/admin-edit-comment.jpg)  |   ![demo](assets/demo/admin-edit-message.jpg)  |   ![demo](assets/demo/admin-footer.jpg)  |
+
 This platform provides a mobile-friendly interface and offers various features to enhance your blogging experience. With Youtube-Blog, you can easily manage your content, convert Markdown to HTML, integrate ads, and engage with your audience through comments and likes.
 
 ## Features

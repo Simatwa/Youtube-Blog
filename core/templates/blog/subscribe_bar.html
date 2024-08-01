@@ -4,7 +4,7 @@
   <!-- Server message rendered here -->
   </div>
    <form class="w3-form w3-margin-top w3-display-container" action="{{ url_for('blogs.subscribe') }}", method="POST" enctype="multipart/form-data" id="subscriptionForm">
-   <input class="w3-input w3-display-left w3-round w3-border-large w3-border-teal" type="email" placeholder="Email address..." id="email" name="email">
+   <input class="w3-input w3-display-left w3-round w3-border-large w3-border-teal" type="email" placeholder="Email address..." id="email" name="email" required>
    </input>
    <button class="w3-btn w3-teal w3-ripple w3-display-right" type="submit" onclick="AddSubscription()" id="subscriptionButton">Subscribe</button>
   </form>
