@@ -304,20 +304,29 @@ class LocalEventListener:
         message = f"""
 		<head>
 		  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		  </meta
+		</meta>
+		  <style>
+			p,div,h3{{
+				text-align:center;
+			}}
+			.confirm:hover{{
+				color:grey;
+			}}
+		  </style>
 		</head>
 		<h3>Confirm Subscription to {appdetail.name}</h3>
 		<p> Thank you for showing interest in our contents.</p>
 		<p>Click the button below to confirm subscription.</p>
 		<center>
-		<div style="background-color:teal; max-width:80%;min-height:5vh;border-radius:10px;">
-		 <a style="color:white;text-decoration:none;font-weght:bold;font-size:120%;text-align:center" href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
+		<div style="background-color:teal; max-width:80%;height:40px;border-radius:10px;" class="confirm">
+		 <a style="color:white;text-decoration:none;font-size:130%;text-align:center;" href="{ gen_link(url_for('blogs.confirm_email', token=target.token)) }">Confirm</a>
 		</div>
 		</center>
 		<p> If the link doesn't work try out this { gen_link(url_for('blogs.confirm_email',token=target.token)) }</p>
 		<div style="text-align:center;font-weight:bold;color:red;">
-		 <h4>{ appdetail.name } © { datetime.now().year }</h4>
-		 <p style="color:blue">{ appdetail.slogan }</p>
+			<hr>		 
+			<h4>{ appdetail.name } © { datetime.now().year }</h4>
+		 <p style="color:teal">{ appdetail.slogan }</p>
 		</div>
 		"""
         send_mail("Confirm Subscription", html=message, recipients=[target.email])
