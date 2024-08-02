@@ -47,6 +47,7 @@ This platform provides a mobile-friendly interface and offers various features t
 - Comment Section: Engage with your audience through a comment section for each article.
 - Views count per article: Keep track of the number of views each article receives.
 - Likes count per article: Enable users to show their appreciation by liking your articles.
+- Youtube linking: Let users enjoy your youtube content's at the comfort of your website.
 
 Other minor features include:
 
@@ -110,7 +111,8 @@ To append a path to an image or any other file (excluding video and audio), use 
 
 To insert ads into an article, use the tag `{ads}` anywhere within the article. You can use the tag multiple times to display multiple ads.
 
-> **Note:** Script-based tags are rendered immediately before the `</body>` tag and not within the `{ads}` tag like non-script ads code.
+> [!Note]
+> Script-based tags are rendered immediately before the `</body>` tag and not within the `{ads}` tag like non-script ads code.
 
 ## Usage Tips
 
@@ -134,7 +136,8 @@ To insert ads into an article, use the tag `{ads}` anywhere within the article. 
 
 - Contributions are always welcome. Help me fix my bad code by submitting a [pull request](https://github.com/Simatwa/Youtube-Blog/pulls) or you can as well submit an [issue](https://github.com/Simatwa/Youtube-Blog/issues).
 
->**Note** By the way I have my site up and running using this codebase check it out [here](https://bx254.pythonanywhere.com).
+> [!Note]
+> By the way I have my site up and running using this codebase check it out [here](https://bx254.pythonanywhere.com).
 
 ## AOB
 

@@ -87,13 +87,19 @@ class BlogModelView(ModelView):
         "html_content",
     ]
     column_editable_list = [
-        "trending",
         "is_published",
         "display_ads",
         "views",
         "likes",
         "accept_comments",
     ]
+
+    column_details_exclude_list = [
+        "hash",
+        "html_content",
+    ]
+
+    column_labels = dict(is_notified="Is Mailed")
     form_base_class = SecureForm
 
     form_args = {
@@ -406,6 +412,7 @@ class MesssagesModelView(ModelView):
     column_default_sort = ("id", True)
     column_searchable_list = ["title", "content"]
     column_filters = ["created_on", "send", "id"]
+    column_labels = dict(send="Sent")
 
     form_args = {
         "content": {

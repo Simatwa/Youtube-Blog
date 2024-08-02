@@ -479,10 +479,14 @@ def menu_categories():
 @app.app_template_global()
 def trending_blogs():
     """Displays trending blogs"""
+    n_days_back = datetime.utcnow() - timedelta(
+        days=application.config["TRENDING_SPAN"]
+    )
     blogs = (
-        Blog.query.filter_by(trending=True, is_published=True, link_only=False)
-        .order_by(desc(Blog.created_on))
-        .limit(7)
+        Blog.query.filter_by(is_published=True, link_only=False)
+        .filter(Blog.created_on >= n_days_back)
+        .order_by(desc(Blog.views))
+        .limit(8)
         .all()
     )
     return blogs

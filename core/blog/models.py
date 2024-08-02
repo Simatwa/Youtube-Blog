@@ -19,7 +19,7 @@ fullpath = lambda r_path: path.join(FILES_DIR, r_path)
 """Resolve a path to a file"""
 
 get_hash = lambda content: hashlib.md5(str(content).encode()).hexdigest()
-"""Generate hash value for a given value"""
+"""Generate hash value for a given string"""
 
 
 class Blog(db.Model):
@@ -66,7 +66,6 @@ class Blog(db.Model):
         db.Boolean(),
         default=True,
     )
-    trending = db.Column(db.Boolean(), default=False)
     is_markdown = db.Column(db.Boolean(), default=True)
     link_only = db.Column(db.Boolean(), default=False)
     is_published = db.Column(db.Boolean(), default=False)
@@ -398,6 +397,9 @@ class LocalEventListener:
             '<code class="language-py">': '<CODE class="language-python pythonHigh notranslate">',
             '<code class="language-javascript">': '<CODE class="language-js jsHigh  notranslate">',
             '<code class="language-kt">': '<CODE class="language-kotlin kotlinHigh  notranslate">',
+            "<code>": '<CODE class="w3-codespan">',
+            "<thead>": '<p class="table-header">',
+            "</thead>": "</p>",
             "<a": '<A class="link"',
         }
         for language in highlighted_languages:

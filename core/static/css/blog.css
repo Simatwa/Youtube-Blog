@@ -72,6 +72,11 @@ figcaption{
  font-style:italic;
 }
 
+.table-header{
+  text-align:center;
+  text-decoration:underline;
+}
+
 
 input:focus:not(#mobileSearchQuery),textarea{
   outline:0px;

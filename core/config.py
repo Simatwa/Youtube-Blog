@@ -61,6 +61,7 @@ MAIL_DEFAULT_SENDER = get(
     "MAIL_DEFAULT_SENDER",
 )
 
+TRENDING_SPAN = int(get("TRENING_SPAN", 7))
 
 ## User database config
 
