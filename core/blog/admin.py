@@ -237,6 +237,8 @@ class CommentModelView(ModelView):
         "username",
         "user_email",
         "created_on",
+        "mood",
+        "likes",
         "blogs.title",
     ]
     column_searchable_list = ["content", "blogs.title"]
@@ -487,7 +489,7 @@ def clear_migrations():
         shutil.rmtree(target_dir)
 
 
-admin.add_view(BlogModelView(Blog, db.session, name="Blogs"))
+admin.add_view(BlogModelView(Blog, db.session, name="Articles"))
 admin.add_view(CommentModelView(Comment, db.session, name="Comments"))
 admin.add_view(SubscriberModelView(Subscriber, db.session, name="Subscribers"))
 admin.add_view(CategoryModelView(Category, db.session, name="Categories"))

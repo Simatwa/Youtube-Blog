@@ -7,3 +7,4 @@ venv
 test.py
 markdown-test.md
 test-*
+start.sh

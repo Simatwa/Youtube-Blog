@@ -118,9 +118,8 @@
     
     {% if category=='info' %}
     
-    <div class="w3-middle w3-panel w3-display-container w3-pale-green w3-leftbar w3-border w3-border-green w3-round w3-animate-zoom" id="alertNotch{{ count }}">
-     <h4 class="w3-strong w3-text-blue">Note!</h4>
-      <button class="w3-display-topright w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
+    <div class="w3-middle w3-panel w3-display-container w3-pale-blue w3-leftbar w3-border w3-border-cyan w3-round w3-animate-zoom" id="alertNotch{{ count }}">
+      <button class="w3-display-right w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
        &times
       </button>
       <p> {{ message }}</p>
@@ -128,8 +127,7 @@
     
     {% elif category=="warn" %}
     <div class="w3-panel w3-display-container w3-pale-yellow w3-leftbar w3-border w3-border-yellow w3-round w3-animate-left" id="alertNotch{{ count }}">
-     <h4 class="w3-strong w3-text-red">Warning!</h4>
-      <button class="w3-display-topright w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
+      <button class="w3-display-right w3-large w3-btn w3-transparent" onclick="w3.hide('#alertNotch{{ count }}')">
        &times
       </button>
       <p>{{ message }}</p>
@@ -137,10 +135,9 @@
     
     {% else %}
       <div class="w3-panel w3-display-container w3-leftbar w3-border w3-border-red w3-yellow w3-round w3-animate-right" id="alertNotch{{ count }}">
-       <button class="w3-btn w3-display-topright w3-transparent w3-large" onclick="w3.hide('#alertNotch{{ count }}')">
+       <button class="w3-btn w3-display-right w3-transparent w3-large" onclick="w3.hide('#alertNotch{{ count }}')">
         &times
         </button>
-        <h4 class="w3-text-purple">Critical!</h4>
         <p>{{ message }}</p>
      </div>
     {% endif %}

@@ -144,23 +144,23 @@
   <div class='w3-small w3-text-white'>
     <p class="w3-center">{% for owner in appdetail.owners %} {{ owner }} {% endfor %}</p>
   </div>
- 
-   <div>
-    <p class="w3-text-red">
-    <i class="fa fa-quote-left"></i>
-    {{ appdetail.slogan }}
-    <i class="fa fa-quote-right"></i>
-    </p>
-  </div>
   
   <div class="w3-center w3-hover-text-blue w3-panel">
-  <p class="w3-large w3-text-blue"> {{ appdetail.name }} &copy 
+  <p class="w3-large w3-text-white"> {{ appdetail.name }} &copy 
    <script>
      var date = new Date();
       document.write(date.getFullYear());
     </script>
    </div> 
     
+   <div>
+    <p class="w3-text-blue">
+    <i class="fa fa-quote-left"></i>
+    {{ appdetail.slogan }}
+    <i class="fa fa-quote-right"></i>
+    </p>
+  </div>
+
  </div>
 </div>
 
