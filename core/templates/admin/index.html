@@ -7,10 +7,10 @@
  <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css') }}"/>
  <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-food.css') }}"/>
  <link rel="stylesheet" href="{{ url_for('static', filename='css/w3-colors-camo.css') }}"/>
- <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
  <script src="{{ url_for('static', filename='script/w3.js') }}"></script>
  <script src="{{ url_for('static', filename='script/blog.js') }}"></script>
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+app_details().logo) }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='files/'+appdetail.logo) }}">
 
 {% endblock %}
 
@@ -170,5 +170,45 @@
  <p class="w3-text-teal">
  Hello admin, to experience the best; access the panel on mobile!
  </p>
+</div>
+{% endblock %}
+
+<div>
+  <p class="w3-text-blue">
+  <i class="fa fa-quote-left"></i>
+  {{ appdetail.slogan }}
+  <i class="fa fa-quote-right"></i>
+  </p>
+</div>
+
+</div>
+</div>
+
+<!-- Alerts non-mobile users -->
+<div class="w3-hide-small w3-tex-red w3-center">
+<h3 class="w3-jumbo"><span class="w3-bottombar w3-border-teal w3-text-red w3-hover-border-blue">Mobile </span>Users Only!</h3>
+<p class="w3-text-teal">
+Hello admin, to experience the best; access the panel on mobile!
+</p>
+</div>
+{% endblock %}
+
+<div>
+  <p class="w3-text-blue">
+  <i class="fa fa-quote-left"></i>
+  {{ appdetail.slogan }}
+  <i class="fa fa-quote-right"></i>
+  </p>
+</div>
+
+</div>
+</div>
+
+<!-- Alerts non-mobile users -->
+<div class="w3-hide-small w3-tex-red w3-center">
+<h3 class="w3-jumbo"><span class="w3-bottombar w3-border-teal w3-text-red w3-hover-border-blue">Mobile </span>Users Only!</h3>
+<p class="w3-text-teal">
+Hello admin, to experience the best; access the panel on mobile!
+</p>
 </div>
 {% endblock %}
