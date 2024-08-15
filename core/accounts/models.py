@@ -1,7 +1,6 @@
 from core.models import db
 from datetime import datetime
 from core.app import bcrypt, application
-from os import path, rename
 
 default_cover_photo = "config/default_cover.jpg"
 
@@ -67,6 +66,7 @@ class AppDetail(db.Model):
         cascade="all, delete",
     )
     url = db.Column(db.String(50), nullable=False)
+    about = db.Column(db.String(50))
     logo = db.Column(db.String(50), default="config/favicon.png")
     cover_photo = db.Column(db.String(50), default=default_cover_photo)
     comments_limit = db.Column(db.Integer, default=20)

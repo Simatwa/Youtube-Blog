@@ -58,6 +58,14 @@
          </a>
        </button>         
        {% endfor %}
+    
+       {% if appdetail.about %}
+       <button class="w3-button w3-col w3-red">
+          <!-- <i class="w3-large w3-text-red w3-hover-white fa fa-info" style="margin-right:3px;"></i> -->
+       <a href="{{ url_for('blogs.blog_view',uuid=appdetail.about) }}">About
+      </a>
+    </button>         
+    {% endif %}
      </div>
     </div>    
   </div>

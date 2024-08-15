@@ -115,6 +115,7 @@ class AppDetailModelView(ModelView):
     column_exclude_list = [
         "logo",
         "cover_photo",
+        "about",
     ]
     column_editable_list = ["show_logo_in_menu", "comments_limit"]
     column_searchable_list = ["name"]
@@ -144,6 +145,11 @@ class AppDetailModelView(ModelView):
         "url": {
             "render_kw": {
                 "placeholder": "Link to your website",
+            },
+        },
+        "about": {
+            "render_kw": {
+                "placeholder": "uuid of article containing website info.",
             },
         },
     }
