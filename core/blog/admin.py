@@ -430,6 +430,11 @@ class MesssagesModelView(ModelView):
                 "placeholder": "Html or Markdown format",
             },
         },
+        "title": {
+            "render_kw": {
+                "placeholder": "E-mail title",
+            },
+        },
     }
 
     form_widget_args = {
