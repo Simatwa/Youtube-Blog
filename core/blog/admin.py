@@ -146,6 +146,9 @@ class BlogModelView(ModelView):
         "content": {
             "rows": 30,
         },
+        "intro": {
+            "rows": 10,
+        },
     }
 
     form_extra_fields = {
