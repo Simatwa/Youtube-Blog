@@ -33,7 +33,7 @@ class CommentForm(FlaskForm):
             DataRequired("Email address required!"),
             Email(message="Enter valid email address"),
         ],
-        render_kw={"class": "w3-input w3-round", "placeholder": "example@gmail.com"},
+        render_kw={"class": "w3-input w3-round", "placeholder": "example@domain.com"},
     )
     content = TextAreaField(
         label="Your message",

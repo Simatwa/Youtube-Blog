@@ -64,8 +64,8 @@
          <h1 class="w3-text-red w3-xlarge title">{{ blog.title }}</h1>
        </div>
       <div class="w3-display-bottomleft w3-container">
-        <p class="w3-text-orange"><i class="w3-text-large w3-text-teal fa fa-edit"></i>   
-        Author :
+        <p class="w3-text-orange"><i class="w3-text-large w3-text-teal fa fa-edit" style="margin-right:5px;"></i>   
+        <!--Author :-->
         {% for author in blog.authors %}
         <a href="{{ url_for('blogs.author', name=author) }}">{{ author }}</a><br>
         {% endfor %}
