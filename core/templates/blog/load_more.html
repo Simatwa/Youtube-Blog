@@ -19,7 +19,7 @@
     {% endif %} 
        
      <div class="w3-container">
-     <p>{{ blog.intro }}</p>
+     <p><a href="{{ url_for('blogs.blog_view',uuid=blog.uuid)}}">{{ blog.intro }}</a></p>
      </div>
      
       <div class="w3-display-bottomright w3-panel w3-pale-red w3-round">
