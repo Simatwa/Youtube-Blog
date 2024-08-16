@@ -176,7 +176,7 @@ class BlogCategory(db.Model):
 class SocialMedia(db.Model):
     __tablename__ = "socialmedia"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(60), nullable=False)
     link = db.Column(db.String(200), nullable=False)
     color = db.Column(db.String(15), nullable=False)
     small_screen = db.Column(db.Boolean(), default=False)
