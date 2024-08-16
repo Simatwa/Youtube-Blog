@@ -373,7 +373,12 @@ class SocialMediaModelView(ModelView):
     form_excluded_columns = ["created_on"]
     column_searchable_list = ["name", "link"]
     filter = ["color"]
-    column_editable_list = ["small_screen", "link", "color"]
+    column_editable_list = [
+        "small_screen",
+        "link",
+        "color",
+        "index",
+    ]
     form_base_class = SecureForm
 
     form_args = {

@@ -495,7 +495,7 @@ def trending_blogs():
 @app.app_template_global()
 def social_media_sites():
     """Displays all social media sites linked"""
-    return SocialMedia.query.all()
+    return SocialMedia.query.order_by(SocialMedia.index).all()
 
 
 @app.app_template_global()

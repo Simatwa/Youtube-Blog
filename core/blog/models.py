@@ -180,6 +180,7 @@ class SocialMedia(db.Model):
     link = db.Column(db.String(200), nullable=False)
     color = db.Column(db.String(15), nullable=False)
     small_screen = db.Column(db.Boolean(), default=False)
+    index = db.Column(db.Integer)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __repr__(self):
