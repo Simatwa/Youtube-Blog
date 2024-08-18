@@ -473,7 +473,6 @@ class LocalEventListener:
             message = render_template(
                 "admin/send_mail.html",
                 message=processed_message,
-                title=target.title,
                 year=datetime.now().year,
             )
             subscribers = Subscriber.query.filter_by(is_verified=True).all()
