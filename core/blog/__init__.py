@@ -20,3 +20,8 @@ def len_(element):
 @app.app_template_global()
 def str_(value):
     return str(value)
+
+
+@app.app_template_global()
+def enumerate_(value, start=0):
+    return enumerate(value, start=0)

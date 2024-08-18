@@ -49,8 +49,12 @@
        </button> 
       {% endif %} 
             
-       {% for category in menu_categories() %}
-       <button class="w3-button w3-col w3-hover-text-{{ category.color }}">
+       {% for index, category in enumerate_(menu_categories()) %}
+         {% if index % 2 == 0 %}
+            <button class="w3-button w3-col w3-hover-text-{{ category.color }} w3-animate-zoom">
+         {% else %}
+            <button class="w3-button w3-col w3-hover-text-{{ category.color }} w3-animate-left">
+         {% endif %}
            {% if category.color %}
               <i class="w3-large w3-text-red fa fa-{{ category.icon }}" style="margin-right:3px;"></i>
            {% endif %}
@@ -171,7 +175,7 @@
   
   <!-- Footer -->
   <div class="w3-container w3-food-egg w3-bottom  w3-center">
-   <div class="w3-row-cell w3-center justify" style="display: flex;flex-grow: 1;;justify-content: space-evenly;">
+   <div class="w3-row-cell w3-center justify" style="display: flex;flex-grow: 1;justify-content: space-evenly;">
    {% for site in social_media_sites() %}
   
       {% if site.small_screen %}
