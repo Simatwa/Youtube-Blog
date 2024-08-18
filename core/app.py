@@ -88,6 +88,8 @@ def error_403_endpoint(e):
 
 @application.errorhandler(404)
 def error_404_endpoint(e):
+    if "/favicon.ico" in request.url:
+        return ""
     flash(str(e), "warn")
     return redirect(url_for("home"))
 
