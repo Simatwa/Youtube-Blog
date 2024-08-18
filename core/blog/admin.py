@@ -422,7 +422,6 @@ class MesssagesModelView(ModelView):
     column_default_sort = ("id", True)
     column_searchable_list = ["title", "content"]
     column_filters = ["created_on", "send", "id"]
-    column_labels = dict(send="Sent")
 
     form_args = {
         "content": {
