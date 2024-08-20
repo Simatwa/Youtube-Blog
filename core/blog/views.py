@@ -273,6 +273,8 @@ class BlogView:
         email_address = request.form.get("email", "")
         if not email_address:
             return jsonify(dict(message="Enter email address")), 400
+        if not re.match(r"\w*\@\w+\.\w+", email_address):
+            return jsonify(dict(message="Enter valid email address.")), 400
         if not Subscriber.query.filter_by(email=email_address).first():
             new_subscriber = Subscriber(email=email_address)
             db.session.add(new_subscriber)
